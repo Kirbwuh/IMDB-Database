@@ -50,7 +50,10 @@ public class CPSC219W26Project {
         CPSC219W26Project.movies.add(new Movie(title,date,description,rating));
     }
 
-
+    /**
+     * remove movie from movies list
+     * @param title
+     */
     public static void removeMovie(String title) {
         movies.removeIf(m -> m.title.equals(title));
     }
