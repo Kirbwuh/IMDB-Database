@@ -1,7 +1,7 @@
 package src;
 import java.util.ArrayList;
 
-public static class CPSC219W26Project {
+public class CPSC219W26Project {
 
     // Movie array
     private static final ArrayList<Movie> movies = new ArrayList<>();
@@ -9,9 +9,10 @@ public static class CPSC219W26Project {
     public static void main(String[] args) {
 
         //tests
-//        movies.add(new Movie("Forrest Gump",1994,"The history of the United States from the 1950s to the '70s unfolds from the perspective of an Alabama man with an IQ of 75, who yearns to be reunited with his childhood sweetheart.", 8.8));
-//        movies.add(new Movie("Inception",2010,"A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO, but his tragic past may doom the project and his team to disaster.",8.8));
-
+        movies.add(new Movie("Forrest Gump",1994,"...", 8.8));
+        movies.add(new Movie("Inception",2010,"...",8.8));
+        addMovie("Interstellar",2014,"...",8.7);
+        removeMovie("Forrest Gump");
         System.out.print(movies.toString());
     }
 
@@ -34,7 +35,7 @@ public static class CPSC219W26Project {
         // toString method to print out movie arraylist and not memory
         @Override
         public String toString() {
-            return "Movie {" + "title: " + title + ", date: " + date + ", description: " + description + ", rating: " + rating + "}";
+            return "Movie {" + "\n" + "title: " + title +  "\n" + "date: " + date + "\n" + "description: " + description + "\n" + "rating: " + rating + "\n" + "}";
         }
     }
 
@@ -45,8 +46,13 @@ public static class CPSC219W26Project {
      * @param description
      * @param rating
      */
-    public static void addNewMovie(String title, int date, String description, int rating) {
+    public static void addMovie(String title, int date, String description, double rating) {
         CPSC219W26Project.movies.add(new Movie(title,date,description,rating));
+    }
+
+
+    public static void removeMovie(String title) {
+        movies.removeIf(m -> m.title.equals(title));
     }
 }
 
