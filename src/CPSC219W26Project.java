@@ -171,7 +171,7 @@ public class CPSC219W26Project {
                         }
                         break;
 
-                    //--------- Numeric values
+                    //---------Numeric values
                     case 1: // released_year
                     case 4: // rating
                     case 7: // gross
@@ -181,7 +181,7 @@ public class CPSC219W26Project {
                         }
                         break;
 
-                    //----------- Boolean value
+                    //-----------Boolean value
                     case 2: // PG-13 (true / false)
                         if (!(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))) {
                             System.out.println("Invalid input: PG-13 must be true or false.");
@@ -227,8 +227,8 @@ public class CPSC219W26Project {
     public static boolean isNumeric(String input) {
         // source:
         // https://stackoverflow.com/questions/15111420/how-to-check-if-a-string-contains-only-digits-in-java
-        // https://stackoverflow.com/questions/45450483/regular-expression-allow-only-numbers-commas-and-dashes
-        String regex = "^[0-9,-]*$";
+        // https://stackoverflow.com/questions/10921058/regex-matching-numbers-and-decimals
+        String regex = "^[+-]?(\\d*|\\d{1,3}(,\\d{3})*)(\\.\\d+)?\\b$";
         return input.matches(regex);
     }
 
@@ -252,6 +252,7 @@ public class CPSC219W26Project {
 
     public static void main(String args[]){
         Scanner inputScannerObject = new Scanner(System.in);
+
 
 
 
