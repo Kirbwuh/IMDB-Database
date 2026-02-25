@@ -91,7 +91,7 @@ public class CPSC219W26Project {
                 System.out.println("Movie does not exist");
             }
         }
-        return null
+        return null;
    }
 }
 
