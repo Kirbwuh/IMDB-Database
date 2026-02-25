@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class CPSC219W26Project {
@@ -7,20 +9,12 @@ public class CPSC219W26Project {
     Data to be captured:
 
         series_title   (String) : Name of the movie
-        released_year  (double)    : Year the movie was released
-        certificate    (String) : Age / content rating (e.g., PG-13, R)
-        runtime        (Duration)    : Total runtime of the movie in minutes
+        released_year  (double)  : Year the movie was released
+        PG-13          (boolean) : true/false
         genre          (String) : Genre(s) of the movie
-        imdb_rating    (double) : Rating of the movie on the IMDb site
-        overview       (String) : Short story or summary of the movie
-        meta_score     (double)    : Score earned by the movie (0–100)
+        rating         (double) : Rating of the movie on the IMDb site
         director       (String) : Name of the director
-        star1          (String) : Name of the first main star
-        star2          (String) : Name of the second main star
-        star3          (String) : Name of the third main star
-        star4          (String) : Name of the fourth main star
-        no_of_votes    (double)    : Total number of votes received
-        gross          (long)   : Total money earned by the movie
+        gross          (double)   : Total money earned by the movie
     */
     //-----------------Input Methods ----------------------------------------
 
@@ -60,6 +54,66 @@ public class CPSC219W26Project {
         return Double.parseDouble(numericInput);
     }
 
+    public static boolean getBooleanInput(Scanner scanner, String prompt) {
+        String input;
+
+
+        do {
+            System.out.println(prompt + " (0 = No, 1 = Yes)");
+            input = scanner.nextLine();
+
+            if (!input.equals("0") && !input.equals("1")) {
+                System.out.println("Invalid input. Please enter 0 or 1.");
+            }
+
+        } while (!input.equals("0") && !input.equals("1"));
+
+        return input.equals("1");
+
+    }
+
+    //---------------------Input process methods ---------------------------------------------
+    private static HashMap<String, String> singleEntryProcess(Scanner scanner) {
+
+        HashMap<String, String> entry = new HashMap<>();
+
+        //------- Question 1 --------------------
+        String q1Prompt = "Please input the name of the movie:";
+        String seriesTitle = getStringInput(scanner, q1Prompt);
+        entry.put("series_title", seriesTitle);
+
+        //------- Question 2 --------------------
+        String q2Prompt = "Please input the release year of the movie:";
+        Double releasedYear = getNumericInput(scanner, q2Prompt);
+        entry.put("released_year", String.valueOf(releasedYear));
+
+        //------- Question 3 --------------------
+        String q3Prompt = "Is the movie rated PG-13?";
+        boolean isPG13 = getBooleanInput(scanner, q3Prompt);
+        entry.put("PG-13", String.valueOf(isPG13));
+
+        //------- Question 4 --------------------
+        String q4Prompt = "Please input the genre of the movie:";
+        String genre = getStringInput(scanner, q4Prompt);
+        entry.put("genre", genre);
+
+        //------- Question 5 --------------------
+        String q5Prompt = "Please input the IMDb rating of the movie:";
+        Double rating = getNumericInput(scanner, q5Prompt);
+        entry.put("rating", String.valueOf(rating));
+
+        //------- Question 6 --------------------
+        String q6Prompt = "Please input the name of the director:";
+        String director = getStringInput(scanner, q6Prompt);
+        entry.put("director", director);
+
+        //------- Question 7 --------------------
+        String q7Prompt = "Please input the gross earnings of the movie:";
+        Double gross = getNumericInput(scanner, q7Prompt);
+        entry.put("gross", String.valueOf(gross.longValue()));
+
+        return entry;
+    }
     //---------------- Helper Methods-----------------------------------------
     /**
      * Normalizes a word by converting it to lower case and trimming spaces
@@ -85,7 +139,9 @@ public class CPSC219W26Project {
 
 
     public static void main(String args[]){
-        Scanner input = new Scanner(System.in);
+        Scanner inputScannerObject = new Scanner(System.in);
+
+
 
 
 
