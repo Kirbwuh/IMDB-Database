@@ -51,14 +51,11 @@ public class CPSC219W26Project {
     /**
      * Builds a formatted string for a single movie record.
      *
-     * @param id movie id associated with the record
      * @param movie record values stored in the fixed index order
-     * @return formatted movie details or a "not found" message if the record is null
+     * @return formatted movie details
      */
-    public static String movieToString(int id, String[] movie) {
-        if (movie == null) return "Movie " + id + " not found.";
+    public static String movieToString(String[] movie) {
         return "Movie {" +
-                "\n ID: " + id +
                 "\n Series Title: " + movie[SERIES_TITLE] +
                 "\n Release Year: " + movie[RELEASE_YEAR] +
                 "\n Certification(PG-13): " + movie[CERTIFICATION] +
@@ -75,9 +72,8 @@ public class CPSC219W26Project {
      */
     public static void printAllMovies() {
         for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
-            int id = entry.getKey();
             String[] movie = entry.getValue();
-            System.out.println(movieToString(id, movie));
+            System.out.println(movieToString(movie));
         }
     }
 
@@ -87,13 +83,7 @@ public class CPSC219W26Project {
      * @param title movie title associated with entry.
      */
     public static void printMovieByTitle(String title) {
-        for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
-            int key = entry.getKey();
-            String[] movie = entry.getValue();
-            if (movie[SERIES_TITLE].equals(title)) {
-                System.out.println(movieToString(key,movie));
-            }
-        }
+        System.out.println(movieToString(getMovieByTitle("matrix")));
     }
 
     /**
@@ -102,14 +92,43 @@ public class CPSC219W26Project {
      * @param id movie id associated with entry.
      */
     public static void printMovieById(int id) {
+        System.out.println(movieToString(getMovieById(1)));
+    }
+
+    /**
+     * Returns movie object by associated title
+     *
+     * @param title movie title associated with entry.
+     * @return movie object with associated title.
+     */
+    public static String[] getMovieByTitle(String title) {
+        for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
+            int key = entry.getKey();
+            String[] movie = entry.getValue();
+            if (movie[SERIES_TITLE].equals(title)) {
+                return movie;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns movie object by associated ID
+     *
+     * @param id movie ID in HashMap
+     * @return movie object
+     */
+    public static String[] getMovieById(int id) {
         for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
             int key = entry.getKey();
             String[] movie = entry.getValue();
             if (key == id) {
-                System.out.println(movieToString(key,movie));
+                return movie;
             }
         }
+        return null;
     }
+
 
     /**
      * Deletes a movie entry by its title.
