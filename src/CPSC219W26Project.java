@@ -1,6 +1,7 @@
 package src;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
 
 public class CPSC219W26Project {
     // Establish id
@@ -24,6 +25,8 @@ public class CPSC219W26Project {
         // Test
         addMovie("forrest gump", 2014, true, "comedy", 8.8,"...","yes",111.1);
         addMovie("matrix",1999,false,"action",8.7,"...","no",463.999);
+        System.out.println(getInformation(SERIES_TITLE));
+        System.out.println(getInformation(RELEASE_YEAR));
         printMovieByTitle("matrix");
         printMovieById(1);
     }
@@ -68,34 +71,6 @@ public class CPSC219W26Project {
     }
 
     /**
-     * Prints every movie currently stored in the map.
-     */
-    public static void printAllMovies() {
-        for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
-            String[] movie = entry.getValue();
-            System.out.println(movieToString(movie));
-        }
-    }
-
-    /**
-     * Print's a single movie by associated title.
-     *
-     * @param title movie title associated with entry.
-     */
-    public static void printMovieByTitle(String title) {
-        System.out.println(movieToString(getMovieByTitle("matrix")));
-    }
-
-    /**
-     * Print's a single movie by associated ID
-     *
-     * @param id movie id associated with entry.
-     */
-    public static void printMovieById(int id) {
-        System.out.println(movieToString(getMovieById(1)));
-    }
-
-    /**
      * Returns movie object by associated title
      *
      * @param title movie title associated with entry.
@@ -129,6 +104,49 @@ public class CPSC219W26Project {
         return null;
     }
 
+    /**
+     *Returns an ArrayList of specified values present in the HashMap. For example using GENRE will return all the genres.
+     *
+     * @param index Use the constants to index the information you want returned
+     * @return ArrayList of specified values.
+     */
+    public static ArrayList<String> getInformation(int index) {
+        ArrayList<String> values = new ArrayList<String>();
+        for (Map.Entry<Integer, String[]> entry : movies.entrySet()) {
+            int key = entry.getKey();
+            String[] movie = entry.getValue();
+            values.add(movie[index]);
+        }
+        return values;
+    }
+
+    /**
+     * Prints every movie currently stored in the map.
+     */
+    public static void printAllMovies() {
+        for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
+            String[] movie = entry.getValue();
+            System.out.println(movieToString(movie));
+        }
+    }
+
+    /**
+     * Print's a single movie by associated title.
+     *
+     * @param title movie title associated with entry.
+     */
+    public static void printMovieByTitle(String title) {
+        System.out.println(movieToString(getMovieByTitle("matrix")));
+    }
+
+    /**
+     * Print's a single movie by associated ID
+     *
+     * @param id movie id associated with entry.
+     */
+    public static void printMovieById(int id) {
+        System.out.println(movieToString(getMovieById(1)));
+    }
 
     /**
      * Deletes a movie entry by its title.
