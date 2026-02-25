@@ -8,7 +8,7 @@ public class CPSC219W26Project {
     // create movie hashmap
     static HashMap<Integer, String[]> movies = new HashMap<>();
 
-    // Hash map indexes
+    // String Array indexes within the HashMap
     private static final int SERIES_TITLE = 0;    // Name of movie (String)
     private static final int RELEASE_YEAR = 1;   // Year movie was released (int)
     private static final int CERTIFICATION = 2;   // Age / Content Rating PG-13 (boolean)
@@ -22,8 +22,10 @@ public class CPSC219W26Project {
 
     public static void main(String[] args) {
         // Test
-        addMovie("Forrest Gump", 2014, true, "comedy", 8.8,"...","Yes",111.1);
-        addMovie("Matrix",1999,false,"Action",8.7,"...","Lana Wachowski",463.999);
+        addMovie("forrest gump", 2014, true, "comedy", 8.8,"...","yes",111.1);
+        addMovie("matrix",1999,false,"action",8.7,"...","no",463.999);
+        printAllMovies();
+        removeMovieByTitle("matrix");
         printAllMovies();
     }
 
@@ -77,6 +79,21 @@ public class CPSC219W26Project {
             int id = entry.getKey();
             String[] movie = entry.getValue();
             System.out.println(movieToString(id, movie));
+        }
+    }
+
+    /**
+     * Deletes a movie entry by its title.
+     *
+     * @param title movie title associated with entry.
+     */
+    public static void removeMovieByTitle(String title) {
+        for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
+            int id = entry.getKey();
+            String[] movie = entry.getValue();
+            if (movie[SERIES_TITLE].equals(title)) {
+                movies.remove(id);
+            }
         }
     }
 }
