@@ -38,9 +38,13 @@ public class CPSC219W26Project {
     }
 
     /**
-     * @param scanner
-     * @param prompt
-     * @return
+     * This method receives a scanner object and captures
+     * the user input, validating that it is numeric, whilst printing in console
+     * the data to be captured.
+     *
+     * @param scanner scanner object from java.util.Scanner
+     * @param prompt the prompt that specifies the user which numeric data to input
+     * @return the numeric input of the user as a Double
      */
     public static Double getNumericInput(Scanner scanner, String prompt) {
         String numericInput;
