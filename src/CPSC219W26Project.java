@@ -40,14 +40,19 @@ public class CPSC219W26Project {
      * @param gross How much money movie made (double)
      * @return the Id(Key) of hashMap entry
      */
-    public static int addMovie(String seriesTitle, int releaseYear, boolean certification, String genre, double imdbRating, String overview, String director, double gross) {
+    public static void addMovie(String seriesTitle, int releaseYear, boolean certification, String genre, double imdbRating, String overview, String director, double gross) {
         int id = nextId++;
         movies.put(id, new String[] {
                 seriesTitle, String.valueOf(releaseYear), String.valueOf(certification), genre, String.valueOf(imdbRating), overview, director, String.valueOf(gross)
         });
-        return id;
     }
 
+    /**Method to print single HashMap entry.
+     * To print: System.out.println(movieToString(1, movies.get(1)));
+     * @param id Id of movie you want to print.
+     * @param movies the movies array we created
+     * @return formatted single movie instance
+     */
     public static String movieToString(int id, String[] movies) {
         if (movies == null) return "Movie " + id + " not found.";
         return "Movie {" +
