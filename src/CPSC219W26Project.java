@@ -13,6 +13,7 @@ public class CPSC219W26Project {
         movies.add(new Movie("Inception",2010,"...",8.8));
         addMovie("Interstellar",2014,"...",8.7);
         removeMovie("Forrest Gump");
+        System.out.println(getMovie("Interstellar"));
         System.out.print(movies.toString());
     }
 
@@ -56,6 +57,22 @@ public class CPSC219W26Project {
      */
     public static void removeMovie(String title) {
         movies.removeIf(m -> m.title.equals(title));
+    }
+
+    /**
+     * get movie by title
+     * @param title
+     * @return movie object or print error message
+     */
+    public static Movie getMovie(String title) {
+        for (Movie m: movies) {
+            if (m.title.equals(title)) {
+                return m;
+            } else {
+                System.out.println("Movie does not exist");
+            }
+        }
+        return null;
     }
 }
 
