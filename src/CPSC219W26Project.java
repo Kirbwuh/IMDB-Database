@@ -1,7 +1,6 @@
 package src;
-import java.util.Arrays;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class CPSC219W26Project {
     // Establish id
@@ -24,21 +23,22 @@ public class CPSC219W26Project {
     public static void main(String[] args) {
         // Test
         addMovie("Forrest Gump", 2014, true, "comedy", 8.8,"...","Yes",111.1);
-        System.out.println(movieToString(1, movies.get(1)));
+        addMovie("Matrix",1999,false,"Action",8.7,"...","Lana Wachowski",463.999);
+        printAllMovies();
     }
 
 
-    /**Method to add movie to movie hashmap.
-     * Id is automatically generated.
-     * @param seriesTitle Title of movie (string)
-     * @param releaseYear Release year of movie (int)
-     * @param certification PG-13 True or false (boolean)
-     * @param genre Genre of movie (String)
-     * @param imdbRating Rating of movie 0-10 (double)
-     * @param overview Short description of movie (String)
-     * @param director Name of Director First and Last (String)
-     * @param gross How much money movie made (double)
-     * @return the Id(Key) of hashMap entry
+    /**
+     * Adds a movie to the map and assigns the next available id.
+     *
+     * @param seriesTitle movie title (non-null)
+     * @param releaseYear year the movie was released (e.g., 1999)
+     * @param certification true if PG-13, false otherwise
+     * @param genre genre or genres (non-null)
+     * @param imdbRating rating on a 0.0–10.0 scale
+     * @param overview short description (non-null)
+     * @param director director's name (non-null)
+     * @param gross gross revenue (same units used throughout your program)
      */
     public static void addMovie(String seriesTitle, int releaseYear, boolean certification, String genre, double imdbRating, String overview, String director, double gross) {
         int id = nextId++;
@@ -47,25 +47,37 @@ public class CPSC219W26Project {
         });
     }
 
-    /**Method to print single HashMap entry.
-     * To print: System.out.println(movieToString(1, movies.get(1)));
-     * @param id Id of movie you want to print.
-     * @param movies the movies array we created
-     * @return formatted single movie instance
+    /**
+     * Builds a formatted string for a single movie record.
+     *
+     * @param id movie id associated with the record
+     * @param movie record values stored in the fixed index order
+     * @return formatted movie details or a "not found" message if the record is null
      */
-    public static String movieToString(int id, String[] movies) {
-        if (movies == null) return "Movie " + id + " not found.";
+    public static String movieToString(int id, String[] movie) {
+        if (movie == null) return "Movie " + id + " not found.";
         return "Movie {" +
                 "\n ID: " + id +
-                "\n Series Title: " + movies[SERIES_TITLE] +
-                "\n Release Year: " + movies[RELEASE_YEAR] +
-                "\n Certification(PG-13): " + movies[CERTIFICATION] +
-                "\n Genre: " + movies[GENRE] +
-                "\n IMDB Rating: " + movies[IMDB_RATING] +
-                "\n Overview: " + movies[OVERVIEW] +
-                "\n Director: " + movies[DIRECTOR] +
-                "\n Gross: " + movies[GROSS] +
+                "\n Series Title: " + movie[SERIES_TITLE] +
+                "\n Release Year: " + movie[RELEASE_YEAR] +
+                "\n Certification(PG-13): " + movie[CERTIFICATION] +
+                "\n Genre: " + movie[GENRE] +
+                "\n IMDB Rating: " + movie[IMDB_RATING] +
+                "\n Overview: " + movie[OVERVIEW] +
+                "\n Director: " + movie[DIRECTOR] +
+                "\n Gross: " + movie[GROSS] +
                 "\n }";
+    }
+
+    /**
+     * Prints every movie currently stored in the map.
+     */
+    public static void printAllMovies() {
+        for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
+            int id = entry.getKey();
+            String[] movie = entry.getValue();
+            System.out.println(movieToString(id, movie));
+        }
     }
 }
 
