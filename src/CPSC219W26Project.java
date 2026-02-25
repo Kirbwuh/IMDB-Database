@@ -24,9 +24,8 @@ public class CPSC219W26Project {
         // Test
         addMovie("forrest gump", 2014, true, "comedy", 8.8,"...","yes",111.1);
         addMovie("matrix",1999,false,"action",8.7,"...","no",463.999);
-        printAllMovies();
-        removeMovieById(2);
-        printAllMovies();
+        printMovieByTitle("matrix");
+        printMovieById(1);
     }
 
 
@@ -79,6 +78,36 @@ public class CPSC219W26Project {
             int id = entry.getKey();
             String[] movie = entry.getValue();
             System.out.println(movieToString(id, movie));
+        }
+    }
+
+    /**
+     * Print's a single movie by associated title.
+     *
+     * @param title movie title associated with entry.
+     */
+    public static void printMovieByTitle(String title) {
+        for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
+            int key = entry.getKey();
+            String[] movie = entry.getValue();
+            if (movie[SERIES_TITLE].equals(title)) {
+                System.out.println(movieToString(key,movie));
+            }
+        }
+    }
+
+    /**
+     * Print's a single movie by associated ID
+     *
+     * @param id movie id associated with entry.
+     */
+    public static void printMovieById(int id) {
+        for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
+            int key = entry.getKey();
+            String[] movie = entry.getValue();
+            if (key == id) {
+                System.out.println(movieToString(key,movie));
+            }
         }
     }
 
