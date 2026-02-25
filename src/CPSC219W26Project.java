@@ -227,7 +227,8 @@ public class CPSC219W26Project {
     public static boolean isNumeric(String input) {
         // source:
         // https://stackoverflow.com/questions/15111420/how-to-check-if-a-string-contains-only-digits-in-java
-        String regex = "\\d+";
+        // https://stackoverflow.com/questions/45450483/regular-expression-allow-only-numbers-commas-and-dashes
+        String regex = "^[0-9,-]*$";
         return input.matches(regex);
     }
 
