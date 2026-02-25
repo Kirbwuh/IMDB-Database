@@ -25,7 +25,7 @@ public class CPSC219W26Project {
         addMovie("forrest gump", 2014, true, "comedy", 8.8,"...","yes",111.1);
         addMovie("matrix",1999,false,"action",8.7,"...","no",463.999);
         printAllMovies();
-        removeMovieByTitle("matrix");
+        removeMovieById(2);
         printAllMovies();
     }
 
@@ -88,10 +88,24 @@ public class CPSC219W26Project {
      * @param title movie title associated with entry.
      */
     public static void removeMovieByTitle(String title) {
-        for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
+        for (Map.Entry<Integer, String[]> entry : movies.entrySet()) {
             int id = entry.getKey();
             String[] movie = entry.getValue();
             if (movie[SERIES_TITLE].equals(title)) {
+                movies.remove(id);
+            }
+        }
+    }
+
+    /**
+     * Deletes a movie entry by its ID.
+     *
+     * @param id movie id associated with entry.
+     */
+    public static void removeMovieById(int id) {
+        for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
+            int key = entry.getKey();
+            if (key == id) {
                 movies.remove(id);
             }
         }
