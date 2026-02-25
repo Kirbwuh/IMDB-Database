@@ -12,14 +12,16 @@ public class CPSC219W26Project {
         movies.add(new Movie("Forrest Gump",1994,"...", 8.8));
         movies.add(new Movie("Inception",2010,"...",8.8));
         addMovie("Interstellar",2014,"...",8.7);
-        removeMovie("Forrest Gump");
-        System.out.println(getMovie("Interstellar"));
+//        removeMovie("Forrest Gump");
+//        System.out.println(getMovie("Interstellar"));
         System.out.print(movies.toString());
     }
 
     // Movie object
     public static class Movie {
         // class structure
+        static int nextId = 1;  // ID updater
+        int id;
         String title;
         int date;
         String description;
@@ -27,6 +29,7 @@ public class CPSC219W26Project {
 
         // constructor to build new movie objects
         public Movie(String title, int date, String description, double rating) {
+            this.id = nextId++;
             this.title = title;
             this.date = date;
             this.description = description;
@@ -36,7 +39,7 @@ public class CPSC219W26Project {
         // toString method to print out movie arraylist and not memory
         @Override
         public String toString() {
-            return "Movie {" + "\n" + "title: " + title +  "\n" + "date: " + date + "\n" + "description: " + description + "\n" + "rating: " + rating + "\n" + "}";
+            return "Movie {" + "\n" + "ID: " + id  + "\n" + "title: " + title +  "\n" + "date: " + date + "\n" + "description: " + description + "\n" + "rating: " + rating + "\n" + "}";
         }
     }
 
@@ -64,7 +67,7 @@ public class CPSC219W26Project {
      * @param title
      * @return movie object or print error message
      */
-    public static Movie getMovie(String title) {
+    public static Movie getMovieByTitle(String title) {
         for (Movie m: movies) {
             if (m.title.equals(title)) {
                 return m;
@@ -74,5 +77,21 @@ public class CPSC219W26Project {
         }
         return null;
     }
+
+    /**
+     * get movie by ID
+      * @param id
+     * @return movie object or print error message
+     */
+   public static Movie getMovieById(int id) {
+        for (Movie m: movies) {
+            if (m.id == id) {
+                return m;
+            } else {
+                System.out.println("Movie does not exist");
+            }
+        }
+        return null
+   }
 }
 
