@@ -1,105 +1,66 @@
 package src;
+import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CPSC219W26Project {
+    // Establish id
+    private static int nextId = 1;
+    // create movie hashmap
+    static HashMap<Integer, String[]> movies = new HashMap<>();
+
+    // Hash map indexes
+    private static final int SERIES_TITLE = 0;    // Name of movie (String)
+    private static final int RELEASE_YEAR = 1;   // Year movie was released (int)
+    private static final int CERTIFICATION = 2;   // Age / Content Rating PG-13 (boolean)
+    private static final int GENRE = 3;           // Genre(s) of the movies (String)
+    private static final int IMDB_RATING = 4;     // Rating of movie on IMDB (double)
+    private static final int OVERVIEW = 5;        // Short description of movie (String)
+    private static final int DIRECTOR = 6;      // Name of director (String)
+    private static final int GROSS = 7;        // money made by movie (double)
 
     // Movie array
-    private static final ArrayList<Movie> movies = new ArrayList<>();
 
     public static void main(String[] args) {
-
-        //tests
-        movies.add(new Movie("Forrest Gump",1994,"...", 8.8));
-        movies.add(new Movie("Inception",2010,"...",8.8));
-        addMovie("Interstellar",2014,"...",8.7);
-//        removeMovie("Forrest Gump");
-//        System.out.println(getMovie("Interstellar"));
-        System.out.print(movies.toString());
+        // Test
+        addMovie("Forrest Gump", 2014, true, "comedy", 8.8,"...","Yes",111.1);
+        System.out.println(movieToString(1, movies.get(1)));
     }
 
-    // Movie object
-    public static class Movie {
-        // class structure
-        static int nextId = 1;  // ID updater
-        int id;
-        String title;
-        int date;
-        String description;
-        double rating;
 
-        // constructor to build new movie objects
-        public Movie(String title, int date, String description, double rating) {
-            this.id = nextId++;
-            this.title = title;
-            this.date = date;
-            this.description = description;
-            this.rating = rating;
-        }
-
-        // toString method to print out movie arraylist and not memory
-        @Override
-        public String toString() {
-            return "Movie {" + "\n" + "ID: " + id  + "\n" + "title: " + title +  "\n" + "date: " + date + "\n" + "description: " + description + "\n" + "rating: " + rating + "\n" + "}";
-        }
-    }
-
-    /**
-     * adds new movie to movies list
-     * @param title title of movie
-     * @param date release date
-     * @param description brief description
-     * @param rating IMDB rating
+    /**Method to add movie to movie hashmap.
+     * Id is automatically generated.
+     * @param seriesTitle Title of movie (string)
+     * @param releaseYear Release year of movie (int)
+     * @param certification PG-13 True or false (boolean)
+     * @param genre Genre of movie (String)
+     * @param imdbRating Rating of movie 0-10 (double)
+     * @param overview Short description of movie (String)
+     * @param director Name of Director First and Last (String)
+     * @param gross How much money movie made (double)
+     * @return the Id(Key) of hashMap entry
      */
-    public static void addMovie(String title, int date, String description, double rating) {
-        CPSC219W26Project.movies.add(new Movie(title,date,description,rating));
+    public static int addMovie(String seriesTitle, int releaseYear, boolean certification, String genre, double imdbRating, String overview, String director, double gross) {
+        int id = nextId++;
+        movies.put(id, new String[] {
+                seriesTitle, String.valueOf(releaseYear), String.valueOf(certification), genre, String.valueOf(imdbRating), overview, director, String.valueOf(gross)
+        });
+        return id;
     }
 
-    /**
-     * remove movie by title from movies list
-     * @param title title of movie
-     */
-    public static void removeMovieByTitle(String title) {
-        movies.removeIf(m -> m.title.equals(title));
+    public static String movieToString(int id, String[] movies) {
+        if (movies == null) return "Movie " + id + " not found.";
+        return "Movie {" +
+                "\n ID: " + id +
+                "\n Series Title: " + movies[SERIES_TITLE] +
+                "\n Release Year: " + movies[RELEASE_YEAR] +
+                "\n Certification(PG-13): " + movies[CERTIFICATION] +
+                "\n Genre: " + movies[GENRE] +
+                "\n IMDB Rating: " + movies[IMDB_RATING] +
+                "\n Overview: " + movies[OVERVIEW] +
+                "\n Director: " + movies[DIRECTOR] +
+                "\n Gross: " + movies[GROSS] +
+                "\n }";
     }
-
-    /**
-     * remove movie by ID from movies list
-     * @param id auto assigned movie ID
-     */
-    public static void removeMovieById(int id) {
-        movies.removeIf(m -> m.id == id);
-    }
-
-    /**
-     * get movie by title
-     * @param title title of movie
-     * @return movie object or print error message
-     */
-    public static Movie getMovieByTitle(String title) {
-        for (Movie m: movies) {
-            if (m.title.equals(title)) {
-                return m;
-            } else {
-                System.out.println("Movie does not exist");
-            }
-        }
-        return null;
-    }
-
-    /**
-     * get movie by ID
-      * @param id auto-assigned id.
-     * @return movie object or print error message
-     */
-   public static Movie getMovieById(int id) {
-        for (Movie m: movies) {
-            if (m.id == id) {
-                return m;
-            } else {
-                System.out.println("Movie does not exist");
-            }
-        }
-        return null;
-   }
 }
 
