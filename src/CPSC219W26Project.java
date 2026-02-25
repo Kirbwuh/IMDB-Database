@@ -45,26 +45,34 @@ public class CPSC219W26Project {
 
     /**
      * adds new movie to movies list
-     * @param title
-     * @param date
-     * @param description
-     * @param rating
+     * @param title title of movie
+     * @param date release date
+     * @param description brief description
+     * @param rating IMDB rating
      */
     public static void addMovie(String title, int date, String description, double rating) {
         CPSC219W26Project.movies.add(new Movie(title,date,description,rating));
     }
 
     /**
-     * remove movie from movies list
-     * @param title
+     * remove movie by title from movies list
+     * @param title title of movie
      */
-    public static void removeMovie(String title) {
+    public static void removeMovieByTitle(String title) {
         movies.removeIf(m -> m.title.equals(title));
     }
 
     /**
+     * remove movie by ID from movies list
+     * @param id auto assigned movie ID
+     */
+    public static void removeMovieById(int id) {
+        movies.removeIf(m -> m.id == id);
+    }
+
+    /**
      * get movie by title
-     * @param title
+     * @param title title of movie
      * @return movie object or print error message
      */
     public static Movie getMovieByTitle(String title) {
@@ -80,7 +88,7 @@ public class CPSC219W26Project {
 
     /**
      * get movie by ID
-      * @param id
+      * @param id auto-assigned id.
      * @return movie object or print error message
      */
    public static Movie getMovieById(int id) {
