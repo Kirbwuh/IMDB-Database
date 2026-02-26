@@ -23,10 +23,9 @@ public class CPSC219W26Project {
         // Test
         addMovie("forrest gump", 2014, true, "comedy", 8.8,"...","yes",111.1);
         addMovie("matrix",1999,false,"action",8.7,"...","no",463.999);
-        System.out.println(getInformation(SERIES_TITLE));
-        System.out.println(getInformation(RELEASE_YEAR));
-        printMovieByTitle("matrix");
-        printMovieById(1);
+        updateMovieByTitle("matrix",IMDB_RATING,"4.5");
+        removeMovieById(2);
+        printAllMovies();
     }
 
     /**
@@ -192,7 +191,7 @@ public class CPSC219W26Project {
      * @param title movie title associated with entry.
      */
     public static void printMovieByTitle(String title) {
-        System.out.println(movieToString(getMovieByTitle("matrix")));
+        System.out.println(movieToString(getMovieByTitle(title)));
     }
 
     /**
@@ -201,7 +200,7 @@ public class CPSC219W26Project {
      * @param id movie id associated with entry.
      */
     public static void printMovieById(int id) {
-        System.out.println(movieToString(getMovieById(1)));
+        System.out.println(movieToString(getMovieById(id)));
     }
 }
 
