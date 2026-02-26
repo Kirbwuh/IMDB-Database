@@ -324,7 +324,7 @@ public class CPSC219W26Project {
 
             case 2:
                 System.out.println("You chose option 2.");
-                movieRow = singleEntryProcess(inputScannerObject);
+                movieRow = multilineEntryProcess(inputScannerObject);
                 break;
 
             case 3:
