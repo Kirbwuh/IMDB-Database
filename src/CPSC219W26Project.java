@@ -19,8 +19,9 @@ public class CPSC219W26Project {
         director       (String) : Name of the director
         gross          (double)   : Total money earned by the movie
     */
+    //***********************************************************************
     //-----------------Input Methods ----------------------------------------
-
+    //***********************************************************************
     /**
      * This method receives a scanner object and captures
      * the user input and normalize it, whilst printing in console the data to be
