@@ -9,16 +9,18 @@ public class CPSC219W26Project {
     static void main(String[] args) {
         Scanner inputScannerObject = new Scanner(System.in);
         int choice = showMainMenu(inputScannerObject);
-        HashMap<String, String> movieRow;
+        HashMap<Integer, String> movieRow;
         switch (choice) {
             case 1:
                 System.out.println("You chose option 1.");
                 movieRow = singleEntryProcess(inputScannerObject);
+                addMovie(movieRow);
                 break;
 
             case 2:
                 System.out.println("You chose option 2.");
                 movieRow = multilineEntryProcess(inputScannerObject);
+                addMovie(movieRow);
                 break;
 
             case 3:
@@ -32,7 +34,7 @@ public class CPSC219W26Project {
     }
 
     //***********************************************************************
-    //----------------PROGRAM INPUT---------------------------------
+    //----------------PROGRAM INPUT-----------------------------------------
     //***********************************************************************
 
    /*
@@ -109,49 +111,49 @@ public class CPSC219W26Project {
      * @return Hashmap<String,String> of the collected values
      */
     //---------------------Input process methods ---------------------------------------------
-    private static HashMap<String, String> singleEntryProcess(Scanner scanner) {
+    private static HashMap<Integer, String> singleEntryProcess(Scanner scanner) {
 
-        HashMap<String, String> entry = new HashMap<>();
+        HashMap<Integer, String> entry = new HashMap<>();
 
         //------- Question 1 --------------------
         final String q1Prompt = "Please input the name of the movie:";
         String seriesTitle = getStringInput(scanner, q1Prompt);
-        entry.put("series_title", seriesTitle);
+        entry.put(SERIES_TITLE, seriesTitle);
 
         //------- Question 2 --------------------
         final String q2Prompt = "Please input the release year of the movie:";
         Double releasedYear = getNumericInput(scanner, q2Prompt);
-        entry.put("released_year", String.valueOf(releasedYear));
+        entry.put(RELEASE_YEAR, String.valueOf(releasedYear));
 
         //------- Question 3 --------------------
         final String q3Prompt = "Is the movie rated PG-13?";
         boolean isPG13 = getBooleanInput(scanner, q3Prompt);
-        entry.put("PG-13", String.valueOf(isPG13));
+        entry.put(CERTIFICATION, String.valueOf(isPG13));
 
         //------- Question 4 --------------------
         final String q4Prompt = "Please input the genre of the movie:";
         String genre = getStringInput(scanner, q4Prompt);
-        entry.put("genre", genre);
+        entry.put(GENRE, genre);
 
         //------- Question 5 --------------------
         final String q5Prompt = "Please input the IMDb rating of the movie:";
         Double rating = getNumericInput(scanner, q5Prompt);
-        entry.put("rating", String.valueOf(rating));
+        entry.put(IMDB_RATING, String.valueOf(rating));
 
         //------- Question 6 --------------------
         final String q6Prompt = "Please input the desription of the movie:";
         String movieDesc = getStringInput(scanner, q6Prompt);
-        entry.put("movie", movieDesc);
+        entry.put(OVERVIEW, movieDesc);
 
         //------- Question 7 --------------------
         final String q7Prompt = "Please input the name of the director:";
         String director = getStringInput(scanner, q7Prompt);
-        entry.put("director", director);
+        entry.put(DIRECTOR, director);
 
         //------- Question 8 --------------------
         final String q8Prompt = "Please input the gross earnings of the movie:";
         Double gross = getNumericInput(scanner, q8Prompt);
-        entry.put("gross", String.valueOf(gross.longValue()));
+        entry.put(GROSS, String.valueOf(gross.longValue()));
 
         return entry;
     }
@@ -167,10 +169,10 @@ public class CPSC219W26Project {
      * @param scanner scanner object from java.util.Scanner
      * @return HashMap<String,String> containing the validated movie data
      */
-    private static HashMap<String, String> multilineEntryProcess(Scanner scanner) {
+    private static HashMap<Integer, String> multilineEntryProcess(Scanner scanner) {
         String[] separatedValuesList = null;
         boolean validInput;
-        HashMap<String, String> entry = new HashMap<>();
+        HashMap<Integer, String> entry = new HashMap<>();
 
 
         final String prompt = """
@@ -203,10 +205,10 @@ public class CPSC219W26Project {
 
                 switch (i) {
                     //-------- String values
-                    case 0: // series_title
-                    case 3: // genre
-                    case 5: // description
-                    case 6: // director
+                    case SERIES_TITLE:
+                    case GENRE:
+                    case OVERVIEW:
+                    case DIRECTOR:
                         if (value.isEmpty()) {
                             System.out.println("Invalid input: text fields cannot be empty.");
                             validInput = false;
@@ -214,9 +216,9 @@ public class CPSC219W26Project {
                         break;
 
                     //---------Numeric values
-                    case 1: // released_year
-                    case 4: // rating
-                    case 7: // gross
+                    case RELEASE_YEAR:
+                    case IMDB_RATING:
+                    case GROSS:
                         if (!isNumeric(value)) {
                             System.out.println("Invalid input: numeric value expected at position " + (i + 1));
                             validInput = false;
@@ -242,14 +244,14 @@ public class CPSC219W26Project {
         if (separatedValuesList == null || separatedValuesList.length != 8) {
             return new HashMap<>();
         }else{
-            entry.put("series_title", separatedValuesList[0].trim());
-            entry.put("released_year", separatedValuesList[1].trim());
-            entry.put("PG-13", String.valueOf(Boolean.parseBoolean(separatedValuesList[2].trim())));
-            entry.put("genre", separatedValuesList[3].trim());
-            entry.put("rating", separatedValuesList[4].trim());
-            entry.put("description", separatedValuesList[5].trim());
-            entry.put("director", separatedValuesList[6].trim());
-            entry.put("gross", separatedValuesList[7].trim());
+            entry.put(SERIES_TITLE, separatedValuesList[0].trim());
+            entry.put(RELEASE_YEAR, separatedValuesList[1].trim());
+            entry.put(CERTIFICATION, String.valueOf(Boolean.parseBoolean(separatedValuesList[2].trim())));
+            entry.put(GENRE, separatedValuesList[3].trim());
+            entry.put(IMDB_RATING, separatedValuesList[4].trim());
+            entry.put(OVERVIEW, separatedValuesList[5].trim());
+            entry.put(DIRECTOR, separatedValuesList[6].trim());
+            entry.put(GROSS, separatedValuesList[7].trim());
 
             return entry;
         }
@@ -360,19 +362,12 @@ public class CPSC219W26Project {
     /**
      * Adds a movie to the map and assigns the next available id.
      *
-     * @param seriesTitle movie title (non-null)
-     * @param releaseYear year the movie was released (e.g., 1999)
-     * @param certification true if PG-13, false otherwise
-     * @param genre genre or genres (non-null)
-     * @param imdbRating rating on a 0.0–10.0 scale
-     * @param overview short description (non-null)
-     * @param director director's name (non-null)
-     * @param gross gross revenue (same units used throughout your program)
+     * @param entry Hashmap of movie data.
      */
-    public static void addMovie(String seriesTitle, int releaseYear, boolean certification, String genre, double imdbRating, String overview, String director, double gross) {
+    public static void addMovie(HashMap<Integer, String> entry) {
         int id = nextId++;
-        movies.put(id, new String[] {
-                seriesTitle, String.valueOf(releaseYear), String.valueOf(certification), genre, String.valueOf(imdbRating), overview, director, String.valueOf(gross)
+        movies.put(id,new String[] {
+            entry.get(SERIES_TITLE), entry.get(RELEASE_YEAR),entry.get(CERTIFICATION),entry.get(GENRE),entry.get(IMDB_RATING),entry.get(OVERVIEW),entry.get(DIRECTOR),entry.get(GROSS)
         });
     }
 
