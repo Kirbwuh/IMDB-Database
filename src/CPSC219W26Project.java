@@ -136,7 +136,7 @@ public class CPSC219W26Project {
      * @return HashMap<String,String> containing the validated movie data
      */
     private static HashMap<String, String> multiLIneEntryProcess(Scanner scanner) {
-        String[] separatedValuesList;
+        String[] separatedValuesList = null;
         boolean validInput;
         HashMap<String, String> entry = new HashMap<>();
 
@@ -149,12 +149,21 @@ public class CPSC219W26Project {
             validInput = true;
 
             String inputString = getStringInput(scanner, prompt);
+            if (inputString.trim().isEmpty()) {
+
+                System.out.println("Invalid input: input cannot be empty. Please enter all 8 values.");
+                continue;
+            }
+
             separatedValuesList = separateCommaValues(inputString);
+
+
 
             if (separatedValuesList.length != 8) {
                 System.out.println("Invalid input: you must enter exactly 8 comma-separated values.");
                 continue;
             }
+
 
             for (int i = 0; i < separatedValuesList.length; i++) {
                 String value = separatedValuesList[i].trim();
@@ -197,17 +206,25 @@ public class CPSC219W26Project {
 
         } while (!validInput);
 
+        if (separatedValuesList == null || separatedValuesList.length != 8) {
+            return new HashMap<>();
+        }else{
+            entry.put("series_title", separatedValuesList[0].trim());
+            entry.put("released_year", separatedValuesList[1].trim());
+            entry.put("PG-13", String.valueOf(Boolean.parseBoolean(separatedValuesList[2].trim())));
+            entry.put("genre", separatedValuesList[3].trim());
+            entry.put("rating", separatedValuesList[4].trim());
+            entry.put("description", separatedValuesList[5].trim());
+            entry.put("director", separatedValuesList[6].trim());
+            entry.put("gross", separatedValuesList[7].trim());
 
-        entry.put("series_title", separatedValuesList[0].trim());
-        entry.put("released_year", separatedValuesList[1].trim());
-        entry.put("PG-13", String.valueOf(Boolean.parseBoolean(separatedValuesList[2].trim())));
-        entry.put("genre", separatedValuesList[3].trim());
-        entry.put("rating", separatedValuesList[4].trim());
-        entry.put("description", separatedValuesList[5].trim());
-        entry.put("director", separatedValuesList[6].trim());
-        entry.put("gross", separatedValuesList[7].trim());
+            return entry;
+        }
 
-        return entry;
+
+
+
+
     }
     //---------------- Helper Methods-----------------------------------------
     /**
@@ -252,7 +269,7 @@ public class CPSC219W26Project {
 
     public static void main(String args[]){
         Scanner inputScannerObject = new Scanner(System.in);
-
+        System.out.println(multiLIneEntryProcess(inputScannerObject));
 
 
 
