@@ -9,6 +9,7 @@ public class CPSC219W26Project {
     static void main(String[] args) {
         Scanner inputScannerObject = new Scanner(System.in);
         int choice = showMainMenu(inputScannerObject);
+        String[] movie;
         HashMap<Integer, String> movieRow;
         switch (choice) {
             case 1:
@@ -24,6 +25,18 @@ public class CPSC219W26Project {
                 break;
 
             case 3:
+                System.out.println("You chose option 3.");
+                movie = searchMovieByTitle(inputScannerObject);
+                // output result
+                break;
+
+            case 4:
+                System.out.println("You chose option 4.");
+
+            case 5:
+                System.out.println("You chose option 5.");
+
+            case 6:
                 // source
                 // https://stackoverflow.com/questions/22452930/terminating-a-java-program
                 System.out.println("You chose option 3.");
@@ -34,7 +47,7 @@ public class CPSC219W26Project {
     }
 
     //***********************************************************************
-    //----------------CONSTANTS-------------------------------------------
+    //----------------CONSTANTS---------------------------------------------
     //***********************************************************************
     public static final int SERIES_TITLE = 0;    // Name of movie (String)
     public static final int RELEASE_YEAR = 1;   // Year movie was released (int)
@@ -44,7 +57,6 @@ public class CPSC219W26Project {
     public static final int OVERVIEW = 5;        // Short description of movie (String)
     public static final int DIRECTOR = 6;      // Name of director (String)
     public static final int GROSS = 7;        // money made by movie (double)
-
 
     //***********************************************************************
     //----------------PROGRAM INPUT-----------------------------------------
@@ -239,7 +251,7 @@ public class CPSC219W26Project {
                         break;
 
                     //-----------Boolean value
-                    case 2: // PG-13 (true / false)
+                    case CERTIFICATION: // PG-13 (true / false)
                         if (!(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))) {
                             System.out.println("Invalid input: PG-13 must be true or false.");
                             validInput = false;
@@ -271,6 +283,19 @@ public class CPSC219W26Project {
 
 
     }
+
+    /**
+     * Prompts the user to search for a movie
+     *
+     * @param scanner scanner object from java.util.Scanner
+     * @return movie String[] or null
+     */
+    private static String[] searchMovieByTitle(Scanner scanner) {
+        final String searchPrompt = "Enter the Title of the Movie you would like to Search.";
+        String searchInput = getStringInput(scanner, searchPrompt);
+        return getMovieByTitle(searchInput);
+    }
+
     //***********************************************************************
     //------------------Main Menu Methods------------------------------------
     //***********************************************************************
@@ -293,18 +318,21 @@ public class CPSC219W26Project {
                 +--------+---------------------------+--------------------------------+
                 |   1    | Add movie (step by step)  | Answer one value at a time     |
                 |   2    | Add movie (single line)   | Enter all 8 values with commas |
-                |   3    | Exit                      | Close the program              |
+                |   3    | Search for movie (title)  | Search for a movie by title    |
+                |   4    | Search for movie (id)     | Search for a movie by id       |
+                |   5    | Show list of movie data   | See all genres, diretors etc.  |
+                |   6    | Exit                      | Close the program              |
                 +--------+---------------------------+--------------------------------+""");
 
         do {
-            System.out.println("Please enter an option (1, 2 or 3):");
+            System.out.println("Please enter an option ( 1, 2, 3, 4, 5 or 6):");
             choice = scanner.nextLine().trim();
 
-            if (!choice.equals("1") && !choice.equals("2") && !choice.equals("3")) {
-                System.out.println("Invalid input. Please enter 1, 2 or 3.");
+            if (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4") && !choice.equals("5") && !choice.equals("6")) {
+                System.out.println("Invalid input. Please enter 1, 2, 3, 4, 5 or 6.");
             }
 
-        } while (!choice.equals("1") && !choice.equals("2") && !choice.equals("3"));
+        } while (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4") && !choice.equals("5") && !choice.equals("6"));
 
         return Integer.parseInt(choice);
     }
@@ -386,7 +414,6 @@ public class CPSC219W26Project {
      */
     public static String[] getMovieByTitle(String title) {
         for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
-            int key = entry.getKey();
             String[] movie = entry.getValue();
             if (movie[SERIES_TITLE].equals(title)) {
                 return movie;
@@ -421,7 +448,6 @@ public class CPSC219W26Project {
     public static ArrayList<String> getInformation(int index) {
         ArrayList<String> values = new ArrayList<String>();
         for (Map.Entry<Integer, String[]> entry : movies.entrySet()) {
-            int key = entry.getKey();
             String[] movie = entry.getValue();
             values.add(movie[index]);
         }
