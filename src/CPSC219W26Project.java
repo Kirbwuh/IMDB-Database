@@ -3,7 +3,10 @@ import java.util.Scanner;
 
 public class CPSC219W26Project {
 
+    //***********************************************************************
     //----------------PROGRAM INPUT---------------------------------
+    //***********************************************************************
+
    /*
     Data to be captured:
 
@@ -226,7 +229,46 @@ public class CPSC219W26Project {
 
 
     }
+    //***********************************************************************
+    //------------------Main Menu Methods------------------------------------
+    //***********************************************************************
+    /**
+     * Displays the main menu and returns the user's choice
+     * @param scanner scanner object from java.util.Scanner
+     * @return the menu option selected by the user as a String
+     */
+    private static int showMainMenu(Scanner scanner) {
+        String choice;
+
+        System.out.println("********************* IMDb Movie Database - CPSC219 W26  *********************");
+        System.out.println("Track and store your favourite movies with ratings, directors, genres and more.");
+
+        System.out.println();
+
+        System.out.println("+--------+---------------------------+--------------------------------+\n" +
+                "| Option | Action                    | Description                    |\n" +
+                "+--------+---------------------------+--------------------------------+\n" +
+                "|   1    | Add movie (step by step)  | Answer one value at a time     |\n" +
+                "|   2    | Add movie (single line)   | Enter all 8 values with commas |\n" +
+                "|   3    | Exit                      | Close the program              |\n" +
+                "+--------+---------------------------+--------------------------------+");
+
+        do {
+            System.out.println("Please enter an option (1, 2 or 3):");
+            choice = scanner.nextLine().trim();
+
+            if (!choice.equals("1") && !choice.equals("2") && !choice.equals("3")) {
+                System.out.println("Invalid input. Please enter 1, 2 or 3.");
+            }
+
+        } while (!choice.equals("1") && !choice.equals("2") && !choice.equals("3"));
+
+        return Integer.parseInt(choice);
+    }
+    //***********************************************************************
     //---------------- Helper Methods-----------------------------------------
+    //***********************************************************************
+
     /**
      * Normalizes a word by converting it to lower case and trimming spaces
      * @param word String a string
@@ -269,13 +311,27 @@ public class CPSC219W26Project {
 
     public static void main(String args[]){
         Scanner inputScannerObject = new Scanner(System.in);
+        int choice = showMainMenu(inputScannerObject);
+        HashMap<String,String> movieRow;
+        switch (choice){
+            case 1:
+                System.out.println("You chose option 1.");
+                movieRow = singleEntryProcess(inputScannerObject);
+                break;
 
+            case 2:
+                System.out.println("You chose option 2.");
+                movieRow = singleEntryProcess(inputScannerObject);
+                break;
 
-
-
-
-
-
+            case 3:
+                // source
+                // https://stackoverflow.com/questions/22452930/terminating-a-java-program
+                System.out.println("You chose option 3.");
+                System.out.println("Goodbye!");
+                System.exit(0);
+                break;
+        }
     }
 
 }
