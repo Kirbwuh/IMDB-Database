@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import org.junit.Test;
 
-public class CPSC219W26ProjectTest {
+public class DataMethodsCPSC219W26ProjectTest {
 
     @Test
     public void addMovieStoresMovieData() {
