@@ -1,9 +1,36 @@
+package src;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CPSC219W26Project {
+
+    static void main(String[] args) {
+        Scanner inputScannerObject = new Scanner(System.in);
+        int choice = showMainMenu(inputScannerObject);
+        HashMap<String, String> movieRow;
+        switch (choice) {
+            case 1:
+                System.out.println("You chose option 1.");
+                movieRow = singleEntryProcess(inputScannerObject);
+                break;
+
+            case 2:
+                System.out.println("You chose option 2.");
+                movieRow = multilineEntryProcess(inputScannerObject);
+                break;
+
+            case 3:
+                // source
+                // https://stackoverflow.com/questions/22452930/terminating-a-java-program
+                System.out.println("You chose option 3.");
+                System.out.println("Goodbye!");
+                System.exit(0);
+                break;
+        }
+    }
+
     //***********************************************************************
     //----------------PROGRAM INPUT---------------------------------
     //***********************************************************************
@@ -228,9 +255,6 @@ public class CPSC219W26Project {
         }
 
 
-
-
-
     }
     //***********************************************************************
     //------------------Main Menu Methods------------------------------------
@@ -311,32 +335,9 @@ public class CPSC219W26Project {
         }
     }
 
-
-
-    static void main(String[] args){
-        Scanner inputScannerObject = new Scanner(System.in);
-        int choice = showMainMenu(inputScannerObject);
-        HashMap<String,String> movieRow;
-        switch (choice){
-            case 1:
-                System.out.println("You chose option 1.");
-                movieRow = singleEntryProcess(inputScannerObject);
-                break;
-
-            case 2:
-                System.out.println("You chose option 2.");
-                movieRow = multilineEntryProcess(inputScannerObject);
-                break;
-
-            case 3:
-                // source
-                // https://stackoverflow.com/questions/22452930/terminating-a-java-program
-                System.out.println("You chose option 3.");
-                System.out.println("Goodbye!");
-                System.exit(0);
-                break;
-        }
-    }
+    //***********************************************************************
+    //------------------DATA STORAGE AND MANAGEMENT--------------------------
+    //***********************************************************************
 
     // Establish id
     private static int nextId = 1;
@@ -353,6 +354,9 @@ public class CPSC219W26Project {
     public static final int DIRECTOR = 6;      // Name of director (String)
     public static final int GROSS = 7;        // money made by movie (double)
 
+    //***********************************************************************
+    //------------------ADD DATA METHODS-------------------------------------
+    //***********************************************************************
     /**
      * Adds a movie to the map and assigns the next available id.
      *
@@ -371,6 +375,10 @@ public class CPSC219W26Project {
                 seriesTitle, String.valueOf(releaseYear), String.valueOf(certification), genre, String.valueOf(imdbRating), overview, director, String.valueOf(gross)
         });
     }
+
+    //***********************************************************************
+    //------------------GET DATA METHODS------------------------------------
+    //***********************************************************************
 
     /**
      * Returns movie object by associated title
@@ -422,6 +430,10 @@ public class CPSC219W26Project {
         return values;
     }
 
+    //***********************************************************************
+    //------------------UPDATE DATA METHODS----------------------------------
+    //***********************************************************************
+
     /**
      *Updates specified movie data by ID matching.
      *
@@ -452,15 +464,9 @@ public class CPSC219W26Project {
         }
     }
 
-    /**
-     * Prints every movie currently stored in the map.
-     */
-    public static void printAllMovies() {
-        for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
-            String[] movie = entry.getValue();
-            System.out.println(movieToString(movie));
-        }
-    }
+    //***********************************************************************
+    //------------------REMOVE DATA METHODS----------------------------------
+    //***********************************************************************
 
     /**
      * Deletes a movie entry by its title.
@@ -490,6 +496,10 @@ public class CPSC219W26Project {
             }
         }
     }
+
+    //***********************************************************************
+    //------------------QUICK PRINT METHODS FOR TESTING----------------------
+    //***********************************************************************
 
     /**
      * Builds a formatted string for a single movie record.
@@ -526,6 +536,16 @@ public class CPSC219W26Project {
      */
     public static void printMovieById(int id) {
         System.out.println(movieToString(getMovieById(id)));
+    }
+
+    /**
+     * Prints every movie currently stored in the map.
+     */
+    public static void printAllMovies() {
+        for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
+            String[] movie = entry.getValue();
+            System.out.println(movieToString(movie));
+        }
     }
 }
 
