@@ -144,9 +144,10 @@ public class CPSC219W26Project {
         HashMap<String, String> entry = new HashMap<>();
 
 
-        final String prompt = "Please enter exactly 8 values separated by commas, in this order:\n"
-                + "series_title, released_year, PG-13 (true or false), genre, rating, description, director, gross\n"
-                + "Example: \"The Matrix,1999,true,Action/Sci-Fi,8.7,A hacker discovers reality,The Wachowskis,463517383\"";
+        final String prompt = """
+                Please enter exactly 8 values separated by commas, in this order:
+                series_title, released_year, PG-13 (true or false), genre, rating, description, director, gross
+                Example: "The Matrix,1999,true,Action/Sci-Fi,8.7,A hacker discovers reality,The Wachowskis,463517383\"""";
 
         do {
             validInput = true;
@@ -245,13 +246,14 @@ public class CPSC219W26Project {
 
         System.out.println();
 
-        System.out.println("+--------+---------------------------+--------------------------------+\n" +
-                "| Option | Action                    | Description                    |\n" +
-                "+--------+---------------------------+--------------------------------+\n" +
-                "|   1    | Add movie (step by step)  | Answer one value at a time     |\n" +
-                "|   2    | Add movie (single line)   | Enter all 8 values with commas |\n" +
-                "|   3    | Exit                      | Close the program              |\n" +
-                "+--------+---------------------------+--------------------------------+");
+        System.out.println("""
+                +--------+---------------------------+--------------------------------+
+                | Option | Action                    | Description                    |
+                +--------+---------------------------+--------------------------------+
+                |   1    | Add movie (step by step)  | Answer one value at a time     |
+                |   2    | Add movie (single line)   | Enter all 8 values with commas |
+                |   3    | Exit                      | Close the program              |
+                +--------+---------------------------+--------------------------------+""");
 
         do {
             System.out.println("Please enter an option (1, 2 or 3):");
