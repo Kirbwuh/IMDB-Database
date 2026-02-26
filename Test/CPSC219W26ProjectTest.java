@@ -93,7 +93,7 @@ public class CPSC219W26ProjectTest {
         int movieId = -1;
         for (Map.Entry<Integer, String[]> entry : movies.entrySet()) {
             if (entry.getValue()[SERIES_TITLE].equals("matrix")) {
-                movieId = entry.getKey();~
+                movieId = entry.getKey();
             }
         }
 
