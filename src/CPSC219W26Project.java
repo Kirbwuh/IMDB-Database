@@ -19,8 +19,6 @@ public class CPSC219W26Project {
     private static final int DIRECTOR = 6;      // Name of director (String)
     private static final int GROSS = 7;        // money made by movie (double)
 
-    // Movie array
-
     public static void main(String[] args) {
         // Test
         addMovie("forrest gump", 2014, true, "comedy", 8.8,"...","yes",111.1);
@@ -30,7 +28,6 @@ public class CPSC219W26Project {
         printMovieByTitle("matrix");
         printMovieById(1);
     }
-
 
     /**
      * Adds a movie to the map and assigns the next available id.
@@ -49,25 +46,6 @@ public class CPSC219W26Project {
         movies.put(id, new String[] {
                 seriesTitle, String.valueOf(releaseYear), String.valueOf(certification), genre, String.valueOf(imdbRating), overview, director, String.valueOf(gross)
         });
-    }
-
-    /**
-     * Builds a formatted string for a single movie record.
-     *
-     * @param movie record values stored in the fixed index order
-     * @return formatted movie details
-     */
-    public static String movieToString(String[] movie) {
-        return "Movie {" +
-                "\n Series Title: " + movie[SERIES_TITLE] +
-                "\n Release Year: " + movie[RELEASE_YEAR] +
-                "\n Certification(PG-13): " + movie[CERTIFICATION] +
-                "\n Genre: " + movie[GENRE] +
-                "\n IMDB Rating: " + movie[IMDB_RATING] +
-                "\n Overview: " + movie[OVERVIEW] +
-                "\n Director: " + movie[DIRECTOR] +
-                "\n Gross: " + movie[GROSS] +
-                "\n }";
     }
 
     /**
@@ -121,6 +99,36 @@ public class CPSC219W26Project {
     }
 
     /**
+     *Updates specified movie data by ID matching.
+     *
+     * @param id id (key) of movie
+     * @param index The index of the data you want to update based on constants.
+     * @param update The update/change you want to make
+     */
+    public static void updateMovieById(int id,int index,String update) {
+        String[] movie = movies.get(id);
+        if (movie != null) {
+            movie[index] = update;
+        }
+    }
+
+    /**
+     *Updates specified movie data by title matching.
+     *
+     * @param title title of movie
+     * @param index The index of the data you want to update based on constants.
+     * @param update the update/change you want to make.
+     */
+    public static void updateMovieByTitle(String title, int index, String update) {
+        for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
+            String[] movie = entry.getValue();
+            if (movie[SERIES_TITLE].equals(title)) {
+                movie[index] = update;
+            }
+        }
+    }
+
+    /**
      * Prints every movie currently stored in the map.
      */
     public static void printAllMovies() {
@@ -128,24 +136,6 @@ public class CPSC219W26Project {
             String[] movie = entry.getValue();
             System.out.println(movieToString(movie));
         }
-    }
-
-    /**
-     * Print's a single movie by associated title.
-     *
-     * @param title movie title associated with entry.
-     */
-    public static void printMovieByTitle(String title) {
-        System.out.println(movieToString(getMovieByTitle("matrix")));
-    }
-
-    /**
-     * Print's a single movie by associated ID
-     *
-     * @param id movie id associated with entry.
-     */
-    public static void printMovieById(int id) {
-        System.out.println(movieToString(getMovieById(1)));
     }
 
     /**
@@ -175,6 +165,43 @@ public class CPSC219W26Project {
                 movies.remove(id);
             }
         }
+    }
+
+    /**
+     * Builds a formatted string for a single movie record.
+     *
+     * @param movie record values stored in the fixed index order
+     * @return formatted movie details
+     */
+    public static String movieToString(String[] movie) {
+        return "Movie {" +
+                "\n Series Title: " + movie[SERIES_TITLE] +
+                "\n Release Year: " + movie[RELEASE_YEAR] +
+                "\n Certification(PG-13): " + movie[CERTIFICATION] +
+                "\n Genre: " + movie[GENRE] +
+                "\n IMDB Rating: " + movie[IMDB_RATING] +
+                "\n Overview: " + movie[OVERVIEW] +
+                "\n Director: " + movie[DIRECTOR] +
+                "\n Gross: " + movie[GROSS] +
+                "\n }";
+    }
+
+    /**
+     * Print's a single movie by associated title.
+     *
+     * @param title movie title associated with entry.
+     */
+    public static void printMovieByTitle(String title) {
+        System.out.println(movieToString(getMovieByTitle("matrix")));
+    }
+
+    /**
+     * Print's a single movie by associated ID
+     *
+     * @param id movie id associated with entry.
+     */
+    public static void printMovieById(int id) {
+        System.out.println(movieToString(getMovieById(1)));
     }
 }
 
