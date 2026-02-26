@@ -269,7 +269,7 @@ public class CPSC219W26Project {
 
     public static void main(String args[]){
         Scanner inputScannerObject = new Scanner(System.in);
-        System.out.println(multiLIneEntryProcess(inputScannerObject));
+
 
 
 
