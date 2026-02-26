@@ -135,7 +135,7 @@ public class CPSC219W26Project {
      * @param scanner scanner object from java.util.Scanner
      * @return HashMap<String,String> containing the validated movie data
      */
-    private static HashMap<String, String> multiLIneEntryProcess(Scanner scanner) {
+    private static HashMap<String, String> multilineEntryProcess(Scanner scanner) {
         String[] separatedValuesList = null;
         boolean validInput;
         HashMap<String, String> entry = new HashMap<>();
