@@ -27,14 +27,18 @@ public class CPSC219W26Project {
             case 3:
                 System.out.println("You chose option 3.");
                 movie = searchMovieByTitle(inputScannerObject);
-                // output result
+                System.out.println(movieToString(movie));
                 break;
 
             case 4:
                 System.out.println("You chose option 4.");
+                movie = searchMovieByID(inputScannerObject);
+                System.out.println(movieToString(movie));
+                break;
 
             case 5:
                 System.out.println("You chose option 5.");
+                break;
 
             case 6:
                 // source
@@ -319,10 +323,15 @@ public class CPSC219W26Project {
         return getMovieByTitle(searchInput);
     }
 
-
+    /**
+     * Prompts the user to search for a movie by its ID
+     *
+     * @param scanner scanner object from java.util.Scanner
+     * @return movie String[] or null
+     */
     private static String[] searchMovieByID(Scanner scanner) {
         final String searchPrompt = "Enter the ID of the Movie you would like to Search.";
-        double searchInput = getNumericInput(scanner, searchPrompt);
+        int searchInput = getIntegerInput(scanner, searchPrompt);
         return getMovieById(searchInput);
     }
 
