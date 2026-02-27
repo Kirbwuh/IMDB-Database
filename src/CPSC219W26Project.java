@@ -113,6 +113,29 @@ public class CPSC219W26Project {
         return Double.parseDouble(numericInput);
     }
 
+    /**
+     * This method receives a scanner object and captures
+     * the user input, validating that it is numeric, whilst printing in console
+     * the data to be captured.
+     *
+     * @param scanner scanner object from java.util.Scanner
+     * @param prompt the prompt that specifies the user which numeric data to input
+     * @return the numeric input of the user as an Integer
+     */
+    public static Integer getIntegerInput(Scanner scanner, String prompt) {
+        String numericInput;
+
+        do {
+            System.out.println(prompt);
+            numericInput = scanner.nextLine();
+            if (!isNumeric(numericInput)) {
+                System.out.println("Invalid input. Please enter a numeric value.");
+            }
+        } while (!isNumeric(numericInput));
+
+        return Integer.parseInt(numericInput);
+    }
+
     public static boolean getBooleanInput(Scanner scanner, String prompt) {
         String input;
 
@@ -285,15 +308,22 @@ public class CPSC219W26Project {
     }
 
     /**
-     * Prompts the user to search for a movie
+     * Prompts the user to search for a movie by its title
      *
      * @param scanner scanner object from java.util.Scanner
      * @return movie String[] or null
      */
     private static String[] searchMovieByTitle(Scanner scanner) {
-        final String searchPrompt = "Enter the Title of the Movie you would like to Search.";
+        final String searchPrompt = "Enter the TITLE of the Movie you would like to Search.";
         String searchInput = getStringInput(scanner, searchPrompt);
         return getMovieByTitle(searchInput);
+    }
+
+
+    private static String[] searchMovieByID(Scanner scanner) {
+        final String searchPrompt = "Enter the ID of the Movie you would like to Search.";
+        double searchInput = getNumericInput(scanner, searchPrompt);
+        return getMovieById(searchInput);
     }
 
     //***********************************************************************
