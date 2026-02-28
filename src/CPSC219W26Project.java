@@ -28,19 +28,39 @@ public class CPSC219W26Project {
     static void main(String[] args) {
         Scanner inputScannerObject = new Scanner(System.in);
         int choice = showMainMenu(inputScannerObject);
-        HashMap<String, String> movieRow;
+        String[] movie;
+        HashMap<Integer, String> movieRow;
         switch (choice) {
             case 1:
                 System.out.println("You chose option 1.");
                 movieRow = singleEntryProcess(inputScannerObject);
+                addMovie(movieRow);
                 break;
 
             case 2:
                 System.out.println("You chose option 2.");
                 movieRow = multilineEntryProcess(inputScannerObject);
+                addMovie(movieRow);
                 break;
 
             case 3:
+                System.out.println("You chose option 3.");
+                movie = searchMovieByTitle(inputScannerObject);
+                System.out.println(movieToString(movie));
+                break;
+
+            case 4:
+                System.out.println("You chose option 4.");
+                movie = searchMovieByID(inputScannerObject);
+                System.out.println(movieToString(movie));
+                break;
+
+            case 5:
+                System.out.println("You chose option 5.");
+                getCategoryInformation(inputScannerObject);
+                break;
+
+            case 6:
                 // source
                 // https://stackoverflow.com/questions/22452930/terminating-a-java-program
                 System.out.println("You chose option 3.");
@@ -51,7 +71,20 @@ public class CPSC219W26Project {
     }
 
     //***********************************************************************
-    //----------------PROGRAM INPUT---------------------------------
+    //----------------CONSTANTS---------------------------------------------
+    //***********************************************************************
+
+    public static final int SERIES_TITLE = 0;    // Name of movie (String)
+    public static final int RELEASE_YEAR = 1;   // Year movie was released (int)
+    public static final int CERTIFICATION = 2;   // Age / Content Rating PG-13 (boolean)
+    public static final int GENRE = 3;           // Genre(s) of the movies (String)
+    public static final int IMDB_RATING = 4;     // Rating of movie on IMDB (double)
+    public static final int OVERVIEW = 5;        // Short description of movie (String)
+    public static final int DIRECTOR = 6;      // Name of director (String)
+    public static final int GROSS = 7;        // money made by movie (double)
+
+    //***********************************************************************
+    //----------------PROGRAM INPUT-----------------------------------------
     //***********************************************************************
 
    /*
@@ -105,6 +138,29 @@ public class CPSC219W26Project {
         return Double.parseDouble(numericInput);
     }
 
+    /**
+     * This method receives a scanner object and captures
+     * the user input, validating that it is numeric, whilst printing in console
+     * the data to be captured.
+     *
+     * @param scanner scanner object from java.util.Scanner
+     * @param prompt the prompt that specifies the user which numeric data to input
+     * @return the numeric input of the user as an Integer
+     */
+    public static Integer getIntegerInput(Scanner scanner, String prompt) {
+        String numericInput;
+
+        do {
+            System.out.println(prompt);
+            numericInput = scanner.nextLine();
+            if (!isNumeric(numericInput)) {
+                System.out.println("Invalid input. Please enter a numeric value.");
+            }
+        } while (!isNumeric(numericInput));
+
+        return Integer.parseInt(numericInput);
+    }
+
     public static boolean getBooleanInput(Scanner scanner, String prompt) {
         String input;
 
@@ -128,49 +184,49 @@ public class CPSC219W26Project {
      * @return Hashmap<String,String> of the collected values
      */
     //---------------------Input process methods ---------------------------------------------
-    private static HashMap<String, String> singleEntryProcess(Scanner scanner) {
+    private static HashMap<Integer, String> singleEntryProcess(Scanner scanner) {
 
-        HashMap<String, String> entry = new HashMap<>();
+        HashMap<Integer, String> entry = new HashMap<>();
 
         //------- Question 1 --------------------
         final String q1Prompt = "Please input the name of the movie:";
         String seriesTitle = getStringInput(scanner, q1Prompt);
-        entry.put("series_title", seriesTitle);
+        entry.put(SERIES_TITLE, seriesTitle);
 
         //------- Question 2 --------------------
         final String q2Prompt = "Please input the release year of the movie:";
         Double releasedYear = getNumericInput(scanner, q2Prompt);
-        entry.put("released_year", String.valueOf(releasedYear));
+        entry.put(RELEASE_YEAR, String.valueOf(releasedYear));
 
         //------- Question 3 --------------------
         final String q3Prompt = "Is the movie rated PG-13?";
         boolean isPG13 = getBooleanInput(scanner, q3Prompt);
-        entry.put("PG-13", String.valueOf(isPG13));
+        entry.put(CERTIFICATION, String.valueOf(isPG13));
 
         //------- Question 4 --------------------
         final String q4Prompt = "Please input the genre of the movie:";
         String genre = getStringInput(scanner, q4Prompt);
-        entry.put("genre", genre);
+        entry.put(GENRE, genre);
 
         //------- Question 5 --------------------
         final String q5Prompt = "Please input the IMDb rating of the movie:";
         Double rating = getNumericInput(scanner, q5Prompt);
-        entry.put("rating", String.valueOf(rating));
+        entry.put(IMDB_RATING, String.valueOf(rating));
 
         //------- Question 6 --------------------
-        final String q6Prompt = "Please input the desription of the movie:";
+        final String q6Prompt = "Please input the description of the movie:";
         String movieDesc = getStringInput(scanner, q6Prompt);
-        entry.put("movie", movieDesc);
+        entry.put(OVERVIEW, movieDesc);
 
         //------- Question 7 --------------------
         final String q7Prompt = "Please input the name of the director:";
         String director = getStringInput(scanner, q7Prompt);
-        entry.put("director", director);
+        entry.put(DIRECTOR, director);
 
         //------- Question 8 --------------------
         final String q8Prompt = "Please input the gross earnings of the movie:";
         Double gross = getNumericInput(scanner, q8Prompt);
-        entry.put("gross", String.valueOf(gross.longValue()));
+        entry.put(GROSS, String.valueOf(gross.longValue()));
 
         return entry;
     }
@@ -186,10 +242,10 @@ public class CPSC219W26Project {
      * @param scanner scanner object from java.util.Scanner
      * @return HashMap<String,String> containing the validated movie data
      */
-    private static HashMap<String, String> multilineEntryProcess(Scanner scanner) {
+    private static HashMap<Integer, String> multilineEntryProcess(Scanner scanner) {
         String[] separatedValuesList = null;
         boolean validInput;
-        HashMap<String, String> entry = new HashMap<>();
+        HashMap<Integer, String> entry = new HashMap<>();
 
 
         final String prompt = """
@@ -222,10 +278,10 @@ public class CPSC219W26Project {
 
                 switch (i) {
                     //-------- String values
-                    case 0: // series_title
-                    case 3: // genre
-                    case 5: // description
-                    case 6: // director
+                    case SERIES_TITLE:
+                    case GENRE:
+                    case OVERVIEW:
+                    case DIRECTOR:
                         if (value.isEmpty()) {
                             System.out.println("Invalid input: text fields cannot be empty.");
                             validInput = false;
@@ -233,9 +289,9 @@ public class CPSC219W26Project {
                         break;
 
                     //---------Numeric values
-                    case 1: // released_year
-                    case 4: // rating
-                    case 7: // gross
+                    case RELEASE_YEAR:
+                    case IMDB_RATING:
+                    case GROSS:
                         if (!isNumeric(value)) {
                             System.out.println("Invalid input: numeric value expected at position " + (i + 1));
                             validInput = false;
@@ -243,7 +299,7 @@ public class CPSC219W26Project {
                         break;
 
                     //-----------Boolean value
-                    case 2: // PG-13 (true / false)
+                    case CERTIFICATION: // PG-13 (true / false)
                         if (!(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))) {
                             System.out.println("Invalid input: PG-13 must be true or false.");
                             validInput = false;
@@ -261,20 +317,60 @@ public class CPSC219W26Project {
         if (separatedValuesList == null || separatedValuesList.length != 8) {
             return new HashMap<>();
         }else{
-            entry.put("series_title", separatedValuesList[0].trim());
-            entry.put("released_year", separatedValuesList[1].trim());
-            entry.put("PG-13", String.valueOf(Boolean.parseBoolean(separatedValuesList[2].trim())));
-            entry.put("genre", separatedValuesList[3].trim());
-            entry.put("rating", separatedValuesList[4].trim());
-            entry.put("description", separatedValuesList[5].trim());
-            entry.put("director", separatedValuesList[6].trim());
-            entry.put("gross", separatedValuesList[7].trim());
+            entry.put(SERIES_TITLE, separatedValuesList[0].trim());
+            entry.put(RELEASE_YEAR, separatedValuesList[1].trim());
+            entry.put(CERTIFICATION, String.valueOf(Boolean.parseBoolean(separatedValuesList[2].trim())));
+            entry.put(GENRE, separatedValuesList[3].trim());
+            entry.put(IMDB_RATING, separatedValuesList[4].trim());
+            entry.put(OVERVIEW, separatedValuesList[5].trim());
+            entry.put(DIRECTOR, separatedValuesList[6].trim());
+            entry.put(GROSS, separatedValuesList[7].trim());
 
             return entry;
         }
 
 
     }
+
+    /**
+     * Prompts the user to search for a movie by its title
+     *
+     * @param scanner scanner object from java.util.Scanner
+     * @return movie String[] or null
+     */
+    private static String[] searchMovieByTitle(Scanner scanner) {
+        final String searchPrompt = "Enter the TITLE of the Movie you would like to Search.";
+        String searchInput = getStringInput(scanner, searchPrompt);
+        return getMovieByTitle(searchInput);
+    }
+
+    /**
+     * Prompts the user to search for a movie by its ID
+     *
+     * @param scanner scanner object from java.util.Scanner
+     * @return movie String[] or null
+     */
+    private static String[] searchMovieByID(Scanner scanner) {
+        final String searchPrompt = "Enter the ID of the Movie you would like to Search.";
+        int searchInput = getIntegerInput(scanner, searchPrompt);
+        return getMovieById(searchInput);
+    }
+
+    private static ArrayList<String> getCategoryInformation(Scanner scanner) {
+        final String prompt = ("""
+                Please enter a number corresponding to the data you want displayed:
+                1. Series Titles
+                2. Release Years
+                3. PG- 13
+                4. Genres
+                5. IMDB Ratings
+                6. Overviews
+                7. Gross Earnings
+                """);
+        int searchInput = getIntegerInput(scanner, prompt);
+        return getInformation(searchInput);
+    }
+
     //***********************************************************************
     //------------------Main Menu Methods------------------------------------
     //***********************************************************************
@@ -292,30 +388,32 @@ public class CPSC219W26Project {
         System.out.println();
 
         System.out.println("""
-        +--------+---------------------------+--------------------------------+
-        | Option | Action                    | Description                    |
-        +--------+---------------------------+--------------------------------+
-        |   1    | Add movie (step by step)  | Answer one value at a time     |
-        |   2    | Add movie (single line)   | Enter all 8 values with commas |
-        |   3    | Exit                      | Close the program              |
-        |   4    | Search movie by ID        | Find a movie using its ID      |
-        |   5    | Print all movies          | Display all stored movies      |
-        +--------+---------------------------+--------------------------------+""");
+                +--------+---------------------------+--------------------------------+
+                | Option | Action                    | Description                    |
+                +--------+---------------------------+--------------------------------+
+                |   1    | Add movie (step by step)  | Answer one value at a time     |
+                |   2    | Add movie (single line)   | Enter all 8 values with commas |
+                |   3    | Search for movie (title)  | Search for a movie by title    |
+                |   4    | Search for movie (id)     | Search for a movie by id       |
+                |   5    | Show list of movie data   | See all genres, directors etc. |
+                |   6    | Exit                      | Close the program              |
+                +--------+---------------------------+--------------------------------+""");
 
         do {
-            System.out.println("Please enter an option (1, 2 or 3):");
+            System.out.println("Please enter an option ( 1, 2, 3, 4, 5 or 6):");
             choice = scanner.nextLine().trim();
 
-            if (!choice.equals("1") && !choice.equals("2") && !choice.equals("3")) {
-                System.out.println("Invalid input. Please enter 1, 2 or 3.");
+            if (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4") && !choice.equals("5") && !choice.equals("6")) {
+                System.out.println("Invalid input. Please enter 1, 2, 3, 4, 5 or 6.");
             }
 
-        } while (!choice.equals("1") && !choice.equals("2") && !choice.equals("3"));
+        } while (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4") && !choice.equals("5") && !choice.equals("6"));
 
         return Integer.parseInt(choice);
     }
+
     //***********************************************************************
-    //---------------- Helper Methods-----------------------------------------
+    //---------------- Helper Methods ---------------------------------------
     //***********************************************************************
 
     /**
@@ -357,6 +455,10 @@ public class CPSC219W26Project {
     }
 
 
+    // Establish id
+    private static int nextId = 1;
+    // create movie hashmap
+    public static HashMap<Integer, String[]> movies = new HashMap<>();
 
     //***********************************************************************
     //------------------ADD DATA METHODS-------------------------------------
@@ -364,19 +466,12 @@ public class CPSC219W26Project {
     /**
      * Adds a movie to the map and assigns the next available id.
      *
-     * @param seriesTitle movie title (non-null)
-     * @param releaseYear year the movie was released (e.g., 1999)
-     * @param certification true if PG-13, false otherwise
-     * @param genre genre or genres (non-null)
-     * @param imdbRating rating on a 0.0–10.0 scale
-     * @param overview short description (non-null)
-     * @param director director's name (non-null)
-     * @param gross gross revenue (same units used throughout your program)
+     * @param entry Hashmap of movie data.
      */
-    public static void addMovie(String seriesTitle, int releaseYear, boolean certification, String genre, double imdbRating, String overview, String director, double gross) {
+    public static void addMovie(HashMap<Integer, String> entry) {
         int id = nextId++;
-        movies.put(id, new String[] {
-                seriesTitle, String.valueOf(releaseYear), String.valueOf(certification), genre, String.valueOf(imdbRating), overview, director, String.valueOf(gross)
+        movies.put(id,new String[] {
+            entry.get(SERIES_TITLE), entry.get(RELEASE_YEAR),entry.get(CERTIFICATION),entry.get(GENRE),entry.get(IMDB_RATING),entry.get(OVERVIEW),entry.get(DIRECTOR),entry.get(GROSS)
         });
     }
 
@@ -392,7 +487,6 @@ public class CPSC219W26Project {
      */
     public static String[] getMovieByTitle(String title) {
         for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
-            int key = entry.getKey();
             String[] movie = entry.getValue();
             if (movie[SERIES_TITLE].equals(title)) {
                 return movie;
@@ -427,7 +521,6 @@ public class CPSC219W26Project {
     public static ArrayList<String> getInformation(int index) {
         ArrayList<String> values = new ArrayList<String>();
         for (Map.Entry<Integer, String[]> entry : movies.entrySet()) {
-            int key = entry.getKey();
             String[] movie = entry.getValue();
             values.add(movie[index]);
         }

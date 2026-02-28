@@ -1,6 +1,7 @@
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -8,11 +9,39 @@ import static src.CPSC219W26Project.*;
 
 public class DataMethodsCPSC219W26ProjectTest {
 
+    HashMap<Integer, String> testEntry = new HashMap<Integer, String>(
+            Map.of(
+                    SERIES_TITLE, "matrix",
+                    RELEASE_YEAR, "1999",
+                    CERTIFICATION,"false",
+                    GENRE,"action",
+                    IMDB_RATING,"8.7",
+                    OVERVIEW,"...",
+                    DIRECTOR,"wachowski",
+                    GROSS,"463.999"
+            )
+    );
+
+    HashMap<Integer, String> testEntry2 = new HashMap<Integer, String>(
+            Map.of(
+                    SERIES_TITLE, "forrest gump",
+                    RELEASE_YEAR, "1994",
+                    CERTIFICATION,"true",
+                    GENRE,"drama",
+                    IMDB_RATING,"8.8",
+                    OVERVIEW,"...",
+                    DIRECTOR,"zemeckis",
+                    GROSS,"678.2"
+            )
+    );
+
+
+    //"forrest gump", 1994, true, "drama", 8.8, "...", "zemeckis", 678.2
     @Test
     public void addMovieStoresMovieData() {
         movies.clear();
 
-        addMovie("matrix", 1999, false, "action", 8.7, "...", "wachowski", 463.999);
+        addMovie(testEntry);
 
         String[] movie = getMovieByTitle("matrix");
         assertNotNull(movie);
@@ -29,7 +58,7 @@ public class DataMethodsCPSC219W26ProjectTest {
     @Test
     public void getMovieByIdReturnsMatchingMovie() {
         movies.clear();
-        addMovie("forrest gump", 1994, true, "drama", 8.8, "...", "zemeckis", 678.2);
+        addMovie(testEntry);
 
         int movieId = -1;
         for (Map.Entry<Integer, String[]> entry : movies.entrySet()) {
@@ -47,7 +76,7 @@ public class DataMethodsCPSC219W26ProjectTest {
     @Test
     public void updateMovieByTitleUpdatesSingleField() {
         movies.clear();
-        addMovie("matrix", 1999, false, "action", 8.7, "...", "wachowski", 463.999);
+        addMovie(testEntry);
 
         updateMovieByTitle("matrix", IMDB_RATING, "4.5");
 
@@ -59,7 +88,7 @@ public class DataMethodsCPSC219W26ProjectTest {
     @Test
     public void updateMovieByIdUpdatesSingleField() {
         movies.clear();
-        addMovie("matrix", 1999, false, "action", 8.7, "...", "wachowski", 463.999);
+        addMovie(testEntry);
 
         int movieId = -1;
         for (Map.Entry<Integer, String[]> entry : movies.entrySet()) {
@@ -76,8 +105,8 @@ public class DataMethodsCPSC219W26ProjectTest {
     @Test
     public void getInformationReturnsValuesForRequestedIndex() {
         movies.clear();
-        addMovie("forrest gump", 1994, true, "drama", 8.8, "...", "zemeckis", 678.2);
-        addMovie("matrix", 1999, false, "action", 8.7, "...", "wachowski", 463.999);
+        addMovie(testEntry);
+        addMovie(testEntry2);
 
         ArrayList<String> genres = getInformation(GENRE);
 
@@ -89,7 +118,7 @@ public class DataMethodsCPSC219W26ProjectTest {
     @Test
     public void removeMovieByIdRemovesEntry() {
         movies.clear();
-        addMovie("matrix", 1999, false, "action", 8.7, "...", "wachowski", 463.999);
+        addMovie(testEntry);
 
         int movieId = -1;
         for (Map.Entry<Integer, String[]> entry : movies.entrySet()) {
