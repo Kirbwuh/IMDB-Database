@@ -1,9 +1,10 @@
-import static org.junit.Assert.*;
-import static src.CPSC219W26Project.*;
+import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Map;
-import org.junit.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static src.CPSC219W26Project.*;
 
 public class DataMethodsCPSC219W26ProjectTest {
 
