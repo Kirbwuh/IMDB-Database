@@ -6,6 +6,25 @@ import java.util.Scanner;
 
 public class CPSC219W26Project {
 
+    //***********************************************************************
+    //------------------DATA STORAGE AND MANAGEMENT--------------------------
+    //***********************************************************************
+
+    // Establish id
+    private static int nextId = 1;
+    // create movie hashmap
+    public static HashMap<Integer, String[]> movies = new HashMap<>();
+
+    // String Array indexes within the HashMap
+    public static final int SERIES_TITLE = 0;    // Name of movie (String)
+    public static final int RELEASE_YEAR = 1;   // Year movie was released (int)
+    public static final int CERTIFICATION = 2;   // Age / Content Rating PG-13 (boolean)
+    public static final int GENRE = 3;           // Genre(s) of the movies (String)
+    public static final int IMDB_RATING = 4;     // Rating of movie on IMDB (double)
+    public static final int OVERVIEW = 5;        // Short description of movie (String)
+    public static final int DIRECTOR = 6;      // Name of director (String)
+    public static final int GROSS = 7;        // money made by movie (double)
+
     static void main(String[] args) {
         Scanner inputScannerObject = new Scanner(System.in);
         int choice = showMainMenu(inputScannerObject);
@@ -337,24 +356,7 @@ public class CPSC219W26Project {
         }
     }
 
-    //***********************************************************************
-    //------------------DATA STORAGE AND MANAGEMENT--------------------------
-    //***********************************************************************
 
-    // Establish id
-    private static int nextId = 1;
-    // create movie hashmap
-    public static HashMap<Integer, String[]> movies = new HashMap<>();
-
-    // String Array indexes within the HashMap
-    public static final int SERIES_TITLE = 0;    // Name of movie (String)
-    public static final int RELEASE_YEAR = 1;   // Year movie was released (int)
-    public static final int CERTIFICATION = 2;   // Age / Content Rating PG-13 (boolean)
-    public static final int GENRE = 3;           // Genre(s) of the movies (String)
-    public static final int IMDB_RATING = 4;     // Rating of movie on IMDB (double)
-    public static final int OVERVIEW = 5;        // Short description of movie (String)
-    public static final int DIRECTOR = 6;      // Name of director (String)
-    public static final int GROSS = 7;        // money made by movie (double)
 
     //***********************************************************************
     //------------------ADD DATA METHODS-------------------------------------
