@@ -583,10 +583,7 @@ public class CPSC219W26Project {
     }
 
 
-    // Establish id
-    private static int nextId = 1;
-    // create movie hashmap
-    public static HashMap<Integer, String[]> movies = new HashMap<>();
+
 
     //***********************************************************************
     //------------------ADD DATA METHODS-------------------------------------
