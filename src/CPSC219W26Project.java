@@ -38,6 +38,7 @@ public class CPSC219W26Project {
 
             case 5:
                 System.out.println("You chose option 5.");
+                getCategoryInformation(inputScannerObject);
                 break;
 
             case 6:
@@ -53,6 +54,7 @@ public class CPSC219W26Project {
     //***********************************************************************
     //----------------CONSTANTS---------------------------------------------
     //***********************************************************************
+
     public static final int SERIES_TITLE = 0;    // Name of movie (String)
     public static final int RELEASE_YEAR = 1;   // Year movie was released (int)
     public static final int CERTIFICATION = 2;   // Age / Content Rating PG-13 (boolean)
@@ -193,7 +195,7 @@ public class CPSC219W26Project {
         entry.put(IMDB_RATING, String.valueOf(rating));
 
         //------- Question 6 --------------------
-        final String q6Prompt = "Please input the desription of the movie:";
+        final String q6Prompt = "Please input the description of the movie:";
         String movieDesc = getStringInput(scanner, q6Prompt);
         entry.put(OVERVIEW, movieDesc);
 
@@ -335,6 +337,21 @@ public class CPSC219W26Project {
         return getMovieById(searchInput);
     }
 
+    private static ArrayList<String> getCategoryInformation(Scanner scanner) {
+        final String prompt = ("""
+                Please enter a number corresponding to the data you want displayed:
+                1. Series Titles
+                2. Release Years
+                3. PG- 13
+                4. Genres
+                5. IMDB Ratings
+                6. Overviews
+                7. Gross Earnings
+                """);
+        int searchInput = getIntegerInput(scanner, prompt);
+        return getInformation(searchInput);
+    }
+
     //***********************************************************************
     //------------------Main Menu Methods------------------------------------
     //***********************************************************************
@@ -359,7 +376,7 @@ public class CPSC219W26Project {
                 |   2    | Add movie (single line)   | Enter all 8 values with commas |
                 |   3    | Search for movie (title)  | Search for a movie by title    |
                 |   4    | Search for movie (id)     | Search for a movie by id       |
-                |   5    | Show list of movie data   | See all genres, diretors etc.  |
+                |   5    | Show list of movie data   | See all genres, directors etc. |
                 |   6    | Exit                      | Close the program              |
                 +--------+---------------------------+--------------------------------+""");
 
@@ -375,8 +392,9 @@ public class CPSC219W26Project {
 
         return Integer.parseInt(choice);
     }
+
     //***********************************************************************
-    //---------------- Helper Methods-----------------------------------------
+    //---------------- Helper Methods ---------------------------------------
     //***********************************************************************
 
     /**
