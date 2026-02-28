@@ -273,13 +273,15 @@ public class CPSC219W26Project {
         System.out.println();
 
         System.out.println("""
-                +--------+---------------------------+--------------------------------+
-                | Option | Action                    | Description                    |
-                +--------+---------------------------+--------------------------------+
-                |   1    | Add movie (step by step)  | Answer one value at a time     |
-                |   2    | Add movie (single line)   | Enter all 8 values with commas |
-                |   3    | Exit                      | Close the program              |
-                +--------+---------------------------+--------------------------------+""");
+        +--------+---------------------------+--------------------------------+
+        | Option | Action                    | Description                    |
+        +--------+---------------------------+--------------------------------+
+        |   1    | Add movie (step by step)  | Answer one value at a time     |
+        |   2    | Add movie (single line)   | Enter all 8 values with commas |
+        |   3    | Exit                      | Close the program              |
+        |   4    | Search movie by ID        | Find a movie using its ID      |
+        |   5    | Print all movies          | Display all stored movies      |
+        +--------+---------------------------+--------------------------------+""");
 
         do {
             System.out.println("Please enter an option (1, 2 or 3):");
