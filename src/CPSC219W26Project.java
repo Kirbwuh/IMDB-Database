@@ -249,37 +249,36 @@ public class CPSC219W26Project {
         boolean validInput;
         HashMap<String, String> entry = new HashMap<>();
 
-
         final String prompt = """
-                Please enter exactly 8 values separated by commas, in this order:
-                series_title, released_year, PG-13 (true or false), genre, rating, description, director, gross
-                Example: "The Matrix,1999,true,Action/Sci-Fi,8.7,A hacker discovers reality,The Wachowskis,463517383\"""";
+            Please enter exactly 8 values separated by commas, in this order:
+            series_title, released_year, PG-13 (true or false), genre, rating, description, director, gross
+            Example: The Matrix,1999,true,Action/Sci-Fi,8.7,A hacker discovers reality,The Wachowskis,463517383""";
 
         do {
+
             validInput = true;
+            separatedValuesList = null;
 
             String inputString = getStringInput(scanner, prompt);
-            if (inputString.trim().isEmpty()) {
 
+            if (inputString.trim().isEmpty()) {
                 System.out.println("Invalid input: input cannot be empty. Please enter all 8 values.");
+                validInput = false;
                 continue;
             }
 
             separatedValuesList = separateCommaValues(inputString);
 
-
-
             if (separatedValuesList.length != 8) {
                 System.out.println("Invalid input: you must enter exactly 8 comma-separated values.");
+                validInput = false;
                 continue;
             }
-
 
             for (int i = 0; i < separatedValuesList.length; i++) {
                 String value = separatedValuesList[i].trim();
 
                 switch (i) {
-                    //-------- String values
                     case 0: // series_title
                     case 3: // genre
                     case 5: // description
@@ -289,8 +288,6 @@ public class CPSC219W26Project {
                             validInput = false;
                         }
                         break;
-
-                    //---------Numeric values
                     case 1: // released_year
                     case 4: // rating
                     case 7: // gross
@@ -299,9 +296,7 @@ public class CPSC219W26Project {
                             validInput = false;
                         }
                         break;
-
-                    //-----------Boolean value
-                    case 2: // PG-13 (true / false)
+                    case 2: // PG-13
                         if (!(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))) {
                             System.out.println("Invalid input: PG-13 must be true or false.");
                             validInput = false;
@@ -309,29 +304,22 @@ public class CPSC219W26Project {
                         break;
                 }
 
-                if (!validInput) {
-                    break;
-                }
+                if (!validInput) break;
             }
 
         } while (!validInput);
 
-        if (separatedValuesList == null || separatedValuesList.length != 8) {
-            return new HashMap<>();
-        }else{
-            entry.put("series_title", separatedValuesList[0].trim());
-            entry.put("released_year", separatedValuesList[1].trim());
-            entry.put("PG-13", String.valueOf(Boolean.parseBoolean(separatedValuesList[2].trim())));
-            entry.put("genre", separatedValuesList[3].trim());
-            entry.put("rating", separatedValuesList[4].trim());
-            entry.put("description", separatedValuesList[5].trim());
-            entry.put("director", separatedValuesList[6].trim());
-            entry.put("gross", separatedValuesList[7].trim());
 
-            return entry;
-        }
+        entry.put("series_title",  separatedValuesList[0].trim());
+        entry.put("released_year", separatedValuesList[1].trim());
+        entry.put("PG-13",         String.valueOf(Boolean.parseBoolean(separatedValuesList[2].trim())));
+        entry.put("genre",         separatedValuesList[3].trim());
+        entry.put("rating",        separatedValuesList[4].trim());
+        entry.put("description",   separatedValuesList[5].trim());
+        entry.put("director",      separatedValuesList[6].trim());
+        entry.put("gross",         separatedValuesList[7].trim());
 
-
+        return entry;
     }
     //***********************************************************************
     //------------------Menu Methods------------------------------------
