@@ -46,32 +46,14 @@ public class CPSC219W26Project {
                             addChoice = showAddMovieMenu(scanner);
 
                             if (addChoice == 1) {
-                                final HashMap<String, String> movieRow = singleEntryProcess(scanner);
-                                addMovie(
-                                        movieRow.get("series_title"),
-                                        (int) Double.parseDouble(movieRow.get("released_year")),
-                                        Boolean.parseBoolean(movieRow.get("PG-13")),
-                                        movieRow.get("genre"),
-                                        Double.parseDouble(movieRow.get("rating")),
-                                        movieRow.get("movie"),
-                                        movieRow.get("director"),
-                                        Double.parseDouble(movieRow.get("gross"))
-                                );
+                                final HashMap<Integer, String> movieRow = singleEntryProcess(scanner);
+                                addMovie(movieRow);
                                 System.out.println("Movie added successfully!");
                                 pressEnterToContinue(scanner);
 
                             } else if (addChoice == 2) {
-                                final HashMap<String, String> movieRow = multilineEntryProcess(scanner);
-                                addMovie(
-                                        movieRow.get("series_title"),
-                                        (int) Double.parseDouble(movieRow.get("released_year")),
-                                        Boolean.parseBoolean(movieRow.get("PG-13")),
-                                        movieRow.get("genre"),
-                                        Double.parseDouble(movieRow.get("rating")),
-                                        movieRow.get("description"),
-                                        movieRow.get("director"),
-                                        Double.parseDouble(movieRow.get("gross"))
-                                );
+                                final HashMap<Integer, String> movieRow = multilineEntryProcess(scanner);
+                                addMovie(movieRow);
                                 System.out.println("Movie added successfully!");
                                 pressEnterToContinue(scanner);
                             }
@@ -368,16 +350,7 @@ public class CPSC219W26Project {
             return entry;
         }
 
-        entry.put("series_title",  separatedValuesList[0].trim());
-        entry.put("released_year", separatedValuesList[1].trim());
-        entry.put("PG-13",         String.valueOf(Boolean.parseBoolean(separatedValuesList[2].trim())));
-        entry.put("genre",         separatedValuesList[3].trim());
-        entry.put("rating",        separatedValuesList[4].trim());
-        entry.put("description",   separatedValuesList[5].trim());
-        entry.put("director",      separatedValuesList[6].trim());
-        entry.put("gross",         separatedValuesList[7].trim());
 
-        return entry;
     }
 
     /**
