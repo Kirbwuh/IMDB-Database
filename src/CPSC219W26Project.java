@@ -15,6 +15,7 @@ public class CPSC219W26Project {
     // create movie hashmap
     public static HashMap<Integer, String[]> movies = new HashMap<>();
 
+
     // String Array indexes within the HashMap
     public static final int SERIES_TITLE = 0;    // Name of movie (String)
     public static final int RELEASE_YEAR = 1;   // Year movie was released (int)
@@ -45,10 +46,31 @@ public class CPSC219W26Project {
                             addChoice = showAddMovieMenu(scanner);
 
                             if (addChoice == 1) {
-                                singleEntryProcess(scanner);
+                                final HashMap<String, String> movieRow = singleEntryProcess(scanner);
+                                addMovie(
+                                        movieRow.get("series_title"),
+                                        (int) Double.parseDouble(movieRow.get("released_year")),
+                                        Boolean.parseBoolean(movieRow.get("PG-13")),
+                                        movieRow.get("genre"),
+                                        Double.parseDouble(movieRow.get("rating")),
+                                        movieRow.get("movie"),
+                                        movieRow.get("director"),
+                                        Double.parseDouble(movieRow.get("gross"))
+                                );
                                 System.out.println("Movie added successfully!");
+
                             } else if (addChoice == 2) {
-                                multilineEntryProcess(scanner);
+                                final HashMap<String, String> movieRow  = multilineEntryProcess(scanner);
+                                addMovie(
+                                        movieRow.get("series_title"),
+                                        (int) Double.parseDouble(movieRow.get("released_year")),
+                                        Boolean.parseBoolean(movieRow.get("PG-13")),
+                                        movieRow.get("genre"),
+                                        Double.parseDouble(movieRow.get("rating")),
+                                        movieRow.get("description"),
+                                        movieRow.get("director"),
+                                        Double.parseDouble(movieRow.get("gross"))
+                                );
                                 System.out.println("Movie added successfully!");
                             }
 
