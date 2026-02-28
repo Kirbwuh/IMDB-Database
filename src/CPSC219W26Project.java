@@ -7,13 +7,14 @@ import java.util.Scanner;
 public class CPSC219W26Project {
 
     //***********************************************************************
-    //------------------DATA STORAGE AND MANAGEMENT--------------------------
+    //------------------Class Variables--------------------------
     //***********************************************************************
 
     // Establish id
     private static int nextId = 1;
     // create movie hashmap
     public static HashMap<Integer, String[]> movies = new HashMap<>();
+
 
     // String Array indexes within the HashMap
     public static final int SERIES_TITLE = 0;    // Name of movie (String)
@@ -25,49 +26,91 @@ public class CPSC219W26Project {
     public static final int DIRECTOR = 6;      // Name of director (String)
     public static final int GROSS = 7;        // money made by movie (double)
 
-    static void main(String[] args) {
-        Scanner inputScannerObject = new Scanner(System.in);
-        int choice = showMainMenu(inputScannerObject);
-        String[] movie;
-        HashMap<Integer, String> movieRow;
-        switch (choice) {
-            case 1:
-                System.out.println("You chose option 1.");
-                movieRow = singleEntryProcess(inputScannerObject);
-                addMovie(movieRow);
-                break;
+    //***********************************************************************
+    //------------------Main Method--------------------------
+    //***********************************************************************
 
-            case 2:
-                System.out.println("You chose option 2.");
-                movieRow = multilineEntryProcess(inputScannerObject);
-                addMovie(movieRow);
-                break;
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int mainChoice, dbChoice, addChoice;
 
-            case 3:
-                System.out.println("You chose option 3.");
-                movie = searchMovieByTitle(inputScannerObject);
-                System.out.println(movieToString(movie));
-                break;
+        do {
+            mainChoice = showMainMenu(scanner);
 
-            case 4:
-                System.out.println("You chose option 4.");
-                movie = searchMovieByID(inputScannerObject);
-                System.out.println(movieToString(movie));
-                break;
+            if (mainChoice == 1) {
+                do {
+                    dbChoice = showDatabaseMenu(scanner);
 
-            case 5:
-                System.out.println("You chose option 5.");
-                getCategoryInformation(inputScannerObject);
-                break;
+                    if (dbChoice == 1) {
+                        do {
+                            addChoice = showAddMovieMenu(scanner);
 
-            case 6:
-                // source
-                // https://stackoverflow.com/questions/22452930/terminating-a-java-program
-                System.out.println("You chose option 3.");
-                System.out.println("Goodbye!");
-                System.exit(0);
-                break;
-        }
+                            if (addChoice == 1) {
+                                final HashMap<String, String> movieRow = singleEntryProcess(scanner);
+                                addMovie(
+                                        movieRow.get("series_title"),
+                                        (int) Double.parseDouble(movieRow.get("released_year")),
+                                        Boolean.parseBoolean(movieRow.get("PG-13")),
+                                        movieRow.get("genre"),
+                                        Double.parseDouble(movieRow.get("rating")),
+                                        movieRow.get("movie"),
+                                        movieRow.get("director"),
+                                        Double.parseDouble(movieRow.get("gross"))
+                                );
+                                System.out.println("Movie added successfully!");
+                                pressEnterToContinue(scanner);
+
+                            } else if (addChoice == 2) {
+                                final HashMap<String, String> movieRow = multilineEntryProcess(scanner);
+                                addMovie(
+                                        movieRow.get("series_title"),
+                                        (int) Double.parseDouble(movieRow.get("released_year")),
+                                        Boolean.parseBoolean(movieRow.get("PG-13")),
+                                        movieRow.get("genre"),
+                                        Double.parseDouble(movieRow.get("rating")),
+                                        movieRow.get("description"),
+                                        movieRow.get("director"),
+                                        Double.parseDouble(movieRow.get("gross"))
+                                );
+                                System.out.println("Movie added successfully!");
+                                pressEnterToContinue(scanner);
+                            }
+
+                        } while (addChoice != 3);
+
+                    } else if (dbChoice == 2) {
+                        int id = getNumericInput(scanner, "Enter movie ID:").intValue();
+                        printMovieById(id);
+                        pressEnterToContinue(scanner);
+
+                    } else if (dbChoice == 3) {
+                        int id = getNumericInput(scanner, "Enter movie ID to update:").intValue();
+                        int field = getNumericInput(scanner, "Enter field (0=Title, 1=Year, 2=PG13, 3=Genre, 4=Rating, 5=Overview, 6=Director, 7=Gross):").intValue();
+                        String newValue = getStringInput(scanner, "Enter new value:");
+                        updateMovieById(id, field, newValue);
+                        System.out.println("Movie updated successfully!");
+                        pressEnterToContinue(scanner);
+
+                    } else if (dbChoice == 4) {
+                        int id = getNumericInput(scanner, "Enter movie ID to remove:").intValue();
+                        removeMovieById(id);
+                        System.out.println("Movie removed successfully!");
+                        pressEnterToContinue(scanner);
+
+                    } else if (dbChoice == 5) {
+                        printAllMovies();
+                        System.out.println("--- End of movie list ---");
+                        pressEnterToContinue(scanner);
+                    }
+
+                } while (dbChoice != 6);
+            }
+
+        } while (mainChoice != 2);
+
+        System.out.println("Goodbye!");
+        scanner.close();
+        System.exit(0);
     }
 
     //***********************************************************************
@@ -179,6 +222,15 @@ public class CPSC219W26Project {
 
     }
 
+    /** prompts user to press enter
+     * @param scanner scanner object from java.util.Scanner
+     */
+    private static void pressEnterToContinue(Scanner scanner) {
+        // source: https://stackoverflow.com/questions/26184409/java-console-prompt-for-enter-input-before-moving-on
+        System.out.println("\nPress Enter to continue...");
+        scanner.nextLine();
+    }
+
     /** Prompts the user line by line to add a new movie
      * @param scanner  scanner object from java.util.Scanner
      * @return Hashmap<String,String> of the collected values
@@ -247,31 +299,31 @@ public class CPSC219W26Project {
         boolean validInput;
         HashMap<Integer, String> entry = new HashMap<>();
 
-
         final String prompt = """
-                Please enter exactly 8 values separated by commas, in this order:
-                series_title, released_year, PG-13 (true or false), genre, rating, description, director, gross
-                Example: "The Matrix,1999,true,Action/Sci-Fi,8.7,A hacker discovers reality,The Wachowskis,463517383\"""";
+            Please enter exactly 8 values separated by commas, in this order:
+            series_title, released_year, PG-13 (true or false), genre, rating, description, director, gross
+            Example: The Matrix,1999,true,Action/Sci-Fi,8.7,A hacker discovers reality,The Wachowskis,463517383""";
 
         do {
+
             validInput = true;
+            separatedValuesList = null;
 
             String inputString = getStringInput(scanner, prompt);
-            if (inputString.trim().isEmpty()) {
 
+            if (inputString.trim().isEmpty()) {
                 System.out.println("Invalid input: input cannot be empty. Please enter all 8 values.");
+                validInput = false;
                 continue;
             }
 
             separatedValuesList = separateCommaValues(inputString);
 
-
-
             if (separatedValuesList.length != 8) {
                 System.out.println("Invalid input: you must enter exactly 8 comma-separated values.");
+                validInput = false;
                 continue;
             }
-
 
             for (int i = 0; i < separatedValuesList.length; i++) {
                 String value = separatedValuesList[i].trim();
@@ -307,9 +359,7 @@ public class CPSC219W26Project {
                         break;
                 }
 
-                if (!validInput) {
-                    break;
-                }
+                if (!validInput) break;
             }
 
         } while (!validInput);
@@ -329,7 +379,16 @@ public class CPSC219W26Project {
             return entry;
         }
 
+        entry.put("series_title",  separatedValuesList[0].trim());
+        entry.put("released_year", separatedValuesList[1].trim());
+        entry.put("PG-13",         String.valueOf(Boolean.parseBoolean(separatedValuesList[2].trim())));
+        entry.put("genre",         separatedValuesList[3].trim());
+        entry.put("rating",        separatedValuesList[4].trim());
+        entry.put("description",   separatedValuesList[5].trim());
+        entry.put("director",      separatedValuesList[6].trim());
+        entry.put("gross",         separatedValuesList[7].trim());
 
+        return entry;
     }
 
     /**
@@ -372,42 +431,122 @@ public class CPSC219W26Project {
     }
 
     //***********************************************************************
-    //------------------Main Menu Methods------------------------------------
+    //------------------Menu Methods------------------------------------
     //***********************************************************************
+    // Menu order
+    /*
+     *  showMainMenu()
+     *  |
+     *  +-- 1. Manage Database --> showDatabaseMenu()
+     *  |         |
+     *  |         +-- 1. Add Movie --> showAddMovieMenu()
+     *  |         |         |
+     *  |         |         +-- 1. Step by step
+     *  |         |         +-- 2. Single line
+     *  |         |         +-- 3. Back
+     *  |         |
+     *  |         +-- 2. Search by ID
+     *  |         +-- 3. Update movie
+     *  |         +-- 4. Remove movie
+     *  |         +-- 5. Print all movies
+     *  |         +-- 6. Back
+     *  |
+     *  +-- 2. Exit
+     */
+
     /**
      * Displays the main menu and returns the user's choice
      * @param scanner scanner object from java.util.Scanner
-     * @return the menu option selected by the user as a String
+     * @return the menu option selected by the user as an int
      */
     private static int showMainMenu(Scanner scanner) {
         String choice;
 
         System.out.println("********************* IMDb Movie Database - CPSC219 W26  *********************");
         System.out.println("Track and store your favourite movies with ratings, directors, genres and more.");
-
         System.out.println();
 
         System.out.println("""
-                +--------+---------------------------+--------------------------------+
-                | Option | Action                    | Description                    |
-                +--------+---------------------------+--------------------------------+
-                |   1    | Add movie (step by step)  | Answer one value at a time     |
-                |   2    | Add movie (single line)   | Enter all 8 values with commas |
-                |   3    | Search for movie (title)  | Search for a movie by title    |
-                |   4    | Search for movie (id)     | Search for a movie by id       |
-                |   5    | Show list of movie data   | See all genres, directors etc. |
-                |   6    | Exit                      | Close the program              |
-                +--------+---------------------------+--------------------------------+""");
+        +--------+---------------------------+--------------------------------+
+        | Option | Action                    | Description                    |
+        +--------+---------------------------+--------------------------------+
+        |   1    | Manage database           | Add, search, update or remove  |
+        |   2    | Exit                      | Close the program              |
+        +--------+---------------------------+--------------------------------+""");
 
         do {
-            System.out.println("Please enter an option ( 1, 2, 3, 4, 5 or 6):");
+            System.out.println("Please enter an option (1 or 2):");
             choice = scanner.nextLine().trim();
 
-            if (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4") && !choice.equals("5") && !choice.equals("6")) {
-                System.out.println("Invalid input. Please enter 1, 2, 3, 4, 5 or 6.");
+            if (!choice.equals("1") && !choice.equals("2")) {
+                System.out.println("Invalid input. Please enter 1 or 2.");
             }
 
-        } while (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4") && !choice.equals("5") && !choice.equals("6"));
+        } while (!choice.equals("1") && !choice.equals("2"));
+
+        return Integer.parseInt(choice);
+    }
+    /**
+     * Displays the database management menu and returns the user's choice
+     * @param scanner scanner object from java.util.Scanner
+     * @return the menu option selected by the user as an int
+     */
+    private static int showDatabaseMenu(Scanner scanner) {
+        String choice;
+
+        System.out.println("\n==================== Database Management ====================");
+        System.out.println("""
+        +--------+---------------------------+--------------------------------+
+        | Option | Action                    | Description                    |
+        +--------+---------------------------+--------------------------------+
+        |   1    | Add movie                 | Choose an add method           |
+        |   2    | Search movie by ID        | Find a movie using its ID      |
+        |   3    | Update movie              | Modify an existing movie       |
+        |   4    | Remove movie              | Delete a movie from database   |
+        |   5    | Print all movies          | Display all stored movies      |
+        |   6    | Back                      | Return to main menu            |
+        +--------+---------------------------+--------------------------------+""");
+
+        do {
+            System.out.println("Please enter an option (1-6):");
+            choice = scanner.nextLine().trim();
+
+            if (!choice.matches("[1-6]")) {
+                System.out.println("Invalid input. Please enter a number between 1 and 6.");
+            }
+
+        } while (!choice.matches("[1-6]"));
+
+        return Integer.parseInt(choice);
+    }
+
+    /**
+     * Displays the add movie submenu and returns the user's choice
+     * @param scanner scanner object from java.util.Scanner
+     * @return the menu option selected by the user as an int
+     */
+    private static int showAddMovieMenu(Scanner scanner) {
+        String choice;
+
+        System.out.println("\n==================== Add Movie ====================");
+        System.out.println("""
+        +--------+---------------------------+--------------------------------+
+        | Option | Action                    | Description                    |
+        +--------+---------------------------+--------------------------------+
+        |   1    | Add movie (step by step)  | Answer one value at a time     |
+        |   2    | Add movie (single line)   | Enter all 8 values with commas |
+        |   3    | Back                      | Return to database menu        |
+        +--------+---------------------------+--------------------------------+""");
+
+        do {
+            System.out.println("Please enter an option (1-3):");
+            choice = scanner.nextLine().trim();
+
+            if (!choice.matches("[1-3]")) {
+                System.out.println("Invalid input. Please enter a number between 1 and 3.");
+            }
+
+        } while (!choice.matches("[1-3]"));
 
         return Integer.parseInt(choice);
     }
@@ -586,11 +725,10 @@ public class CPSC219W26Project {
      * @param id movie id associated with entry.
      */
     public static void removeMovieById(int id) {
-        for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
-            int key = entry.getKey();
-            if (key == id) {
-                movies.remove(id);
-            }
+        if (movies.containsKey(id)) {
+            movies.remove(id);
+        } else {
+            System.out.println("No movie found with ID: " + id);
         }
     }
 
