@@ -58,9 +58,10 @@ public class CPSC219W26Project {
                                         Double.parseDouble(movieRow.get("gross"))
                                 );
                                 System.out.println("Movie added successfully!");
+                                pressEnterToContinue(scanner);
 
                             } else if (addChoice == 2) {
-                                final HashMap<String, String> movieRow  = multilineEntryProcess(scanner);
+                                final HashMap<String, String> movieRow = multilineEntryProcess(scanner);
                                 addMovie(
                                         movieRow.get("series_title"),
                                         (int) Double.parseDouble(movieRow.get("released_year")),
@@ -72,6 +73,7 @@ public class CPSC219W26Project {
                                         Double.parseDouble(movieRow.get("gross"))
                                 );
                                 System.out.println("Movie added successfully!");
+                                pressEnterToContinue(scanner);
                             }
 
                         } while (addChoice != 3);
@@ -79,6 +81,7 @@ public class CPSC219W26Project {
                     } else if (dbChoice == 2) {
                         int id = getNumericInput(scanner, "Enter movie ID:").intValue();
                         printMovieById(id);
+                        pressEnterToContinue(scanner);
 
                     } else if (dbChoice == 3) {
                         int id = getNumericInput(scanner, "Enter movie ID to update:").intValue();
@@ -86,15 +89,18 @@ public class CPSC219W26Project {
                         String newValue = getStringInput(scanner, "Enter new value:");
                         updateMovieById(id, field, newValue);
                         System.out.println("Movie updated successfully!");
+                        pressEnterToContinue(scanner);
 
                     } else if (dbChoice == 4) {
                         int id = getNumericInput(scanner, "Enter movie ID to remove:").intValue();
                         removeMovieById(id);
                         System.out.println("Movie removed successfully!");
+                        pressEnterToContinue(scanner);
 
                     } else if (dbChoice == 5) {
                         printAllMovies();
                         System.out.println("--- End of movie list ---");
+                        pressEnterToContinue(scanner);
                     }
 
                 } while (dbChoice != 6);
@@ -105,7 +111,6 @@ public class CPSC219W26Project {
         System.out.println("Goodbye!");
         scanner.close();
         System.exit(0);
-
     }
 
     //***********************************************************************
@@ -638,11 +643,10 @@ public class CPSC219W26Project {
      * @param id movie id associated with entry.
      */
     public static void removeMovieById(int id) {
-        for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
-            int key = entry.getKey();
-            if (key == id) {
-                movies.remove(id);
-            }
+        if (movies.containsKey(id)) {
+            movies.remove(id);
+        } else {
+            System.out.println("No movie found with ID: " + id);
         }
     }
 
