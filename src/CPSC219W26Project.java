@@ -163,6 +163,15 @@ public class CPSC219W26Project {
         return Double.parseDouble(numericInput);
     }
 
+
+
+
+    /** A method that helo continueMehodps the user choose between
+     * 1 and 0 to ensure he selects a boolean value
+     * @param scanner scanner object from java.util.Scanner
+     * @param prompt the prompt that specifies the user which numeric data to input
+     * @return returns a boolean
+     */
     public static boolean getBooleanInput(Scanner scanner, String prompt) {
         String input;
 
@@ -179,6 +188,15 @@ public class CPSC219W26Project {
 
         return input.equals("1");
 
+    }
+
+    /** prompts user to press enter
+     * @param scanner scanner object from java.util.Scanner
+     */
+    private static void pressEnterToContinue(Scanner scanner) {
+        // source: https://stackoverflow.com/questions/26184409/java-console-prompt-for-enter-input-before-moving-on
+        System.out.println("\nPress Enter to continue...");
+        scanner.nextLine();
     }
 
     /** Prompts the user line by line to add a new movie
