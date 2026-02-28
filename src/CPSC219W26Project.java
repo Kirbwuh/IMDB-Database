@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class CPSC219W26Project {
 
     //***********************************************************************
-    //------------------DATA STORAGE AND MANAGEMENT--------------------------
+    //------------------Class Variables--------------------------
     //***********************************************************************
 
     // Establish id
@@ -29,29 +29,61 @@ public class CPSC219W26Project {
     //------------------Main Method--------------------------
     //***********************************************************************
 
-    static void main(String[] args) {
-        Scanner inputScannerObject = new Scanner(System.in);
-        int choice = showMainMenu(inputScannerObject);
-        HashMap<String, String> movieRow;
-        switch (choice) {
-            case 1:
-                System.out.println("You chose option 1.");
-                movieRow = singleEntryProcess(inputScannerObject);
-                break;
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int mainChoice, dbChoice, addChoice;
 
-            case 2:
-                System.out.println("You chose option 2.");
-                movieRow = multilineEntryProcess(inputScannerObject);
-                break;
+        do {
+            mainChoice = showMainMenu(scanner);
 
-            case 3:
-                // source
-                // https://stackoverflow.com/questions/22452930/terminating-a-java-program
-                System.out.println("You chose option 3.");
-                System.out.println("Goodbye!");
-                System.exit(0);
-                break;
-        }
+            if (mainChoice == 1) {
+                do {
+                    dbChoice = showDatabaseMenu(scanner);
+
+                    if (dbChoice == 1) {
+                        do {
+                            addChoice = showAddMovieMenu(scanner);
+
+                            if (addChoice == 1) {
+                                singleEntryProcess(scanner);
+                                System.out.println("Movie added successfully!");
+                            } else if (addChoice == 2) {
+                                multilineEntryProcess(scanner);
+                                System.out.println("Movie added successfully!");
+                            }
+
+                        } while (addChoice != 3);
+
+                    } else if (dbChoice == 2) {
+                        int id = getNumericInput(scanner, "Enter movie ID:").intValue();
+                        printMovieById(id);
+
+                    } else if (dbChoice == 3) {
+                        int id = getNumericInput(scanner, "Enter movie ID to update:").intValue();
+                        int field = getNumericInput(scanner, "Enter field (0=Title, 1=Year, 2=PG13, 3=Genre, 4=Rating, 5=Overview, 6=Director, 7=Gross):").intValue();
+                        String newValue = getStringInput(scanner, "Enter new value:");
+                        updateMovieById(id, field, newValue);
+                        System.out.println("Movie updated successfully!");
+
+                    } else if (dbChoice == 4) {
+                        int id = getNumericInput(scanner, "Enter movie ID to remove:").intValue();
+                        removeMovieById(id);
+                        System.out.println("Movie removed successfully!");
+
+                    } else if (dbChoice == 5) {
+                        printAllMovies();
+                        System.out.println("--- End of movie list ---");
+                    }
+
+                } while (dbChoice != 6);
+            }
+
+        } while (mainChoice != 2);
+
+        System.out.println("Goodbye!");
+        scanner.close();
+        System.exit(0);
+
     }
 
     //***********************************************************************
@@ -303,7 +335,38 @@ public class CPSC219W26Project {
      *  +-- 2. Exit
      */
 
+    /**
+     * Displays the main menu and returns the user's choice
+     * @param scanner scanner object from java.util.Scanner
+     * @return the menu option selected by the user as an int
+     */
+    private static int showMainMenu(Scanner scanner) {
+        String choice;
 
+        System.out.println("********************* IMDb Movie Database - CPSC219 W26  *********************");
+        System.out.println("Track and store your favourite movies with ratings, directors, genres and more.");
+        System.out.println();
+
+        System.out.println("""
+        +--------+---------------------------+--------------------------------+
+        | Option | Action                    | Description                    |
+        +--------+---------------------------+--------------------------------+
+        |   1    | Manage database           | Add, search, update or remove  |
+        |   2    | Exit                      | Close the program              |
+        +--------+---------------------------+--------------------------------+""");
+
+        do {
+            System.out.println("Please enter an option (1 or 2):");
+            choice = scanner.nextLine().trim();
+
+            if (!choice.equals("1") && !choice.equals("2")) {
+                System.out.println("Invalid input. Please enter 1 or 2.");
+            }
+
+        } while (!choice.equals("1") && !choice.equals("2"));
+
+        return Integer.parseInt(choice);
+    }
     /**
      * Displays the database management menu and returns the user's choice
      * @param scanner scanner object from java.util.Scanner
