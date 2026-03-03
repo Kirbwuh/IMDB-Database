@@ -741,5 +741,26 @@ public class CPSC219W26Project {
             System.out.println(movieToString(movie));
         }
     }
+    public static ArrayList<String[]> getTop5(){
+
+        ArrayList<String[]> movieList = new ArrayList<>();
+
+        for (String[] movie = getInformation()){
+            movieList.add(movie);
+        }
+
+        movieList.sort((m1,m2)-> {
+            double rating1 = Double.parseDouble((m1[IMDB_RATING]));
+            double rating2 = Double.parseDouble((m2[IMDB_RATING]));
+            return Double.compare(rating1,rating2);
+
+        });
+        ArrayList<String[]> top5 = new ArrayList<>();
+        for (int i = 0; i < 5 && i < movieList.size(); i++);{
+            top5.add(movieList.get(i));
+        }
+        return top5;
+    }
+
 }
 
