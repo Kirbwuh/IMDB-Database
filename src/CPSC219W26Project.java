@@ -67,7 +67,7 @@ public class CPSC219W26Project {
 
                     } else if (dbChoice == 3) {
                         int id = getNumericInput(scanner, "Enter movie ID to update:").intValue();
-                        int field = getNumericInput(scanner, "Enter field (0=Title, 1=Year, 2=PG13, 3=Genre, 4=Rating, 5=Overview, 6=Director, 7=Gross):").intValue();
+                        int field = getNumericInput(scanner, "Enter field (0 = Title, 1 = Year, 2 = PG13, 3 = Genre, 4 = Rating, 5 = Overview, 6 = Director, 7 = Gross):").intValue();
                         String newValue = getStringInput(scanner, "Enter new value:");
                         updateMovieById(id, field, newValue);
                         System.out.println("Movie updated successfully!");
@@ -83,9 +83,13 @@ public class CPSC219W26Project {
                         printAllMovies();
                         System.out.println("--- End of movie list ---");
                         pressEnterToContinue(scanner);
+                    } else if (dbChoice == 6){
+                        System.out.println("The movies you watch are rated " + getRatingAverage() + " on average.");
+                        System.out.println("Here's the rating of every move you've watched.");
+
                     }
 
-                } while (dbChoice != 6);
+                } while (dbChoice != 7);
             }
 
         } while (mainChoice != 2);
@@ -458,26 +462,27 @@ public class CPSC219W26Project {
 
         System.out.println("\n==================== Database Management ====================");
         System.out.println("""
-        +--------+---------------------------+--------------------------------+
-        | Option | Action                    | Description                    |
-        +--------+---------------------------+--------------------------------+
-        |   1    | Add movie                 | Choose an add method           |
-        |   2    | Search movie by ID        | Find a movie using its ID      |
-        |   3    | Update movie              | Modify an existing movie       |
-        |   4    | Remove movie              | Delete a movie from database   |
-        |   5    | Print all movies          | Display all stored movies      |
-        |   6    | Back                      | Return to main menu            |
-        +--------+---------------------------+--------------------------------+""");
+        +--------+---------------------------+---------------------------------+
+        | Option | Action                    | Description                     |
+        +--------+---------------------------+---------------------------------+
+        |   1    | Add movie                 | Choose an add method            |
+        |   2    | Search movie by ID        | Find a movie using its ID       |
+        |   3    | Update movie              | Modify an existing movie        |
+        |   4    | Remove movie              | Delete a movie from database    |
+        |   5    | Print all movies          | Display all stored movies       |
+        |   6    | Reviews                   | Find average & separate ratings |
+        |   7    | Back                      | Return to main menu             |
+        +--------+---------------------------+---------------------------------+""");
 
         do {
-            System.out.println("Please enter an option (1-6):");
+            System.out.println("Please enter an option (1-7):");
             choice = scanner.nextLine().trim();
 
-            if (!choice.matches("[1-6]")) {
-                System.out.println("Invalid input. Please enter a number between 1 and 6.");
+            if (!choice.matches("[1-7]")) {
+                System.out.println("Invalid input. Please enter a number between 1 and 7.");
             }
 
-        } while (!choice.matches("[1-6]"));
+        } while (!choice.matches("[1-7]"));
 
         return Integer.parseInt(choice);
     }
@@ -611,7 +616,7 @@ public class CPSC219W26Project {
     }
 
     /**
-     *Returns an ArrayList of specified values present in the HashMap. For example using GENRE will return all the genres.
+     * Returns an ArrayList of specified values present in the HashMap. For example using GENRE will return all the genres.
      *
      * @param index Use the constants to index the information you want returned
      * @return ArrayList of specified values.
@@ -624,6 +629,28 @@ public class CPSC219W26Project {
         }
         return values;
     }
+
+    /**
+     * Calculates the average of all movies added to database.
+     *
+     * @return double from calculation.
+     */
+    public static String getRatingAverage (){
+        double ratingTotal = 0;
+        int numOfMovies = 0;
+        for (int i = 0; i < getInformation(4).size(); i++){
+            ratingTotal += Double.parseDouble(getInformation(4).get(i)); //Double.parseDouble() was recommended by IntelliJ and Looked up what it meant.
+        }
+        for (int i = 0; i <getInformation(1).size(); i++){
+            numOfMovies = getInformation(1).size();
+        }
+        double averageRating = ratingTotal/numOfMovies;
+        String formatedAverageRating = String.format("%.2f",averageRating);
+        return formatedAverageRating;
+        
+    }
+
+
 
     //***********************************************************************
     //------------------UPDATE DATA METHODS----------------------------------
