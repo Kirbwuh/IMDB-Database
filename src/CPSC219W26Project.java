@@ -743,11 +743,8 @@ public class CPSC219W26Project {
     }
     public static ArrayList<String[]> getTop5(){
 
-        ArrayList<String[]> movieList = new ArrayList<>();
+        ArrayList<String[]> movieList = new ArrayList<>(movies.values());
 
-        for (String[] movie = getInformation()){
-            movieList.add(movie);
-        }
 
         movieList.sort((m1,m2)-> {
             double rating1 = Double.parseDouble((m1[IMDB_RATING]));
