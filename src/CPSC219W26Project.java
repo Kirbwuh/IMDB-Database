@@ -753,7 +753,7 @@ public class CPSC219W26Project {
 
         });
         ArrayList<String[]> top5 = new ArrayList<>();
-        for (int i = 0; i < 5 && i < movieList.size(); i++);{
+        for (int i = 0; i < 5 && i < movieList.size(); i++){
             top5.add(movieList.get(i));
         }
         return top5;
