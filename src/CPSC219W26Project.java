@@ -378,6 +378,7 @@ public class CPSC219W26Project {
     private static String[] searchMovieByID(Scanner scanner) {
         final String searchPrompt = "Enter the ID of the Movie you would like to Search.";
         int searchInput = getIntegerInput(scanner, searchPrompt);
+
         return getMovieById(searchInput);
     }
 
@@ -727,8 +728,7 @@ public class CPSC219W26Project {
      * @return formatted movie details
      */
     public static String movieToString(String[] movie) {
-        return "Movie {" +
-                "\n Series Title: " + movie[SERIES_TITLE] +
+        return  " Series Title: " + movie[SERIES_TITLE] +
                 "\n Release Year: " + movie[RELEASE_YEAR] +
                 "\n Certification(PG-13): " + movie[CERTIFICATION] +
                 "\n Genre: " + movie[GENRE] +
@@ -736,7 +736,7 @@ public class CPSC219W26Project {
                 "\n Overview: " + movie[OVERVIEW] +
                 "\n Director: " + movie[DIRECTOR] +
                 "\n Gross: " + movie[GROSS] +
-                "\n }";
+                "\n";
     }
 
     /**
