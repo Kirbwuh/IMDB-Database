@@ -84,7 +84,7 @@ public class CPSC219W26Project {
                         System.out.println("--- End of movie list ---");
                         pressEnterToContinue(scanner);
                     } else if (dbChoice == 6){
-                        System.out.println("The movies you watch are rated " + getRatingAverage() + " on average.");
+                        System.out.println("The movies you watch are rated " + getRatingAverage(0,0) + " on average.");
                         System.out.println("Here's the rating of every move you've watched.");
 
                     }
@@ -635,9 +635,7 @@ public class CPSC219W26Project {
      *
      * @return double from calculation.
      */
-    public static String getRatingAverage (){
-        double ratingTotal = 0;
-        int numOfMovies = 0;
+    public static String getRatingAverage (double ratingTotal, int numOfMovies){
         for (int i = 0; i < getInformation(4).size(); i++){
             ratingTotal += Double.parseDouble(getInformation(4).get(i)); //Double.parseDouble() was recommended by IntelliJ and Looked up what it meant.
         }
