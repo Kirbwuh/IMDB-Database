@@ -757,7 +757,6 @@ public class CPSC219W26Project {
             double rating1 = Double.parseDouble((m1[IMDB_RATING]));
             double rating2 = Double.parseDouble((m2[IMDB_RATING]));
             return Double.compare(rating2,rating1);
-
         });
         ArrayList<String[]> top5 = new ArrayList<>();
         for (int i = 0; i < 5 && i < movieList.size(); i++){

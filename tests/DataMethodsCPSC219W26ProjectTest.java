@@ -1,10 +1,10 @@
-package tests;
-
-import org.testng.annotations.Test;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.jupiter.api.Test;
+import org.testng.IResultMap;
+import org.testng.internal.junit.ArrayComparisonFailure;
+import src.CPSC219W26Project;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static src.CPSC219W26Project.*;
@@ -36,6 +36,19 @@ public class DataMethodsCPSC219W26ProjectTest {
                     GROSS,"678.2"
             )
     );
+    HashMap<Integer, String> testEntry3 = new HashMap<Integer, String>(
+            Map.of(
+                    SERIES_TITLE, "star wars",
+                    RELEASE_YEAR, "1977",
+                    CERTIFICATION,"true",
+                    GENRE,"sci-fi",
+                    IMDB_RATING,"9.8",
+                    OVERVIEW,"...",
+                    DIRECTOR,"george lucas",
+                    GROSS,"6678.2"
+            )
+    );
+
 
 
     //"forrest gump", 1994, true, "drama", 8.8, "...", "zemeckis", 678.2
@@ -133,4 +146,41 @@ public class DataMethodsCPSC219W26ProjectTest {
         removeMovieById(movieId);
         assertNull(getMovieById(movieId));
     }
+    @Test
+    public void testTop5Size(){
+        movies.clear();
+        addMovie(testEntry);
+        addMovie(testEntry2);
+        ArrayList<String[]>  result = getTop5();
+        int expectedMaxSize = 5;
+        assertTrue(result.size() <= expectedMaxSize, "The list size should be less than or equal to " + expectedMaxSize);
+    }
+    @Test
+    public void testTop5CorrectOrder(){
+        movies.clear();
+        addMovie(testEntry);
+        addMovie(testEntry2);
+        ArrayList<String[]>  result = getTop5();
+        double first = Double.parseDouble(result.get(0)[IMDB_RATING]);
+        double second = Double.parseDouble(result.get(1)[IMDB_RATING]);
+        assertTrue(first >= second, "First score should be higher than or equal to the second score " + first);
+    }
+    @Test
+    public void testEmptyDatabase(){
+        movies.clear();
+        ArrayList<String[]>  result = getTop5();
+        int expectedSize = 0;
+        assertEquals(expectedSize = result.size(), "The list size should be less than or equal to " + expectedSize);
+    }
+    @Test
+    public void testHighestValue(){
+        movies.clear();
+        addMovie(testEntry);
+        addMovie(testEntry2);
+        addMovie(testEntry3);
+        ArrayList<String[]>  result = getTop5();
+        double first = Double.parseDouble(result.get(0)[IMDB_RATING]);
+        assertEquals(9.8 , first, "The first IMDB Rating value should be " + 9.8);
+    }
+
 }
