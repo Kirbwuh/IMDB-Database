@@ -86,7 +86,6 @@ public class CPSC219W26Project {
                     }
                     else if (dbChoice == 6){
                         printTop5();
-                        System.out.println("--- End of Top 5 list ---");
                         pressEnterToContinue(scanner);
 
                     }
@@ -766,9 +765,16 @@ public class CPSC219W26Project {
     }
     public static void printTop5(){
         ArrayList<String[]> topMovies = getTop5();
-        for (String[] movie : topMovies) {
-            System.out.println(movieToString(movie));
+        if (topMovies.isEmpty()){
+            System.out.println("There are 0 movies in the data base. Input some movies then try again!");
         }
+        else {
+            for (String[] movie : topMovies) {
+                System.out.println(movieToString(movie));
+            }
+            System.out.println("--- End of Top 5 list ---");
+        }
+
     }
 
 
