@@ -84,8 +84,14 @@ public class CPSC219W26Project {
                         System.out.println("--- End of movie list ---");
                         pressEnterToContinue(scanner);
                     }
+                    else if (dbChoice == 6){
+                        getTop5();
+                        System.out.println("--- End of Top 5 list ---");
+                        pressEnterToContinue(scanner);
 
-                } while (dbChoice != 6);
+                    }
+
+                } while (dbChoice != 7);
             }
 
         } while (mainChoice != 2);
@@ -466,7 +472,8 @@ public class CPSC219W26Project {
         |   3    | Update movie              | Modify an existing movie       |
         |   4    | Remove movie              | Delete a movie from database   |
         |   5    | Print all movies          | Display all stored movies      |
-        |   6    | Back                      | Return to main menu            |
+        |   6    | Print Top 5 Movies        | Display the top 5 rated movies |
+        |   7    | Back                      | Return to main menu            |
         +--------+---------------------------+--------------------------------+""");
 
         do {
@@ -477,7 +484,7 @@ public class CPSC219W26Project {
                 System.out.println("Invalid input. Please enter a number between 1 and 6.");
             }
 
-        } while (!choice.matches("[1-6]"));
+        } while (!choice.matches("[1-7]"));
 
         return Integer.parseInt(choice);
     }
@@ -756,8 +763,13 @@ public class CPSC219W26Project {
         for (int i = 0; i < 5 && i < movieList.size(); i++){
             top5.add(movieList.get(i));
         }
-        return top5;
+        ArrayList<String[]> topMovies = getTop5();
+        for (String[] movie : top5) {
+            System.out.println(movieToString(movie));
+        }
+        return topMovies;
     }
+
 
 }
 
