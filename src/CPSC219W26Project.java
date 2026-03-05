@@ -85,7 +85,7 @@ public class CPSC219W26Project {
                         pressEnterToContinue(scanner);
                     }
                     else if (dbChoice == 6){
-                        getTop5();
+                        printTop5();
                         System.out.println("--- End of Top 5 list ---");
                         pressEnterToContinue(scanner);
 
