@@ -633,6 +633,7 @@ public class CPSC219W26Project {
     //***********************************************************************
     /**
      * CL-3/6/2026-T10
+     * HL-6/3/2026-T10
      * Adds a movie to the map and assigns the next available id.
      *
      * @param entry Hashmap of movie data.
