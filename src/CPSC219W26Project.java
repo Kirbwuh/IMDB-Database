@@ -86,6 +86,8 @@ public class CPSC219W26Project {
                     } else if (dbChoice == 6){
                         System.out.println("The movies you watch are rated " + getRatingAverage(0,0) + " on average.");
                         System.out.println("Here's the rating of every move you've watched.");
+                        highestValue();
+                        lowestValue();
 
                     }
                     else if (dbChoice == 7){
@@ -104,7 +106,7 @@ public class CPSC219W26Project {
         System.exit(0);
     }
 
-        // money made by movie (double)
+    // money made by movie (double)
 
     //***********************************************************************
     //----------------PROGRAM INPUT-----------------------------------------
@@ -581,7 +583,7 @@ public class CPSC219W26Project {
     public static void addMovie(HashMap<Integer, String> entry) {
         int id = nextId++;
         movies.put(id,new String[] {
-            entry.get(SERIES_TITLE), entry.get(RELEASE_YEAR),entry.get(CERTIFICATION),entry.get(GENRE),entry.get(IMDB_RATING),entry.get(OVERVIEW),entry.get(DIRECTOR),entry.get(GROSS)
+                entry.get(SERIES_TITLE), entry.get(RELEASE_YEAR),entry.get(CERTIFICATION),entry.get(GENRE),entry.get(IMDB_RATING),entry.get(OVERVIEW),entry.get(DIRECTOR),entry.get(GROSS)
         });
     }
 
@@ -652,7 +654,35 @@ public class CPSC219W26Project {
         double averageRating = ratingTotal/numOfMovies;
         String formatedAverageRating = String.format("%.2f",averageRating);
         return formatedAverageRating;
-        
+
+    }
+
+    /**
+     * Prints the highest IMDB Rating movie
+     */
+    public static void highestValue(){
+        ArrayList<String[]> highestList = new ArrayList<>(movies.values());
+
+
+        highestList.sort((m1,m2)-> {
+            double rating1 = Double.parseDouble((m1[IMDB_RATING]));
+            double rating2 = Double.parseDouble((m2[IMDB_RATING]));
+            return Double.compare(rating2,rating1);
+        });
+        System.out.println("The highest IMDB Rated Movie is: " + highestList.get(0)) ;
+    }
+
+    public static void lowestValue(){
+        ArrayList<String[]> lowestList = new ArrayList<>(movies.values());
+
+
+        lowestList.sort((m1,m2)-> {
+            double rating1 = Double.parseDouble((m1[IMDB_RATING]));
+            double rating2 = Double.parseDouble((m2[IMDB_RATING]));
+            return Double.compare(rating1,rating2);
+        });
+        System.out.println("The lowest rated movie in your catalogue is: " + lowestList.get(0)) ;
+
     }
 
 
@@ -772,9 +802,14 @@ public class CPSC219W26Project {
             System.out.println(movieToString(movie));
         }
     }
+
+    /**
+     * get a ArrayList of the top1-5 movies from the dataset depending on how large it is
+     * @return top5
+     */
     public static ArrayList<String[]> getTop5(){
 
-        ArrayList<String[]> movieList = new ArrayList<>(movies.values()); // grab a list of every movie
+        ArrayList<String[]> movieList = new ArrayList<>(movies.values());
 
 
         movieList.sort((m1,m2)-> { // fetch the
@@ -788,6 +823,9 @@ public class CPSC219W26Project {
         }
         return top5;
     }
+    /**
+     print top5 list proper
+     */
     public static void printTop5(){
         ArrayList<String[]> topMovies = getTop5();
         if (topMovies.isEmpty()){
@@ -801,6 +839,7 @@ public class CPSC219W26Project {
         }
 
     }
+
 
 
 }
