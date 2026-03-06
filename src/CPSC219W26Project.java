@@ -171,7 +171,7 @@ public class CPSC219W26Project {
     //***********************************************************************
     //-----------------Input Methods ----------------------------------------
     //***********************************************************************
-    /**
+    /** JJ - 2026/09/14 - T10
      * This method receives a scanner object and captures
      * the user input and normalize it, whilst printing in console the data to be
      * capture
@@ -184,7 +184,7 @@ public class CPSC219W26Project {
         return (normalizeWord(scanner.nextLine()));
     }
 
-    /**
+    /** JJ - 2026/09/14 - T10
      * This method receives a scanner object and captures
      * the user input, validating that it is numeric, whilst printing in console
      * the data to be captured.
@@ -209,6 +209,7 @@ public class CPSC219W26Project {
 
     /**
      * CL-3/6/2026-T10
+     * JJ - 2026/09/14 - T10
      * This method receives a scanner object and captures
      * the user input, validating that it is numeric, whilst printing in console
      * the data to be captured.
@@ -249,7 +250,8 @@ public class CPSC219W26Project {
 
     }
 
-    /** prompts user to press enter
+    /** JJ - 2026/09/14 - T10
+     * prompts user to press enter
      * @param scanner scanner object from java.util.Scanner
      */
     private static void pressEnterToContinue(Scanner scanner) {
@@ -258,7 +260,8 @@ public class CPSC219W26Project {
         scanner.nextLine();
     }
 
-    /** Prompts the user line by line to add a new movie
+    /** JJ - 2026/09/14 - T10
+     * Prompts the user line by line to add a new movie
      * @param scanner  scanner object from java.util.Scanner
      * @return Hashmap<String,String> of the collected values
      */
@@ -310,7 +313,7 @@ public class CPSC219W26Project {
         return entry;
     }
 
-    /**
+    /** JJ - 2026/09/14 - T10
      * Prompts the user to enter all movie data in a single line,
      * using comma-separated values in a predefined order.
      * The method validates that the correct number of values is provided
@@ -409,54 +412,54 @@ public class CPSC219W26Project {
 
     }
 
-    /**
-     * CL-3/6/2026-T10
-     * Prompts the user to search for a movie by its title
-     *
-     * @param scanner scanner object from java.util.Scanner
-     * @return movie String[] or null
-     */
-    private static String[] searchMovieByTitle(Scanner scanner) {
-        final String searchPrompt = "Enter the TITLE of the Movie you would like to Search.";
-        String searchInput = getStringInput(scanner, searchPrompt);
-        return getMovieByTitle(searchInput);
-    }
-
-    /**
-     * CL-3/6/2026-T10
-     * Prompts the user to search for a movie by its ID
-     *
-     * @param scanner scanner object from java.util.Scanner
-     * @return movie String[] or null
-     */
-    private static String[] searchMovieByID(Scanner scanner) {
-        final String searchPrompt = "Enter the ID of the Movie you would like to Search.";
-        int searchInput = getIntegerInput(scanner, searchPrompt);
-
-        return getMovieById(searchInput);
-    }
-
-    /**
-     * CL-3/6/2026-T10
-     * Prompts the user to select a category of data they want displayed,
-     *
-     * @param scanner scanner object from java.util.scanner
-     * @return an ArrayList<String> containing all category data.
-     */
-    private static ArrayList<String> getCategoryInformation(Scanner scanner) {
-        final String prompt = ("""
-                Please enter a number corresponding to the data you want displayed:
-                1. Series Titles
-                2. Release Years
-                3. PG- 13
-                4. Genres
-                5. IMDB Ratings
-                6. Overviews
-                7. Gross Earnings
-                """);
-        int searchInput = getIntegerInput(scanner, prompt);
-        return getInformation(searchInput);
-    }
+//    /**
+//     * CL-3/6/2026-T10
+//     * Prompts the user to search for a movie by its title
+//     *
+//     * @param scanner scanner object from java.util.Scanner
+//     * @return movie String[] or null
+//     */
+//    private static String[] searchMovieByTitle(Scanner scanner) {
+//        final String searchPrompt = "Enter the TITLE of the Movie you would like to Search.";
+//        String searchInput = getStringInput(scanner, searchPrompt);
+//        return getMovieByTitle(searchInput);
+//    }
+//
+//    /**
+//     * CL-3/6/2026-T10
+//     * Prompts the user to search for a movie by its ID
+//     *
+//     * @param scanner scanner object from java.util.Scanner
+//     * @return movie String[] or null
+//     */
+//    private static String[] searchMovieByID(Scanner scanner) {
+//        final String searchPrompt = "Enter the ID of the Movie you would like to Search.";
+//        int searchInput = getIntegerInput(scanner, searchPrompt);
+//
+//        return getMovieById(searchInput);
+//    }
+//
+//    /**
+//     * CL-3/6/2026-T10
+//     * Prompts the user to select a category of data they want displayed,
+//     *
+//     * @param scanner scanner object from java.util.scanner
+//     * @return an ArrayList<String> containing all category data.
+//     */
+//    private static ArrayList<String> getCategoryInformation(Scanner scanner) {
+//        final String prompt = ("""
+//                Please enter a number corresponding to the data you want displayed:
+//                1. Series Titles
+//                2. Release Years
+//                3. PG- 13
+//                4. Genres
+//                5. IMDB Ratings
+//                6. Overviews
+//                7. Gross Earnings
+//                """);
+//        int searchInput = getIntegerInput(scanner, prompt);
+//        return getInformation(searchInput);
+//    }
 
     //***********************************************************************
     //------------------Menu Methods------------------------------------
@@ -482,7 +485,7 @@ public class CPSC219W26Project {
      *  +-- 2. Exit
      */
 
-    /**
+    /** JJ - 2026/09/14 - T10
      * Displays the main menu and returns the user's choice
      * @param scanner scanner object from java.util.Scanner
      * @return the menu option selected by the user as an int
@@ -514,7 +517,7 @@ public class CPSC219W26Project {
 
         return Integer.parseInt(choice);
     }
-    /**
+    /** JJ - 2026/09/14 - T10
      * Displays the database management menu and returns the user's choice
      * @param scanner scanner object from java.util.Scanner
      * @return the menu option selected by the user as an int
@@ -552,7 +555,7 @@ public class CPSC219W26Project {
         return Integer.parseInt(choice);
     }
 
-    /**
+    /** JJ - 2026/09/14 - T10
      * Displays the add movie submenu and returns the user's choice
      * @param scanner scanner object from java.util.Scanner
      * @return the menu option selected by the user as an int
@@ -587,7 +590,7 @@ public class CPSC219W26Project {
     //---------------- Helper Methods ---------------------------------------
     //***********************************************************************
 
-    /**
+    /** JJ - 2026/09/14 - T10
      * Normalizes a word by converting it to lower case and trimming spaces
      * @param word String a string
      * @return returns a normalized string (lower case and spaces trimmed)
@@ -596,7 +599,7 @@ public class CPSC219W26Project {
         return word.toLowerCase().trim();
     }
 
-    /**
+    /** JJ - 2026/09/14 - T10
      * Checks if an input ony contains numeric values
      * @param input A String
      * @return a boolean that checks if the string only contains numbers
@@ -609,7 +612,8 @@ public class CPSC219W26Project {
         return input.matches(regex);
     }
 
-    /** Takes a string in the form:
+    /** JJ - 2026/09/14 - T10
+     * Takes a string in the form:
      *  "<element1>,<element2>...."
      *  and separates them into an Array
      *  if not a valid separated values String returns an empty String
@@ -786,21 +790,21 @@ public class CPSC219W26Project {
     //------------------REMOVE DATA METHODS----------------------------------
     //***********************************************************************
 
-    /**
-     * CL-3/6/2026-T10
-     * Deletes a movie entry by its title.
-     *
-     * @param title movie title associated with entry.
-     */
-    public static void removeMovieByTitle(String title) {
-        for (Map.Entry<Integer, String[]> entry : movies.entrySet()) {
-            int id = entry.getKey();
-            String[] movie = entry.getValue();
-            if (movie[SERIES_TITLE].equals(title)) {
-                movies.remove(id);
-            }
-        }
-    }
+//    /**
+//     * CL-3/6/2026-T10
+//     * Deletes a movie entry by its title.
+//     *
+//     * @param title movie title associated with entry.
+//     */
+//    public static void removeMovieByTitle(String title) {
+//        for (Map.Entry<Integer, String[]> entry : movies.entrySet()) {
+//            int id = entry.getKey();
+//            String[] movie = entry.getValue();
+//            if (movie[SERIES_TITLE].equals(title)) {
+//                movies.remove(id);
+//            }
+//        }
+//    }
 
     /**
      * CL-3/6/2026-T10
@@ -840,15 +844,15 @@ public class CPSC219W26Project {
                 "\n";
     }
 
-    /**
-     * CL-3/6/2026-T10
-     * Print's a single movie by associated title.
-     *
-     * @param title movie title associated with entry.
-     */
-    public static void printMovieByTitle(String title) {
-        System.out.println(movieToString(getMovieByTitle(title)));
-    }
+//    /**
+//     * CL-3/6/2026-T10
+//     * Print's a single movie by associated title.
+//     *
+//     * @param title movie title associated with entry.
+//     */
+//    public static void printMovieByTitle(String title) {
+//        System.out.println(movieToString(getMovieByTitle(title)));
+//    }
 
     /**
      * CL-3/6/2026-T10
