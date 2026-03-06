@@ -62,16 +62,26 @@ public class CPSC219W26Project {
 
                     } else if (dbChoice == 2) {
                         int id = getNumericInput(scanner, "Enter movie ID:").intValue();
-                        printMovieById(id);
-                        pressEnterToContinue(scanner);
+                        if (getMovieById(id) == null) {
+                            System.out.println("No movie found with ID: " + id);
+                            pressEnterToContinue(scanner);
+                        } else {
+                            printMovieById(id);
+                            pressEnterToContinue(scanner);
+                        }
 
                     } else if (dbChoice == 3) {
                         int id = getNumericInput(scanner, "Enter movie ID to update:").intValue();
-                        int field = getNumericInput(scanner, "Enter field (0 = Title, 1 = Year, 2 = PG13, 3 = Genre, 4 = Rating, 5 = Overview, 6 = Director, 7 = Gross):").intValue();
-                        String newValue = getStringInput(scanner, "Enter new value:");
-                        updateMovieById(id, field, newValue);
-                        System.out.println("Movie updated successfully!");
-                        pressEnterToContinue(scanner);
+                        if (getMovieById(id) == null) {
+                            System.out.println("No movie found with ID: " + id);
+                            pressEnterToContinue(scanner);
+                        } else {
+                            int field = getNumericInput(scanner, "Enter field (0 = Title, 1 = Year, 2 = PG13, 3 = Genre, 4 = Rating, 5 = Overview, 6 = Director, 7 = Gross):").intValue();
+                            String newValue = getStringInput(scanner, "Enter new value:");
+                            updateMovieById(id, field, newValue);
+                            System.out.println("Movie updated successfully!");
+                            pressEnterToContinue(scanner);
+                        }
 
                     } else if (dbChoice == 4) {
                         int id = getNumericInput(scanner, "Enter movie ID to remove:").intValue();
@@ -80,31 +90,54 @@ public class CPSC219W26Project {
                         pressEnterToContinue(scanner);
 
                     } else if (dbChoice == 5) {
-                        printAllMovies();
-                        System.out.println("--- End of movie list ---");
-                        pressEnterToContinue(scanner);
+                        if (movies.isEmpty()) {
+                            System.out.println("No movies in the database yet. Add some movies first!");
+                            pressEnterToContinue(scanner);
+                        } else {
+                            printAllMovies();
+                            System.out.println("--- End of movie list ---");
+                            pressEnterToContinue(scanner);
+                        }
 
                     } else if (dbChoice == 6) {
-                        System.out.println("The movies you watch are rated " + getRatingAverage(0, 0) + " on average.");
-                        System.out.println("\nHere's the rating of every movie you've watched:");
-                        System.out.println("----------------------------------------------------");
-                        for (Map.Entry<Integer, String[]> entry : movies.entrySet()) {
-                            System.out.println("ID: " + entry.getKey() + " | " + entry.getValue()[SERIES_TITLE] + " | Rating: " + entry.getValue()[IMDB_RATING]);
+                        if (movies.isEmpty()) {
+                            System.out.println("No movies in the database yet. Add some movies first!");
+                            pressEnterToContinue(scanner);
+                        } else {
+                            System.out.println("The movies you watch are rated " + getRatingAverage(0, 0) + " on average.");
+                            System.out.println("\nHere's the rating of every movie you've watched:");
+                            System.out.println("----------------------------------------------------");
+                            for (Map.Entry<Integer, String[]> entry : movies.entrySet()) {
+                                System.out.println("ID: " + entry.getKey() + " | " + entry.getValue()[SERIES_TITLE] + " | Rating: " + entry.getValue()[IMDB_RATING]);
+                            }
+                            System.out.println("----------------------------------------------------");
+                            pressEnterToContinue(scanner);
                         }
-                        System.out.println("----------------------------------------------------");
-                        pressEnterToContinue(scanner);
 
                     } else if (dbChoice == 7) {
-                        System.out.println("Highest Rated Movie:"); highestValue();
-                        pressEnterToContinue(scanner);
+                        if (movies.isEmpty()) {
+                            System.out.println("No movies in the database yet. Add some movies first!");
+                            pressEnterToContinue(scanner);
+                        } else { System.out.println("Highest Rated Movie:"); highestValue(); pressEnterToContinue(scanner); }
 
                     } else if (dbChoice == 8) {
-                        System.out.println("Lowest Rated Movie:"); lowestValue();
-                        pressEnterToContinue(scanner);
+                        if (movies.isEmpty()) {
+                            System.out.println("No movies in the database yet. Add some movies first!");
+                            pressEnterToContinue(scanner);
+                        } else {
+                            System.out.println("Lowest Rated Movie:");
+                            lowestValue();
+                            pressEnterToContinue(scanner);
+                        }
 
                     } else if (dbChoice == 9) {
-                        printTop5();
-                        pressEnterToContinue(scanner);
+                        if (movies.isEmpty()) {
+                            System.out.println("No movies in the database yet. Add some movies first!");
+                            pressEnterToContinue(scanner);
+                        } else {
+                            printTop5();
+                            pressEnterToContinue(scanner);
+                        }
                     }
 
                 } while (dbChoice != 10);
