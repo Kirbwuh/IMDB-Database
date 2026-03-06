@@ -62,16 +62,26 @@ public class CPSC219W26Project {
 
                     } else if (dbChoice == 2) {
                         int id = getNumericInput(scanner, "Enter movie ID:").intValue();
-                        printMovieById(id);
-                        pressEnterToContinue(scanner);
+                        if (getMovieById(id) == null) {
+                            System.out.println("No movie found with ID: " + id);
+                            pressEnterToContinue(scanner);
+                        } else {
+                            printMovieById(id);
+                            pressEnterToContinue(scanner);
+                        }
 
                     } else if (dbChoice == 3) {
                         int id = getNumericInput(scanner, "Enter movie ID to update:").intValue();
-                        int field = getNumericInput(scanner, "Enter field (0 = Title, 1 = Year, 2 = PG13, 3 = Genre, 4 = Rating, 5 = Overview, 6 = Director, 7 = Gross):").intValue();
-                        String newValue = getStringInput(scanner, "Enter new value:");
-                        updateMovieById(id, field, newValue);
-                        System.out.println("Movie updated successfully!");
-                        pressEnterToContinue(scanner);
+                        if (getMovieById(id) == null) {
+                            System.out.println("No movie found with ID: " + id);
+                            pressEnterToContinue(scanner);
+                        } else {
+                            int field = getNumericInput(scanner, "Enter field (0 = Title, 1 = Year, 2 = PG13, 3 = Genre, 4 = Rating, 5 = Overview, 6 = Director, 7 = Gross):").intValue();
+                            String newValue = getStringInput(scanner, "Enter new value:");
+                            updateMovieById(id, field, newValue);
+                            System.out.println("Movie updated successfully!");
+                            pressEnterToContinue(scanner);
+                        }
 
                     } else if (dbChoice == 4) {
                         int id = getNumericInput(scanner, "Enter movie ID to remove:").intValue();
@@ -80,23 +90,57 @@ public class CPSC219W26Project {
                         pressEnterToContinue(scanner);
 
                     } else if (dbChoice == 5) {
-                        printAllMovies();
-                        System.out.println("--- End of movie list ---");
-                        pressEnterToContinue(scanner);
-                    } else if (dbChoice == 6){
-                        System.out.println("The movies you watch are rated " + getRatingAverage(0,0) + " on average.");
-                        System.out.println("Here's the rating of every move you've watched.");
-                        highestValue();
-                        lowestValue();
+                        if (movies.isEmpty()) {
+                            System.out.println("No movies in the database yet. Add some movies first!");
+                            pressEnterToContinue(scanner);
+                        } else {
+                            printAllMovies();
+                            System.out.println("--- End of movie list ---");
+                            pressEnterToContinue(scanner);
+                        }
 
+                    } else if (dbChoice == 6) {
+                        if (movies.isEmpty()) {
+                            System.out.println("No movies in the database yet. Add some movies first!");
+                            pressEnterToContinue(scanner);
+                        } else {
+                            System.out.println("The movies you watch are rated " + getRatingAverage(0, 0) + " on average.");
+                            System.out.println("\nHere's the rating of every movie you've watched:");
+                            System.out.println("----------------------------------------------------");
+                            for (Map.Entry<Integer, String[]> entry : movies.entrySet()) {
+                                System.out.println("ID: " + entry.getKey() + " | " + entry.getValue()[SERIES_TITLE] + " | Rating: " + entry.getValue()[IMDB_RATING]);
+                            }
+                            System.out.println("----------------------------------------------------");
+                            pressEnterToContinue(scanner);
+                        }
+
+                    } else if (dbChoice == 7) {
+                        if (movies.isEmpty()) {
+                            System.out.println("No movies in the database yet. Add some movies first!");
+                            pressEnterToContinue(scanner);
+                        } else { System.out.println("Highest Rated Movie:"); highestValue(); pressEnterToContinue(scanner); }
+
+                    } else if (dbChoice == 8) {
+                        if (movies.isEmpty()) {
+                            System.out.println("No movies in the database yet. Add some movies first!");
+                            pressEnterToContinue(scanner);
+                        } else {
+                            System.out.println("Lowest Rated Movie:");
+                            lowestValue();
+                            pressEnterToContinue(scanner);
+                        }
+
+                    } else if (dbChoice == 9) {
+                        if (movies.isEmpty()) {
+                            System.out.println("No movies in the database yet. Add some movies first!");
+                            pressEnterToContinue(scanner);
+                        } else {
+                            printTop5();
+                            pressEnterToContinue(scanner);
+                        }
                     }
-                    else if (dbChoice == 7){
-                        printTop5();
-                        pressEnterToContinue(scanner);
 
-                    }
-
-                } while (dbChoice != 8);
+                } while (dbChoice != 10);
             }
 
         } while (mainChoice != 2);
@@ -106,7 +150,7 @@ public class CPSC219W26Project {
         System.exit(0);
     }
 
-        // money made by movie (double)
+    // money made by movie (double)
 
     //***********************************************************************
     //----------------PROGRAM INPUT-----------------------------------------
@@ -164,6 +208,7 @@ public class CPSC219W26Project {
     }
 
     /**
+     * CL-3/6/2026-T10
      * This method receives a scanner object and captures
      * the user input, validating that it is numeric, whilst printing in console
      * the data to be captured.
@@ -365,6 +410,7 @@ public class CPSC219W26Project {
     }
 
     /**
+     * CL-3/6/2026-T10
      * Prompts the user to search for a movie by its title
      *
      * @param scanner scanner object from java.util.Scanner
@@ -377,6 +423,7 @@ public class CPSC219W26Project {
     }
 
     /**
+     * CL-3/6/2026-T10
      * Prompts the user to search for a movie by its ID
      *
      * @param scanner scanner object from java.util.Scanner
@@ -389,6 +436,13 @@ public class CPSC219W26Project {
         return getMovieById(searchInput);
     }
 
+    /**
+     * CL-3/6/2026-T10
+     * Prompts the user to select a category of data they want displayed,
+     *
+     * @param scanner scanner object from java.util.scanner
+     * @return an ArrayList<String> containing all category data.
+     */
     private static ArrayList<String> getCategoryInformation(Scanner scanner) {
         final String prompt = ("""
                 Please enter a number corresponding to the data you want displayed:
@@ -470,28 +524,30 @@ public class CPSC219W26Project {
 
         System.out.println("\n==================== Database Management ====================");
         System.out.println("""
-        +--------+---------------------------+--------------------------------+
-        | Option | Action                    | Description                    |
-        +--------+---------------------------+--------------------------------+
-        |   1    | Add movie                 | Choose an add method           |
-        |   2    | Search movie by ID        | Find a movie using its ID      |
-        |   3    | Update movie              | Modify an existing movie       |
-        |   4    | Remove movie              | Delete a movie from database   |
-        |   5    | Print all movies          | Display all stored movies      |
-        |   6    | Reviews                   | Find average & separate ratings|
-        |   7    | Print Top 5 Movies        | Display the top 5 rated movies |
-        |   8    | Back                      | Return to main menu            |
-        +--------+---------------------------+--------------------------------+""");
+                        +--------+---------------------------+--------------------------------+
+                        | Option | Action                    | Description                    |
+                        +--------+---------------------------+--------------------------------+
+                        |   1    | Add movie                 | Choose an add method           |
+                        |   2    | Search movie by ID        | Find a movie using its ID      |
+                        |   3    | Update movie              | Modify an existing movie       |
+                        |   4    | Remove movie              | Delete a movie from database   |
+                        |   5    | Print all movies          | Display all stored movies      |
+                        |   6    | Reviews                   | Average & individual ratings   |
+                        |   7    | Highest rated movie       | Display the highest rated movie|
+                        |   8    | Lowest rated movie        | Display the lowest rated movie |
+                        |   9    | Print Top 5 Movies        | Display the top 5 rated movies |
+                        |   10   | Back                      | Return to main menu            |
+                        +--------+---------------------------+--------------------------------+""");
 
         do {
-            System.out.println("Please enter an option (1-8):");
+            System.out.println("Please enter an option (1-10):");
             choice = scanner.nextLine().trim();
 
-            if (!choice.matches("[1-8]")) {
-                System.out.println("Invalid input. Please enter a number between 1 and 6.");
+            if (!choice.matches("([1-9]|10)")) {
+                System.out.println("Invalid input. Please enter a number between 1 and 10.");
             }
 
-        } while (!choice.matches("[1-8]"));
+        } while (!choice.matches("([1-9]|10)"));
 
         return Integer.parseInt(choice);
     }
@@ -576,6 +632,8 @@ public class CPSC219W26Project {
     //------------------ADD DATA METHODS-------------------------------------
     //***********************************************************************
     /**
+     * CL-3/6/2026-T10
+     * HL-6/3/2026-T10
      * Adds a movie to the map and assigns the next available id.
      *
      * @param entry Hashmap of movie data.
@@ -583,7 +641,7 @@ public class CPSC219W26Project {
     public static void addMovie(HashMap<Integer, String> entry) {
         int id = nextId++;
         movies.put(id,new String[] {
-            entry.get(SERIES_TITLE), entry.get(RELEASE_YEAR),entry.get(CERTIFICATION),entry.get(GENRE),entry.get(IMDB_RATING),entry.get(OVERVIEW),entry.get(DIRECTOR),entry.get(GROSS)
+                entry.get(SERIES_TITLE), entry.get(RELEASE_YEAR),entry.get(CERTIFICATION),entry.get(GENRE),entry.get(IMDB_RATING),entry.get(OVERVIEW),entry.get(DIRECTOR),entry.get(GROSS)
         });
     }
 
@@ -592,6 +650,7 @@ public class CPSC219W26Project {
     //***********************************************************************
 
     /**
+     * CL-3/6/2026-T10
      * Returns movie object by associated title
      *
      * @param title movie title associated with entry.
@@ -608,6 +667,7 @@ public class CPSC219W26Project {
     }
 
     /**
+     * CL-3/6/2026-T10
      * Returns movie object by associated ID
      *
      * @param id movie ID in HashMap
@@ -625,6 +685,7 @@ public class CPSC219W26Project {
     }
 
     /**
+     * CL-3/6/2026-T10
      * Returns an ArrayList of specified values present in the HashMap. For example using GENRE will return all the genres.
      *
      * @param index Use the constants to index the information you want returned
@@ -654,7 +715,7 @@ public class CPSC219W26Project {
         double averageRating = ratingTotal/numOfMovies;
         String formatedAverageRating = String.format("%.2f",averageRating);
         return formatedAverageRating;
-        
+
     }
 
     /**
@@ -671,20 +732,19 @@ public class CPSC219W26Project {
         });
         System.out.println("The highest IMDB Rated Movie is: " + movieToString(highestList.get(0))) ;
     }
+
     public static void lowestValue(){
         ArrayList<String[]> lowestList = new ArrayList<>(movies.values());
 
 
-        lowestList.sort((m1,m2)-> { // fetch the
+        lowestList.sort((m1,m2)-> {
             double rating1 = Double.parseDouble((m1[IMDB_RATING]));
             double rating2 = Double.parseDouble((m2[IMDB_RATING]));
             return Double.compare(rating1,rating2);
         });
-        System.out.println("The lowest IMDB Rated Movie is: " + movieToString(lowestList.get(0))) ;
-
+        System.out.println("The lowest rated movie in your catalogue is: " + movieToString(lowestList.get(0))) ;
 
     }
-
 
 
 
@@ -727,6 +787,7 @@ public class CPSC219W26Project {
     //***********************************************************************
 
     /**
+     * CL-3/6/2026-T10
      * Deletes a movie entry by its title.
      *
      * @param title movie title associated with entry.
@@ -742,6 +803,7 @@ public class CPSC219W26Project {
     }
 
     /**
+     * CL-3/6/2026-T10
      * Deletes a movie entry by its ID.
      *
      * @param id movie id associated with entry.
@@ -759,6 +821,8 @@ public class CPSC219W26Project {
     //***********************************************************************
 
     /**
+     * CL-3/6/2026-T10
+     * HL-6/3/2026-T10
      * Builds a formatted string for a single movie record.
      *
      * @param movie record values stored in the fixed index order
@@ -777,6 +841,7 @@ public class CPSC219W26Project {
     }
 
     /**
+     * CL-3/6/2026-T10
      * Print's a single movie by associated title.
      *
      * @param title movie title associated with entry.
@@ -786,6 +851,7 @@ public class CPSC219W26Project {
     }
 
     /**
+     * CL-3/6/2026-T10
      * Print's a single movie by associated ID
      *
      * @param id movie id associated with entry.
@@ -795,6 +861,7 @@ public class CPSC219W26Project {
     }
 
     /**
+     * CL-3/6/2026-T10
      * Prints every movie currently stored in the map.
      */
     public static void printAllMovies() {
@@ -825,7 +892,7 @@ public class CPSC219W26Project {
         return top5;
     }
     /**
-    print top5 list proper
+     print top5 list proper
      */
     public static void printTop5(){
         ArrayList<String[]> topMovies = getTop5();
@@ -840,8 +907,4 @@ public class CPSC219W26Project {
         }
 
     }
-
-
-
 }
-
