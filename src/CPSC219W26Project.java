@@ -67,7 +67,7 @@ public class CPSC219W26Project {
 
                     } else if (dbChoice == 3) {
                         int id = getNumericInput(scanner, "Enter movie ID to update:").intValue();
-                        int field = getNumericInput(scanner, "Enter field (0=Title, 1=Year, 2=PG13, 3=Genre, 4=Rating, 5=Overview, 6=Director, 7=Gross):").intValue();
+                        int field = getNumericInput(scanner, "Enter field (0 = Title, 1 = Year, 2 = PG13, 3 = Genre, 4 = Rating, 5 = Overview, 6 = Director, 7 = Gross):").intValue();
                         String newValue = getStringInput(scanner, "Enter new value:");
                         updateMovieById(id, field, newValue);
                         System.out.println("Movie updated successfully!");
@@ -83,6 +83,10 @@ public class CPSC219W26Project {
                         printAllMovies();
                         System.out.println("--- End of movie list ---");
                         pressEnterToContinue(scanner);
+                    } else if (dbChoice == 6){
+                        System.out.println("The movies you watch are rated " + getRatingAverage(0,0) + " on average.");
+                        System.out.println("Here's the rating of every move you've watched.");
+
                     }
                     else if (dbChoice == 7){
                         printTop5();
@@ -379,6 +383,7 @@ public class CPSC219W26Project {
     private static String[] searchMovieByID(Scanner scanner) {
         final String searchPrompt = "Enter the ID of the Movie you would like to Search.";
         int searchInput = getIntegerInput(scanner, searchPrompt);
+
         return getMovieById(searchInput);
     }
 
@@ -618,7 +623,7 @@ public class CPSC219W26Project {
     }
 
     /**
-     *Returns an ArrayList of specified values present in the HashMap. For example using GENRE will return all the genres.
+     * Returns an ArrayList of specified values present in the HashMap. For example using GENRE will return all the genres.
      *
      * @param index Use the constants to index the information you want returned
      * @return ArrayList of specified values.
@@ -631,6 +636,26 @@ public class CPSC219W26Project {
         }
         return values;
     }
+
+    /**
+     * Calculates the average of all movies added to database.
+     *
+     * @return double from calculation.
+     */
+    public static String getRatingAverage (double ratingTotal, int numOfMovies){
+        for (int i = 0; i < getInformation(4).size(); i++){
+            ratingTotal += Double.parseDouble(getInformation(4).get(i)); //Double.parseDouble() was recommended by IntelliJ and Looked up what it meant.
+        }
+        for (int i = 0; i <getInformation(1).size(); i++){
+            numOfMovies = getInformation(1).size();
+        }
+        double averageRating = ratingTotal/numOfMovies;
+        String formatedAverageRating = String.format("%.2f",averageRating);
+        return formatedAverageRating;
+        
+    }
+
+
 
     //***********************************************************************
     //------------------UPDATE DATA METHODS----------------------------------
@@ -709,8 +734,7 @@ public class CPSC219W26Project {
      * @return formatted movie details
      */
     public static String movieToString(String[] movie) {
-        return "Movie {" +
-                "\n Series Title: " + movie[SERIES_TITLE] +
+        return  " Series Title: " + movie[SERIES_TITLE] +
                 "\n Release Year: " + movie[RELEASE_YEAR] +
                 "\n Certification(PG-13): " + movie[CERTIFICATION] +
                 "\n Genre: " + movie[GENRE] +
@@ -718,7 +742,7 @@ public class CPSC219W26Project {
                 "\n Overview: " + movie[OVERVIEW] +
                 "\n Director: " + movie[DIRECTOR] +
                 "\n Gross: " + movie[GROSS] +
-                "\n }";
+                "\n";
     }
 
     /**

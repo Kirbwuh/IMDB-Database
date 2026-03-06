@@ -1,3 +1,5 @@
+package tests;
+
 import src.CPSC219W26Project;
 import org.junit.jupiter.api.Test;
 
