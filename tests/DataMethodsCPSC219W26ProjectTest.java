@@ -170,7 +170,7 @@ public class DataMethodsCPSC219W26ProjectTest {
         movies.clear();
         ArrayList<String[]>  result = getTop5();
         int expectedSize = 0;
-        assertEquals(expectedSize = result.size(), "The list size should be less than or equal to " + expectedSize);
+        assertTrue(expectedSize == result.size(), "The list size should be less than or equal to " + expectedSize);
     }
     @Test
     public void testHighestValue(){
