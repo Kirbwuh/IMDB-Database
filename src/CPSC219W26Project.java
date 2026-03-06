@@ -462,14 +462,27 @@ public class CPSC219W26Project {
      *  |         |         +-- 1. Step by step
      *  |         |         +-- 2. Single line
      *  |         |         +-- 3. Back
+     *  |         +-- 2. Update Movie -->
+     *  |         |         +-- 1. Update movie by ID
+     *  |         |         +-- 2. Update movie by Title
+     *  |         |         +-- 3. Back
+     *  |         +-- 3. Remove Movie -->
+     *  |         |         +-- 1. Remove movie by ID
+     *  |         |         +-- 2. Remove movie by Title
+     *  |         |         +-- 3. Back
      *  |         |
-     *  |         +-- 2. Search by ID
-     *  |         +-- 3. Update movie
-     *  |         +-- 4. Remove movie
-     *  |         +-- 5. Print all movies
-     *  |         +-- 6. Back
+     *  |         +-- 4. Back
      *  |
-     *  +-- 2. Exit
+     *  +-- 2. Search Database -->
+     *  |         |
+     *  |         +-- 1. Print All movies
+     *  |         +-- 2. Search Movie by Id
+     *  |         +-- 3. Search Movie by Title
+     *  |         +-- 4. Back
+     *  |
+     *  +-- 3. Data Insights -->
+     *  |
+     *  +-- 4. Exit
      */
 
     /**
@@ -489,7 +502,9 @@ public class CPSC219W26Project {
         | Option | Action                    | Description                    |
         +--------+---------------------------+--------------------------------+
         |   1    | Manage database           | Add, search, update or remove  |
-        |   2    | Exit                      | Close the program              |
+        |   2    | Search datbase            | description                    |
+        |   3    | Data insights             | description                    |
+        |   4    | Exit                      | Close the program              |
         +--------+---------------------------+--------------------------------+""");
 
         do {
@@ -752,7 +767,7 @@ public class CPSC219W26Project {
     }
 
     /**
-     *Updates specified movie data by title matching.
+     * Updates specified movie data by title matching.
      *
      * @param title title of movie
      * @param index The index of the data you want to update based on constants.
