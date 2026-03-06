@@ -702,7 +702,7 @@ public class CPSC219W26Project {
 
     /**
      * Calculates the average of all movies added to database.
-     *
+     * By: Duku Wani
      * @return double from calculation.
      */
     public static String getRatingAverage (double ratingTotal, int numOfMovies){
@@ -719,6 +719,7 @@ public class CPSC219W26Project {
     }
 
     /**
+     * By: Arraf Hoque
      * Prints the highest IMDB Rating movie
      */
     public static void highestValue(){
@@ -733,6 +734,10 @@ public class CPSC219W26Project {
         System.out.println("The highest IMDB Rated Movie is: " + movieToString(highestList.get(0))) ;
     }
 
+    /**
+     * By: Duku Wani
+     * prints out the lowest IMDB RATING
+     */
     public static void lowestValue(){
         ArrayList<String[]> lowestList = new ArrayList<>(movies.values());
 
@@ -872,6 +877,7 @@ public class CPSC219W26Project {
     }
 
     /**
+     * By: Arraf Hoque
      * get a ArrayList of the top1-5 movies from the dataset depending on how large it is
      * @return top5
      */
@@ -892,6 +898,7 @@ public class CPSC219W26Project {
         return top5;
     }
     /**
+     * BY: Arraf Hoque
      print top5 list proper
      */
     public static void printTop5(){
