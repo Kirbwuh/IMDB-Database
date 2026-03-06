@@ -821,6 +821,7 @@ public class CPSC219W26Project {
 
     /**
      * CL-3/6/2026-T10
+     * HL-6/3/2026-T10
      * Builds a formatted string for a single movie record.
      *
      * @param movie record values stored in the fixed index order
