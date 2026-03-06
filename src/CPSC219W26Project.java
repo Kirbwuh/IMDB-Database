@@ -702,7 +702,7 @@ public class CPSC219W26Project {
 
     /**
      * Calculates the average of all movies added to database.
-     * By: Duku Wani
+     * By: Duku Wani 2026/03/06 T10
      * @return double from calculation.
      */
     public static String getRatingAverage (double ratingTotal, int numOfMovies){
@@ -719,7 +719,7 @@ public class CPSC219W26Project {
     }
 
     /**
-     * By: Arraf Hoque
+     * By: Arraf Hoque 2026/03/06 T10
      * Prints the highest IMDB Rating movie
      */
     public static void highestValue(){
@@ -735,7 +735,7 @@ public class CPSC219W26Project {
     }
 
     /**
-     * By: Duku Wani
+     * By: Duku Wani 2026/03/06 T10
      * prints out the lowest IMDB RATING
      */
     public static void lowestValue(){
@@ -877,7 +877,7 @@ public class CPSC219W26Project {
     }
 
     /**
-     * By: Arraf Hoque
+     * By: Arraf Hoque 2026/03/06 T10
      * get a ArrayList of the top1-5 movies from the dataset depending on how large it is
      * @return top5
      */
@@ -898,7 +898,7 @@ public class CPSC219W26Project {
         return top5;
     }
     /**
-     * BY: Arraf Hoque
+     * BY: Arraf Hoque 2026/03/06 T10
      print top5 list proper
      */
     public static void printTop5(){
