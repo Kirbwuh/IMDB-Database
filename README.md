@@ -52,6 +52,7 @@ CRUD stands for Create, Read, Update, and Delete. These are the four basic opera
 ### 2. Summary Functions - Data Analysis
 
 - **Calculate Average Rating** - Computes the average IMDb rating across all movies in the database
+- **View Top 5 Movies** - Displays the top 5 highest-rated movies from the database, sorted by rating
 - **View Statistics** - Display information about the collection of movies
 
 ## How to Use It
@@ -86,30 +87,26 @@ Constants are defined at the beginning of the code to track the position of each
 - DIRECTOR = 6
 - GROSS = 7 (box office revenue)
 
-### Code Organization: CRUD Functions
+### Example Movie Entry
 
-These methods handle the core Create, Read, Update, Delete operations:
+Here is how a movie is stored in the HashMap:
 
-- **addMovie()** - Inserts a new movie into the HashMap with a unique ID
-- **printMovieById()** - Retrieves and displays a single movie's complete information
-- **updateMovieById()** - Modifies a specific field in an existing movie record
-- **removeMovieById()** - Deletes a movie and all its associated data from the database
-- **printAllMovies()** - Displays all movies currently stored in the database
+```
+Movie ID: 1
 
-### Code Organization: Summary Functions
+movies.get(1) = [
+    "The Shawshank Redemption",     // Index 0: SERIES_TITLE
+    "1994",                          // Index 1: RELEASE_YEAR
+    "true",                          // Index 2: CERTIFICATION
+    "Drama",                         // Index 3: GENRE
+    "9.3",                           // Index 4: IMDB_RATING
+    "Two imprisoned men bond...",    // Index 5: OVERVIEW
+    "Frank Darabont",                // Index 6: DIRECTOR
+    "28341469"                       // Index 7: GROSS
+]
+```
 
-These methods provide analysis and summary information:
-
-- **getRatingAverage()** - Calculates and returns the average IMDb rating of all stored movies
-- **singleEntryProcess()** and **multilineEntryProcess()** - Helper methods for collecting user input during movie creation
-
-### Input Validation Methods
-
-- **getStringInput()** - Gets text input from the user and normalizes it
-- **getNumericInput()** - Gets numeric input and validates that the entry is actually a number
-- **getIntegerInput()** - Gets integer input with validation
-- **getBooleanInput()** - Gets yes/no responses (0 or 1)
-- **isNumeric()** - Helper method that checks if a string can be converted to a number
+Each movie stored in the HashMap uses this structure, allowing easy access to specific information using the defined constants.
 
 
 ## Testing
