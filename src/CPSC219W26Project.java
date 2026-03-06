@@ -86,6 +86,8 @@ public class CPSC219W26Project {
                     } else if (dbChoice == 6){
                         System.out.println("The movies you watch are rated " + getRatingAverage(0,0) + " on average.");
                         System.out.println("Here's the rating of every move you've watched.");
+                        highestValue();
+                        lowestValue();
 
                     }
                     else if (dbChoice == 7){
@@ -653,6 +655,24 @@ public class CPSC219W26Project {
         String formatedAverageRating = String.format("%.2f",averageRating);
         return formatedAverageRating;
         
+    }
+
+    /**
+     * Calculates the lowest value from your whole list
+     *
+     * @return double from sorted list.
+     */
+    public static void lowestValue(){
+        ArrayList<String[]> lowestList = new ArrayList<>(movies.values());
+
+
+        lowestList.sort((m1,m2)-> {
+            double rating1 = Double.parseDouble((m1[IMDB_RATING]));
+            double rating2 = Double.parseDouble((m2[IMDB_RATING]));
+            return Double.compare(rating1,rating2);
+        });
+        System.out.println("The lowest rated movie in your catalogue is: " + lowestList.get(0)) ;
+
     }
 
 
