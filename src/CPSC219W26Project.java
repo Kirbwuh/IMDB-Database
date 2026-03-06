@@ -669,7 +669,7 @@ public class CPSC219W26Project {
             double rating2 = Double.parseDouble((m2[IMDB_RATING]));
             return Double.compare(rating2,rating1);
         });
-        System.out.println("The highest IMDB Rated Movie is: " + highestList.get(0)) ;
+        System.out.println("The highest IMDB Rated Movie is: " + movieToString(highestList.get(0))) ;
     }
 
     public static void lowestValue(){
@@ -681,7 +681,7 @@ public class CPSC219W26Project {
             double rating2 = Double.parseDouble((m2[IMDB_RATING]));
             return Double.compare(rating1,rating2);
         });
-        System.out.println("The lowest rated movie in your catalogue is: " + lowestList.get(0)) ;
+        System.out.println("The lowest rated movie in your catalogue is: " + movieToString(lowestList.get(0))) ;
 
     }
 
