@@ -88,8 +88,13 @@ public class CPSC219W26Project {
                         System.out.println("Here's the rating of every move you've watched.");
 
                     }
+                    else if (dbChoice == 7){
+                        printTop5();
+                        pressEnterToContinue(scanner);
 
-                } while (dbChoice != 7);
+                    }
+
+                } while (dbChoice != 8);
             }
 
         } while (mainChoice != 2);
@@ -463,27 +468,28 @@ public class CPSC219W26Project {
 
         System.out.println("\n==================== Database Management ====================");
         System.out.println("""
-        +--------+---------------------------+---------------------------------+
-        | Option | Action                    | Description                     |
-        +--------+---------------------------+---------------------------------+
-        |   1    | Add movie                 | Choose an add method            |
-        |   2    | Search movie by ID        | Find a movie using its ID       |
-        |   3    | Update movie              | Modify an existing movie        |
-        |   4    | Remove movie              | Delete a movie from database    |
-        |   5    | Print all movies          | Display all stored movies       |
-        |   6    | Reviews                   | Find average & separate ratings |
-        |   7    | Back                      | Return to main menu             |
-        +--------+---------------------------+---------------------------------+""");
+        +--------+---------------------------+--------------------------------+
+        | Option | Action                    | Description                    |
+        +--------+---------------------------+--------------------------------+
+        |   1    | Add movie                 | Choose an add method           |
+        |   2    | Search movie by ID        | Find a movie using its ID      |
+        |   3    | Update movie              | Modify an existing movie       |
+        |   4    | Remove movie              | Delete a movie from database   |
+        |   5    | Print all movies          | Display all stored movies      |
+        |   6    |  Reviews                  | Find average & separate ratings|
+        |   7    |  Print Top 5 Movies       | Display the top 5 rated movies |
+        |   8    | Back                      | Return to main menu            |
+        +--------+---------------------------+--------------------------------+""");
 
         do {
             System.out.println("Please enter an option (1-7):");
             choice = scanner.nextLine().trim();
 
-            if (!choice.matches("[1-7]")) {
-                System.out.println("Invalid input. Please enter a number between 1 and 7.");
+            if (!choice.matches("[1-8]")) {
+                System.out.println("Invalid input. Please enter a number between 1 and 6.");
             }
 
-        } while (!choice.matches("[1-7]"));
+        } while (!choice.matches("[1-8]"));
 
         return Integer.parseInt(choice);
     }
@@ -766,5 +772,36 @@ public class CPSC219W26Project {
             System.out.println(movieToString(movie));
         }
     }
+    public static ArrayList<String[]> getTop5(){
+
+        ArrayList<String[]> movieList = new ArrayList<>(movies.values()); // grab a list of every movie
+
+
+        movieList.sort((m1,m2)-> { // fetch the
+            double rating1 = Double.parseDouble((m1[IMDB_RATING]));
+            double rating2 = Double.parseDouble((m2[IMDB_RATING]));
+            return Double.compare(rating2,rating1);
+        });
+        ArrayList<String[]> top5 = new ArrayList<>();
+        for (int i = 0; i < 5 && i < movieList.size(); i++){
+            top5.add(movieList.get(i));
+        }
+        return top5;
+    }
+    public static void printTop5(){
+        ArrayList<String[]> topMovies = getTop5();
+        if (topMovies.isEmpty()){
+            System.out.println("There are 0 movies in the data base. Input some movies then try again!");
+        }
+        else {
+            for (String[] movie : topMovies) {
+                System.out.println(movieToString(movie));
+            }
+            System.out.println("--- End of Top 5 list ---");
+        }
+
+    }
+
+
 }
 
