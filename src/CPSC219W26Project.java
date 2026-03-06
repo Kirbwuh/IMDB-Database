@@ -471,13 +471,13 @@ public class CPSC219W26Project {
         |   3    | Update movie              | Modify an existing movie       |
         |   4    | Remove movie              | Delete a movie from database   |
         |   5    | Print all movies          | Display all stored movies      |
-        |   6    |  Reviews                  | Find average & separate ratings|
-        |   7    |  Print Top 5 Movies       | Display the top 5 rated movies |
+        |   6    | Reviews                   | Find average & separate ratings|
+        |   7    | Print Top 5 Movies        | Display the top 5 rated movies |
         |   8    | Back                      | Return to main menu            |
         +--------+---------------------------+--------------------------------+""");
 
         do {
-            System.out.println("Please enter an option (1-7):");
+            System.out.println("Please enter an option (1-8):");
             choice = scanner.nextLine().trim();
 
             if (!choice.matches("[1-8]")) {
