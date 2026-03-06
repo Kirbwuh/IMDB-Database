@@ -1,10 +1,12 @@
 package tests;
-
-import org.junit.Test;
 import src.CPSC219W26Project;
+import org.junit.jupiter.api.Test;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 public class getRatingAverageTest {
 
     @Test

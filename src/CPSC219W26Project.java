@@ -86,6 +86,8 @@ public class CPSC219W26Project {
                     } else if (dbChoice == 6){
                         System.out.println("The movies you watch are rated " + getRatingAverage(0,0) + " on average.");
                         System.out.println("Here's the rating of every move you've watched.");
+                        highestValue();
+                        lowestValue();
 
                     }
                     else if (dbChoice == 7){
@@ -667,7 +669,20 @@ public class CPSC219W26Project {
             double rating2 = Double.parseDouble((m2[IMDB_RATING]));
             return Double.compare(rating2,rating1);
         });
-        System.out.println("The highest IMDB Rated Movie is: " + highestList.get(0)) ;
+        System.out.println("The highest IMDB Rated Movie is: " + movieToString(highestList.get(0))) ;
+    }
+    public static void lowestValue(){
+        ArrayList<String[]> lowestList = new ArrayList<>(movies.values());
+
+
+        lowestList.sort((m1,m2)-> { // fetch the
+            double rating1 = Double.parseDouble((m1[IMDB_RATING]));
+            double rating2 = Double.parseDouble((m2[IMDB_RATING]));
+            return Double.compare(rating1,rating2);
+        });
+        System.out.println("The lowest IMDB Rated Movie is: " + movieToString(lowestList.get(0))) ;
+
+
     }
 
 
