@@ -84,13 +84,13 @@ public class CPSC219W26Project {
                         System.out.println("--- End of movie list ---");
                         pressEnterToContinue(scanner);
                     }
-                    else if (dbChoice == 6){
+                    else if (dbChoice == 7){
                         printTop5();
                         pressEnterToContinue(scanner);
 
                     }
 
-                } while (dbChoice != 7);
+                } while (dbChoice != 8);
             }
 
         } while (mainChoice != 2);
@@ -471,19 +471,20 @@ public class CPSC219W26Project {
         |   3    | Update movie              | Modify an existing movie       |
         |   4    | Remove movie              | Delete a movie from database   |
         |   5    | Print all movies          | Display all stored movies      |
-        |   6    | Print Top 5 Movies        | Display the top 5 rated movies |
-        |   7    | Back                      | Return to main menu            |
+        |   6    |  Reviews                  | Find average & separate ratings|
+        |   7    |  Print Top 5 Movies       | Display the top 5 rated movies |
+        |   8    | Back                      | Return to main menu            |
         +--------+---------------------------+--------------------------------+""");
 
         do {
-            System.out.println("Please enter an option (1-6):");
+            System.out.println("Please enter an option (1-7):");
             choice = scanner.nextLine().trim();
 
-            if (!choice.matches("[1-6]")) {
+            if (!choice.matches("[1-8]")) {
                 System.out.println("Invalid input. Please enter a number between 1 and 6.");
             }
 
-        } while (!choice.matches("[1-7]"));
+        } while (!choice.matches("[1-8]"));
 
         return Integer.parseInt(choice);
     }
@@ -749,10 +750,10 @@ public class CPSC219W26Project {
     }
     public static ArrayList<String[]> getTop5(){
 
-        ArrayList<String[]> movieList = new ArrayList<>(movies.values());
+        ArrayList<String[]> movieList = new ArrayList<>(movies.values()); // grab a list of every movie
 
 
-        movieList.sort((m1,m2)-> {
+        movieList.sort((m1,m2)-> { // fetch the
             double rating1 = Double.parseDouble((m1[IMDB_RATING]));
             double rating2 = Double.parseDouble((m2[IMDB_RATING]));
             return Double.compare(rating2,rating1);
