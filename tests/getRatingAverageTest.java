@@ -1,6 +1,6 @@
 package tests;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import src.CPSC219W26Project;
 
 import static org.junit.jupiter.api.Assertions.*;

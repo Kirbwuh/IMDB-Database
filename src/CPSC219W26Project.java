@@ -208,6 +208,7 @@ public class CPSC219W26Project {
     }
 
     /**
+     * CL-3/6/2026-T10
      * This method receives a scanner object and captures
      * the user input, validating that it is numeric, whilst printing in console
      * the data to be captured.
@@ -409,6 +410,7 @@ public class CPSC219W26Project {
     }
 
     /**
+     * CL-3/6/2026-T10
      * Prompts the user to search for a movie by its title
      *
      * @param scanner scanner object from java.util.Scanner
@@ -421,6 +423,7 @@ public class CPSC219W26Project {
     }
 
     /**
+     * CL-3/6/2026-T10
      * Prompts the user to search for a movie by its ID
      *
      * @param scanner scanner object from java.util.Scanner
@@ -433,6 +436,13 @@ public class CPSC219W26Project {
         return getMovieById(searchInput);
     }
 
+    /**
+     * CL-3/6/2026-T10
+     * Prompts the user to select a category of data they want displayed,
+     *
+     * @param scanner scanner object from java.util.scanner
+     * @return an ArrayList<String> containing all category data.
+     */
     private static ArrayList<String> getCategoryInformation(Scanner scanner) {
         final String prompt = ("""
                 Please enter a number corresponding to the data you want displayed:
@@ -622,6 +632,8 @@ public class CPSC219W26Project {
     //------------------ADD DATA METHODS-------------------------------------
     //***********************************************************************
     /**
+     * CL-3/6/2026-T10
+     * HL-6/3/2026-T10
      * Adds a movie to the map and assigns the next available id.
      *
      * @param entry Hashmap of movie data.
@@ -638,6 +650,7 @@ public class CPSC219W26Project {
     //***********************************************************************
 
     /**
+     * CL-3/6/2026-T10
      * Returns movie object by associated title
      *
      * @param title movie title associated with entry.
@@ -654,6 +667,7 @@ public class CPSC219W26Project {
     }
 
     /**
+     * CL-3/6/2026-T10
      * Returns movie object by associated ID
      *
      * @param id movie ID in HashMap
@@ -671,6 +685,7 @@ public class CPSC219W26Project {
     }
 
     /**
+     * CL-3/6/2026-T10
      * Returns an ArrayList of specified values present in the HashMap. For example using GENRE will return all the genres.
      *
      * @param index Use the constants to index the information you want returned
@@ -772,6 +787,7 @@ public class CPSC219W26Project {
     //***********************************************************************
 
     /**
+     * CL-3/6/2026-T10
      * Deletes a movie entry by its title.
      *
      * @param title movie title associated with entry.
@@ -787,6 +803,7 @@ public class CPSC219W26Project {
     }
 
     /**
+     * CL-3/6/2026-T10
      * Deletes a movie entry by its ID.
      *
      * @param id movie id associated with entry.
@@ -804,6 +821,7 @@ public class CPSC219W26Project {
     //***********************************************************************
 
     /**
+     * CL-3/6/2026-T10
      * Builds a formatted string for a single movie record.
      *
      * @param movie record values stored in the fixed index order
@@ -822,6 +840,7 @@ public class CPSC219W26Project {
     }
 
     /**
+     * CL-3/6/2026-T10
      * Print's a single movie by associated title.
      *
      * @param title movie title associated with entry.
@@ -831,6 +850,7 @@ public class CPSC219W26Project {
     }
 
     /**
+     * CL-3/6/2026-T10
      * Print's a single movie by associated ID
      *
      * @param id movie id associated with entry.
@@ -840,6 +860,7 @@ public class CPSC219W26Project {
     }
 
     /**
+     * CL-3/6/2026-T10
      * Prints every movie currently stored in the map.
      */
     public static void printAllMovies() {
@@ -885,8 +906,4 @@ public class CPSC219W26Project {
         }
 
     }
-
-
-
 }
-

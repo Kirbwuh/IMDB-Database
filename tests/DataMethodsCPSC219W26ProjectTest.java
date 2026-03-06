@@ -2,9 +2,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
-import org.testng.IResultMap;
-import org.testng.internal.junit.ArrayComparisonFailure;
-import src.CPSC219W26Project;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static src.CPSC219W26Project.*;
@@ -51,7 +48,12 @@ public class DataMethodsCPSC219W26ProjectTest {
 
 
 
-    //"forrest gump", 1994, true, "drama", 8.8, "...", "zemeckis", 678.2
+
+    /**
+     * CL-3/6/2026-T10
+     * Verifies that adding a movie persists all provided field values,
+     * and that the movie can be retrieved by title afterward.
+     */
     @Test
     public void addMovieStoresMovieData() {
         movies.clear();
@@ -70,10 +72,14 @@ public class DataMethodsCPSC219W26ProjectTest {
         assertEquals("463.999", movie[GROSS]);
     }
 
+    /**
+     * CL-3/6/2026-T10
+     * Verifies that a movie can be retrieved by its generated ID.
+     */
     @Test
     public void getMovieByIdReturnsMatchingMovie() {
         movies.clear();
-        addMovie(testEntry);
+        addMovie(testEntry2);
 
         int movieId = -1;
         for (Map.Entry<Integer, String[]> entry : movies.entrySet()) {
@@ -88,6 +94,10 @@ public class DataMethodsCPSC219W26ProjectTest {
         assertEquals("forrest gump", movie[SERIES_TITLE]);
     }
 
+    /**
+     * CL-3/6/2026-T10
+     * Verifies that updating by title changes only the targeted field value.
+     */
     @Test
     public void updateMovieByTitleUpdatesSingleField() {
         movies.clear();
@@ -100,6 +110,10 @@ public class DataMethodsCPSC219W26ProjectTest {
         assertEquals("4.5", movie[IMDB_RATING]);
     }
 
+    /**
+     * CL-3/6/2026-T10
+     * Verifies that updating by ID changes the requested field for that movie.
+     */
     @Test
     public void updateMovieByIdUpdatesSingleField() {
         movies.clear();
@@ -117,6 +131,10 @@ public class DataMethodsCPSC219W26ProjectTest {
         assertEquals("sci-fi", getMovieById(movieId)[GENRE]);
     }
 
+    /**
+     * CL-3/6/2026-T10
+     * Verifies that requesting a field index returns values for all stored movies.
+     */
     @Test
     public void getInformationReturnsValuesForRequestedIndex() {
         movies.clear();
@@ -130,6 +148,11 @@ public class DataMethodsCPSC219W26ProjectTest {
         assertTrue(genres.contains("action"));
     }
 
+    /**
+     * CL-3/6/2026-T10
+     * Verifies that removing a movie by ID deletes it from storage
+     * so it is no longer retrievable by that ID.
+     */
     @Test
     public void removeMovieByIdRemovesEntry() {
         movies.clear();
