@@ -83,20 +83,31 @@ public class CPSC219W26Project {
                         printAllMovies();
                         System.out.println("--- End of movie list ---");
                         pressEnterToContinue(scanner);
-                    } else if (dbChoice == 6){
-                        System.out.println("The movies you watch are rated " + getRatingAverage(0,0) + " on average.");
-                        System.out.println("Here's the rating of every move you've watched.");
-                        highestValue();
-                        lowestValue();
 
-                    }
-                    else if (dbChoice == 7){
-                        printTop5();
+                    } else if (dbChoice == 6) {
+                        System.out.println("The movies you watch are rated " + getRatingAverage(0, 0) + " on average.");
+                        System.out.println("\nHere's the rating of every movie you've watched:");
+                        System.out.println("----------------------------------------------------");
+                        for (Map.Entry<Integer, String[]> entry : movies.entrySet()) {
+                            System.out.println("ID: " + entry.getKey() + " | " + entry.getValue()[SERIES_TITLE] + " | Rating: " + entry.getValue()[IMDB_RATING]);
+                        }
+                        System.out.println("----------------------------------------------------");
                         pressEnterToContinue(scanner);
 
+                    } else if (dbChoice == 7) {
+                        System.out.println("Highest Rated Movie:"); highestValue();
+                        pressEnterToContinue(scanner);
+
+                    } else if (dbChoice == 8) {
+                        System.out.println("Lowest Rated Movie:"); lowestValue();
+                        pressEnterToContinue(scanner);
+
+                    } else if (dbChoice == 9) {
+                        printTop5();
+                        pressEnterToContinue(scanner);
                     }
 
-                } while (dbChoice != 8);
+                } while (dbChoice != 10);
             }
 
         } while (mainChoice != 2);
@@ -470,28 +481,30 @@ public class CPSC219W26Project {
 
         System.out.println("\n==================== Database Management ====================");
         System.out.println("""
-        +--------+---------------------------+--------------------------------+
-        | Option | Action                    | Description                    |
-        +--------+---------------------------+--------------------------------+
-        |   1    | Add movie                 | Choose an add method           |
-        |   2    | Search movie by ID        | Find a movie using its ID      |
-        |   3    | Update movie              | Modify an existing movie       |
-        |   4    | Remove movie              | Delete a movie from database   |
-        |   5    | Print all movies          | Display all stored movies      |
-        |   6    | Reviews                   | Find average & separate ratings|
-        |   7    | Print Top 5 Movies        | Display the top 5 rated movies |
-        |   8    | Back                      | Return to main menu            |
-        +--------+---------------------------+--------------------------------+""");
+                        +--------+---------------------------+--------------------------------+
+                        | Option | Action                    | Description                    |
+                        +--------+---------------------------+--------------------------------+
+                        |   1    | Add movie                 | Choose an add method           |
+                        |   2    | Search movie by ID        | Find a movie using its ID      |
+                        |   3    | Update movie              | Modify an existing movie       |
+                        |   4    | Remove movie              | Delete a movie from database   |
+                        |   5    | Print all movies          | Display all stored movies      |
+                        |   6    | Reviews                   | Average & individual ratings   |
+                        |   7    | Highest rated movie       | Display the highest rated movie|
+                        |   8    | Lowest rated movie        | Display the lowest rated movie |
+                        |   9    | Print Top 5 Movies        | Display the top 5 rated movies |
+                        |   10   | Back                      | Return to main menu            |
+                        +--------+---------------------------+--------------------------------+""");
 
         do {
-            System.out.println("Please enter an option (1-8):");
+            System.out.println("Please enter an option (1-10):");
             choice = scanner.nextLine().trim();
 
-            if (!choice.matches("[1-8]")) {
-                System.out.println("Invalid input. Please enter a number between 1 and 6.");
+            if (!choice.matches("([1-9]|10)")) {
+                System.out.println("Invalid input. Please enter a number between 1 and 10.");
             }
 
-        } while (!choice.matches("[1-8]"));
+        } while (!choice.matches("([1-9]|10)"));
 
         return Integer.parseInt(choice);
     }
