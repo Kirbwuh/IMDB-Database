@@ -655,6 +655,22 @@ public class CPSC219W26Project {
         
     }
 
+    /**
+     * Prints the highest IMDB Rating movie
+     */
+    public static void highestValue(){
+        ArrayList<String[]> highestList = new ArrayList<>(movies.values());
+
+
+        highestList.sort((m1,m2)-> {
+            double rating1 = Double.parseDouble((m1[IMDB_RATING]));
+            double rating2 = Double.parseDouble((m2[IMDB_RATING]));
+            return Double.compare(rating2,rating1);
+        });
+        System.out.println("The highest IMDB Rated Movie is: " + highestList.get(0)) ;
+    }
+
+
 
 
     //***********************************************************************
@@ -772,9 +788,14 @@ public class CPSC219W26Project {
             System.out.println(movieToString(movie));
         }
     }
+
+    /**
+     * get a ArrayList of the top1-5 movies from the dataset depending on how large it is
+     * @return top5
+     */
     public static ArrayList<String[]> getTop5(){
 
-        ArrayList<String[]> movieList = new ArrayList<>(movies.values()); // grab a list of every movie
+        ArrayList<String[]> movieList = new ArrayList<>(movies.values());
 
 
         movieList.sort((m1,m2)-> { // fetch the
@@ -788,6 +809,9 @@ public class CPSC219W26Project {
         }
         return top5;
     }
+    /**
+    print top5 list proper
+     */
     public static void printTop5(){
         ArrayList<String[]> topMovies = getTop5();
         if (topMovies.isEmpty()){
@@ -801,6 +825,7 @@ public class CPSC219W26Project {
         }
 
     }
+
 
 
 }
