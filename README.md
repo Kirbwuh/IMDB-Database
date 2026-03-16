@@ -59,7 +59,7 @@ CRUD stands for Create, Read, Update, and Delete. These are the four basic opera
 
 The program uses a menu-driven interface where users navigate through options to perform different operations. When the program starts, users are presented with a main menu to either access the database or exit the application.
 
-### Main Menu Flow
+### src.Main Menu Flow
 
 1. Select "Database" to access movie management options
 2. Choose from the available CRUD operations or summary functions
