@@ -30,7 +30,7 @@ public class CPSC219W26Project {
     //------------------Main Method--------------------------
     //***********************************************************************
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int mainChoice, dbChoice, addChoice;
 
