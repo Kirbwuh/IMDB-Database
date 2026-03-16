@@ -30,7 +30,7 @@ public class CPSC219W26Project {
     //------------------Main Method--------------------------
     //***********************************************************************
 
-    static void main(String[] args) {
+    /* static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int mainChoice, dbChoice, addChoice;
 
@@ -149,7 +149,7 @@ public class CPSC219W26Project {
         scanner.close();
         System.exit(0);
     }
-
+    */
     // money made by movie (double)
 
     //***********************************************************************
