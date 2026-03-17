@@ -145,4 +145,12 @@ public class RowEntry {
                 + "\n Overview: "  + description;
     }
 
+    /**
+     * Returns a CSV row starting with the common fields.
+     * @return String CSV representation of common fields
+     */
+    public String toCSVStringRow() {
+        return currentEntryId + "," + title + "," + year+ "," + genre+ "," + imdbRating+ "," + description;
+    }
+
 }
