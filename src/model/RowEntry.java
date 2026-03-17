@@ -145,4 +145,15 @@ public class RowEntry {
                 + "\n Overview: "  + description;
     }
 
+    /**
+     * Returns a CSV row starting with the common fields.
+     * Children call super.toCSVRow() and append their own fields.
+     * Format: id,title,year,genre,imdbRating,overview
+     *
+     * @return String CSV representation of common fields
+     */
+    protected String toCSVStringRow() {
+        return currentEntryId + "," + title + "," + year+ "," + genre+ "," + imdbRating+ "," + description;
+    }
+
 }
