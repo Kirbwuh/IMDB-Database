@@ -1,5 +1,6 @@
 package Model;
 import java.util.HashMap;
+import java.util.Map;
 import model.Movie;
 
 // Replace the static HashMap with a proper OO class. Store List. Manage auto-increment ID.
@@ -33,5 +34,17 @@ public class MovieDatabase {
         nextId ++;
     }
 
-    public void
+    public void removeMovie(int id) {
+        movieDatabase.remove(id);
+    }
+
+    public void removeMovie(String title) {
+        for (Map.Entry<Integer, Movie> entry : movieDatabase.entrySet()) {
+            int id = entry.getKey();
+            Movie movie = entry.getValue();
+            if (movie.getTitle().equals(title)) {
+                movieDatabase.remove(id);
+            }
+        }
+    }
 }
