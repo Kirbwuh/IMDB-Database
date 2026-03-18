@@ -24,10 +24,7 @@ import model.Movie;
 public class MovieDatabase {
 
     private HashMap<Integer, Movie> movieDatabase;
-    private static int nextId = 1;
-
-    public MovieDatabase() {
-    }
+    private int nextId = 1;
 
     public void addMovie(Movie movie) {
         movieDatabase.put(nextId, movie);
@@ -36,6 +33,20 @@ public class MovieDatabase {
 
     public void removeMovie(int id) {
         movieDatabase.remove(id);
+    }
+
+    public Movie getMovie(int id) {
+        return movieDatabase.get(id);
+    }
+
+    public Movie getMovie(String title) {
+        for (Map.Entry<Integer, Movie> entry: movieDatabase.entrySet()) {
+            Movie movie = entry.getValue();
+            if (movie.getTitle().equals(title)) {
+                return movie;
+            }
+        }
+        return null;
     }
 
     public void removeMovie(String title) {
