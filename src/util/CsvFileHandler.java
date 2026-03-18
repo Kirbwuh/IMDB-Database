@@ -1,6 +1,8 @@
 package src.util;
+import model.MovieDatabase;
+import org.w3c.dom.css.CSSValue;
 
-import  model.Movie;
+import java.io.File;
 
 /**
  * Handles saving and loading of comma separated value files.
@@ -8,17 +10,14 @@ import  model.Movie;
  */
 public class CsvFileHandler {
     // Instance Variables
-    private String filepath;
-    private model.Movie movies;
+    private final String filepath;
+    private model.MovieDatabase movieEntry;
+    private File movies;
 
-    /**
-     *
-     * @param filepath
-     * @param movies
-     */
-    public CsvFileHandler(String filepath, model.Movie movies) {
-        this.filepath;
-        this.movies;
+    public CsvFileHandler(String filepath, model.MovieDatabase movieEntry, File movies) {
+        this.filepath = "src/util/Movies.csv";
+        this.movieEntry = new MovieDatabase();
+        this.movies = new File("Movies.csv");
     }
 
     /**
@@ -32,11 +31,9 @@ public class CsvFileHandler {
 
     /**
      *
-     * @param filepath
-     * @param db
      * @return
      */
-    public Movie getMovies(String filepath, model.MovieDatabase db) {
+    public File getMovies() {
         return movies;
     }
 }
