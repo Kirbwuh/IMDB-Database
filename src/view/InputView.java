@@ -131,7 +131,27 @@ public class InputView  {
 
     }
 
+    /**
+     * By: Arraf Hoque 2026/03/06 T10
+     * get a ArrayList of the top1-5 movies from the dataset depending on how large it is
+     * @return top5
+     */
+    public static ArrayList<String[]> getTop5(){
 
+        ArrayList<String[]> movieList = new ArrayList<>(movies.values());
+
+
+        movieList.sort((m1,m2)-> { // fetch the
+            double rating1 = Double.parseDouble((m1[IMDB_RATING]));
+            double rating2 = Double.parseDouble((m2[IMDB_RATING]));
+            return Double.compare(rating2,rating1);
+        });
+        ArrayList<String[]> top5 = new ArrayList<>();
+        for (int i = 0; i < 5 && i < movieList.size(); i++){
+            top5.add(movieList.get(i));
+        }
+        return top5;
+    }
 
     //***********************************************************************
     //------------------UPDATE DATA METHODS----------------------------------
@@ -193,6 +213,26 @@ public class InputView  {
     //***********************************************************************
 
     /**
+     * Duku - 20/03/2026 -T10.
+     * Allows the user to update a movie by either looking up the Name or Id of the movie
+     *
+     * @param scanner User's input for searching up the movie
+     */
+    public static void removeMovie(Scanner scanner) {
+        final String searchPrompt = "Enter the ID or Name of the Movie you would like to Search.";
+        String movieName = getStringInput(scanner, searchPrompt);
+        if (isNumeric(movieName)){ //if the user uses only numbers
+            removeMovieById(model.Movie);
+            System.out.println("The movie has been removed!");
+            pressEnterToContinue(scanner);
+        } else {
+            removeMovieByTitle(model.Movie); //if the user uses only letters
+            System.out.println("The movie has been removed!");
+            pressEnterToContinue(scanner);
+        }
+    }
+
+    /**
      * CL-3/6/2026-T10
      * Deletes a movie entry by its title.
      *
@@ -223,7 +263,38 @@ public class InputView  {
     }
 
 
+    //***********************************************************************
+    //---------------------------- PRINT METHODS ----------------------------
+    //***********************************************************************
 
+
+    /**
+     * CL-3/6/2026-T10
+     * Prints every movie currently stored in the map.
+     */
+    public static void printAllMovies() {
+        for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
+            String[] movie = entry.getValue();
+            System.out.println(movieToString(movie));
+        }
+    }
+
+
+    public static void reviews(model.Movie){
+        if (movies.isEmpty()){
+            System.out.println("No movies in the database yet. Add some movies first!");
+            pressEnterToContinue(scanner);
+        } else {
+            System.out.println("The movies you watch are rated " + getRatingAverage(0, 0) + " on average.");
+            System.out.println("\nHere's the rating of every movie you've watched:");
+            System.out.println("----------------------------------------------------");
+            for (Map.Entry<Integer, String[]> entry : movies.entrySet()) {
+                System.out.println("ID: " + entry.getKey() + " | " + entry.getValue()[SERIES_TITLE] + " | Rating: " + entry.getValue()[IMDB_RATING]);
+            }
+            System.out.println("----------------------------------------------------");
+            pressEnterToContinue(scanner);
+        }
+    }
 
     //***********************************************************************
     //---------------- Helper Methods ---------------------------------------
@@ -297,6 +368,8 @@ public class InputView  {
 
         return getMovieById(searchInput);
     }
+
+    //need to make search function to combine both methods
 
     /**
      * CL-3/6/2026-T10
@@ -438,17 +511,17 @@ public class InputView  {
                     break;
                 case "3": updateMovie(scanner);
                     break;
-                case "4": remove;
+                case "4": removeMovie(scanner);
                     break;
-                case "5": "printAllMoviesFunc";
+                case "5": printAllMovies();
                     break;
-                case "6": "reviewsFunc";
+                case "6": reviews();
                     break;
-                case "7": "highestRateMovieFunc";
+                case "7": highestValue();
                     break;
-                case "8": "lowestRateMovieFunc";
+                case "8": lowestValue();
                     break;
-                case "9": "top5MoviesFunc";
+                case "9": getTop5();
                     break;
                 case "10": pressEnterToContinue(scanner);
                     break;
