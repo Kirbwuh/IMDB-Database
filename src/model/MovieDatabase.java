@@ -1,4 +1,4 @@
 package model;
 
-public class MovieDatabase {
+public class    MovieDatabase {
 }
