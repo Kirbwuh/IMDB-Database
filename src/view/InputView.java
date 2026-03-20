@@ -1,26 +1,228 @@
 package src.view;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
-public class InputView extends view.ConsoleView {
+public class InputView  {
+
+    public static int nextId = 1;
+    //***********************************************************************
+    //------------------ADD DATA METHODS-------------------------------------
+    //***********************************************************************
+    /**
+     * CL-3/6/2026-T10
+     * HL-6/3/2026-T10
+     * Adds a movie to the map and assigns the next available id.
+     *
+     * @param entry Hashmap of movie data.
+     */
+    public static void addMovie(HashMap<Integer, String> entry) {
+        int id = nextId++;
+        movies.put(id,new String[] {
+                entry.get(SERIES_TITLE), entry.get(RELEASE_YEAR),entry.get(CERTIFICATION),entry.get(GENRE),entry.get(IMDB_RATING),entry.get(OVERVIEW),entry.get(DIRECTOR),entry.get(GROSS)
+        });
+    }
 
     //***********************************************************************
-    //------------------Class Variables--------------------------
+    //------------------GET DATA METHODS------------------------------------
     //***********************************************************************
 
-    // Establish id
-    private static int nextId = 1;
+    /**
+     * CL-3/6/2026-T10
+     * Returns movie object by associated title
+     *
+     * @param title movie title associated with entry.
+     * @return movie object with associated title.
+     */
+    public static String[] getMovieByTitle(String title) {
+        for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
+            String[] movie = entry.getValue();
+            if (movie[SERIES_TITLE].equals(title)) {
+                return movie;
+            }
+        }
+        return null;
+    }
 
-    // String Array indexes within the HashMap
-    public static final int SERIES_TITLE = 0;    // Name of movie (String)
-    public static final int RELEASE_YEAR = 1;   // Year movie was released (int)
-    public static final int CERTIFICATION = 2;   // Age / Content Rating PG-13 (boolean)
-    public static final int GENRE = 3;           // Genre(s) of the movies (String)
-    public static final int IMDB_RATING = 4;     // Rating of movie on IMDB (double)
-    public static final int OVERVIEW = 5;        // Short description of movie (String)
-    public static final int DIRECTOR = 6;      // Name of director (String)
-    public static final int GROSS = 7;        // money made by movie (double)
+    /**
+     * CL-3/6/2026-T10
+     * Returns movie object by associated ID
+     *
+     * @param id movie ID in HashMap
+     * @return movie object
+     */
+    public static String[] getMovieById(int id) {
+        for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
+            int key = entry.getKey();
+            String[] movie = entry.getValue();
+            if (key == id) {
+                return movie;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * CL-3/6/2026-T10
+     * Returns an ArrayList of specified values present in the HashMap. For example using GENRE will return all the genres.
+     *
+     * @param index Use the constants to index the information you want returned
+     * @return ArrayList of specified values.
+     */
+    public static ArrayList<String> getInformation(int index) {
+        ArrayList<String> values = new ArrayList<String>();
+        for (Map.Entry<Integer, String[]> entry : movies.entrySet()) {
+            String[] movie = entry.getValue();
+            values.add(movie[index]);
+        }
+        return values;
+    }
+
+    /**
+     * Calculates the average of all movies added to database.
+     * By: Duku Wani 2026/03/06 T10
+     * @return double from calculation.
+     */
+    public static String getRatingAverage (double ratingTotal, int numOfMovies){
+        for (int i = 0; i < getInformation(4).size(); i++){
+            ratingTotal += Double.parseDouble(getInformation(4).get(i)); //Double.parseDouble() was recommended by IntelliJ and Looked up what it meant.
+        }
+        for (int i = 0; i <getInformation(1).size(); i++){
+            numOfMovies = getInformation(1).size();
+        }
+        double averageRating = ratingTotal/numOfMovies;
+        String formatedAverageRating = String.format("%.2f",averageRating);
+        return formatedAverageRating;
+
+    }
+
+    /**
+     * By: Arraf Hoque 2026/03/06 T10
+     * Prints the highest IMDB Rating movie
+     */
+    public static void highestValue(){
+        ArrayList<String[]> highestList = new ArrayList<>(movies.values());
+
+
+        highestList.sort((m1,m2)-> {
+            double rating1 = Double.parseDouble((m1[IMDB_RATING]));
+            double rating2 = Double.parseDouble((m2[IMDB_RATING]));
+            return Double.compare(rating2,rating1);
+        });
+        System.out.println("The highest IMDB Rated Movie is: " + movieToString(highestList.get(0))) ;
+    }
+
+    /**
+     * By: Duku Wani 2026/03/06 T10
+     * prints out the lowest IMDB RATING
+     */
+    public static void lowestValue(){
+        ArrayList<String[]> lowestList = new ArrayList<>(movies.values());
+
+
+        lowestList.sort((m1,m2)-> {
+            double rating1 = Double.parseDouble((m1[IMDB_RATING]));
+            double rating2 = Double.parseDouble((m2[IMDB_RATING]));
+            return Double.compare(rating1,rating2);
+        });
+        System.out.println("The lowest rated movie in your catalogue is: " + movieToString(lowestList.get(0))) ;
+
+    }
+
+
+
+    //***********************************************************************
+    //------------------UPDATE DATA METHODS----------------------------------
+    //***********************************************************************
+
+    //Need to update what movie's are in the update methods
+    /**
+     * Duku - 20/03/2026 -T10.
+     * Allows the user to update a movie by either looking up the Name or Id of the movie
+     *
+     * @param scanner User's input for searching up the movie
+     */
+    public static void updateMovie(Scanner scanner) {
+        final String searchPrompt = "Enter the ID or Name of the Movie you would like to Search.";
+        String movieName = getStringInput(scanner, searchPrompt);
+        if (isNumeric(movieName)){ //if the user uses only numbers
+            updateMovieByTitle(model.Movie);
+            System.out.println("The movie has been updated!");
+            pressEnterToContinue(scanner);
+        } else {
+            updateMovieById(model.Movie); //if the user uses only letters
+            System.out.println("The movie has been updated!");
+            pressEnterToContinue(scanner);
+        }
+    }
+
+    /**
+     *Updates specified movie data by ID matching.
+     *
+     * @param id id (key) of movie
+     * @param index The index of the data you want to update based on constants.
+     * @param update The update/change you want to make
+     */
+    public static void updateMovieById(int id,int index,String update) {
+        String[] movie = movies.get(id);
+        if (movie != null) {
+            movie[index] = update;
+        }
+    }
+
+    /**
+     *Updates specified movie data by title matching.
+     *
+     * @param title title of movie
+     * @param index The index of the data you want to update based on constants.
+     * @param update the update/change you want to make.
+     */
+    public static void updateMovieByTitle(String title, int index, String update) {
+        for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
+            String[] movie = entry.getValue();
+            if (movie[SERIES_TITLE].equals(title)) {
+                movie[index] = update;
+            }
+        }
+    }
+
+    //***********************************************************************
+    //------------------REMOVE DATA METHODS----------------------------------
+    //***********************************************************************
+
+    /**
+     * CL-3/6/2026-T10
+     * Deletes a movie entry by its title.
+     *
+     * @param title movie title associated with entry.
+     */
+    public static void removeMovieByTitle(String title) {
+        for (Map.Entry<Integer, String[]> entry : movies.entrySet()) {
+            int id = entry.getKey();
+            String[] movie = entry.getValue();
+            if (movie[SERIES_TITLE].equals(title)) {
+                movies.remove(id);
+            }
+        }
+    }
+
+    /**
+     * CL-3/6/2026-T10
+     * Deletes a movie entry by its ID.
+     *
+     * @param id movie id associated with entry.
+     */
+    public static void removeMovieById(int id) {
+        if (movies.containsKey(id)) {
+            movies.remove(id);
+        } else {
+            System.out.println("No movie found with ID: " + id);
+        }
+    }
+
+
 
 
     //***********************************************************************
@@ -69,6 +271,54 @@ public class InputView extends view.ConsoleView {
             return new String[] {};
         }
     }
+    /**
+     * CL-3/6/2026-T10
+     * Prompts the user to search for a movie by its title
+     *
+     * @param scanner scanner object from java.util.Scanner
+     * @return movie String[] or null
+     */
+    private static String[] searchMovieByTitle(Scanner scanner) {
+        final String searchPrompt = "Enter the TITLE of the Movie you would like to Search.";
+        String searchInput = getStringInput(scanner, searchPrompt);
+        return getMovieByTitle(searchInput);
+    }
+
+    /**
+     * CL-3/6/2026-T10
+     * Prompts the user to search for a movie by its ID
+     *
+     * @param scanner scanner object from java.util.Scanner
+     * @return movie String[] or null
+     */
+    private static String[] searchMovieByID(Scanner scanner) {
+        final String searchPrompt = "Enter the ID of the Movie you would like to Search.";
+        int searchInput = getIntegerInput(scanner, searchPrompt);
+
+        return getMovieById(searchInput);
+    }
+
+    /**
+     * CL-3/6/2026-T10
+     * Prompts the user to select a category of data they want displayed,
+     *
+     * @param scanner scanner object from java.util.scanner
+     * @return an ArrayList<String> containing all category data.
+     */
+    private static ArrayList<String> getCategoryInformation(Scanner scanner) {
+        final String prompt = ("""
+                Please enter a number corresponding to the data you want displayed:
+                1. Series Titles
+                2. Release Years
+                3. PG- 13
+                4. Genres
+                5. IMDB Ratings
+                6. Overviews
+                7. Gross Earnings
+                """);
+        int searchInput = getIntegerInput(scanner, prompt);
+        return getInformation(searchInput);
+    }
     //***********************************************************************
     //------------------Main Method--------------------------
     //***********************************************************************
@@ -79,6 +329,174 @@ public class InputView extends view.ConsoleView {
         this.scanner = scanner;
     }
 
+    // Menu order
+    /*
+     *  showMainMenu()
+     *  |
+     *  +-- 1. Manage Database --> showDatabaseMenu()
+     *  |         |
+     *  |         +-- 1. Add Movie --> showAddMovieMenu()
+     *  |         |         |
+     *  |         |         +-- 1. Step by step
+     *  |         |         +-- 2. Single line
+     *  |         |         +-- 3. Back
+     *  |         |
+     *  |         +-- 2. Search by ID
+     *  |         +-- 3. Update movie
+     *  |         +-- 4. Remove movie
+     *  |         +-- 5. Print all movies
+     *  |         +-- 6. Back
+     *  |
+     *  +-- 2. Exit
+     *
+     * int mainMenuSelectionInt = null
+     * switch(mainMenuSelect):
+     * case 1
+     * return mainMenuSelect
+     *
+     * case 2
+     * case 3
+     */
+
+    /** JJ - 2026/09/14 - T10
+     * Displays the main menu and returns the user's choice
+     * @param scanner scanner object from java.util.Scanner
+     * @return the menu option selected by the user as an int
+     */
+    public static int showMainMenu(Scanner scanner) {
+        String choice;
+        int mainMenuSelect = Integer.parseInt(null);
+
+        System.out.println("********************* IMDb Movie Database - CPSC219 W26  *********************");
+        System.out.println("Track and store your favourite movies with ratings, directors, genres and more.");
+        System.out.println();
+
+        System.out.println("""
+                +--------+---------------------------+--------------------------------+
+                | Option | Action                    | Description                    |
+                +--------+---------------------------+--------------------------------+
+                |   1    | Manage database           | Add, search, update or remove  |
+                |   2    | Exit                      | Close the program              |
+                +--------+---------------------------+--------------------------------+""");
+
+        do {
+            System.out.println("Please enter an option (1 or 2):");
+            choice = scanner.nextLine().trim();
+
+            if (!choice.equals("1") && !choice.equals("2")) {
+                System.out.println("Invalid input. Please enter 1 or 2.");
+            }
+            switch (choice){
+                case "1": showDatabaseMenu(scanner);
+                    mainMenuSelect = 1;
+                    return mainMenuSelect;
+                case "2": System.exit(0);
+            }
+
+
+        } while (!choice.equals("1") && !choice.equals("2"));
+
+        return Integer.parseInt(choice);
+    }
+
+    /** JJ - 2026/09/14 - T10
+     * Displays the database management menu and returns the user's choice
+     * @param scanner scanner object from java.util.Scanner
+     * @return the menu option selected by the user as an int
+     */
+    private static int showDatabaseMenu(Scanner scanner) {
+        String choice;
+
+        System.out.println("\n==================== Database Management ====================");
+        System.out.println("""
+                        +--------+---------------------------+--------------------------------+
+                        | Option | Action                    | Description                    |
+                        +--------+---------------------------+--------------------------------+
+                        |   1    | Add movie                 | Choose an add method           |
+                        |   2    | Search movie by ID        | Find a movie using its ID      |
+                        |   3    | Update movie              | Modify an existing movie       |
+                        |   4    | Remove movie              | Delete a movie from database   |
+                        |   5    | Print all movies          | Display all stored movies      |
+                        |   6    | Reviews                   | Average & individual ratings   |
+                        |   7    | Highest rated movie       | Display the highest rated movie|
+                        |   8    | Lowest rated movie        | Display the lowest rated movie |
+                        |   9    | Print Top 5 Movies        | Display the top 5 rated movies |
+                        |   10   | Back                      | Return to main menu            |
+                        +--------+---------------------------+--------------------------------+""");
+
+        do {
+            System.out.println("Please enter an option (1-10):");
+            choice = scanner.nextLine().trim();
+
+            if (!choice.matches("([1-9]|10)")) {
+                System.out.println("Invalid input. Please enter a number between 1 and 10.");
+            }
+            switch (choice){
+                case "1": showAddMovieMenu(scanner);
+                    break;
+                case "2": searchMovieByID(scanner);
+                    break;
+                case "3": updateMovie(scanner);
+                    break;
+                case "4": remove;
+                    break;
+                case "5": "printAllMoviesFunc";
+                    break;
+                case "6": "reviewsFunc";
+                    break;
+                case "7": "highestRateMovieFunc";
+                    break;
+                case "8": "lowestRateMovieFunc";
+                    break;
+                case "9": "top5MoviesFunc";
+                    break;
+                case "10": pressEnterToContinue(scanner);
+                    break;
+            }
+
+        } while (!choice.matches("([1-9]|10)"));
+
+        return Integer.parseInt(choice);
+    }
+
+    /** JJ - 2026/09/14 - T10
+     * Displays the add movie submenu and returns the user's choice
+     * @param scanner scanner object from java.util.Scanner
+     * @return the menu option selected by the user as an int
+     */
+    private static int showAddMovieMenu(Scanner scanner) {
+        String choice;
+
+        System.out.println("\n==================== Add Movie ====================");
+        System.out.println("""
+        +--------+---------------------------+--------------------------------+
+        | Option | Action                    | Description                    |
+        +--------+---------------------------+--------------------------------+
+        |   1    | Add movie (step by step)  | Answer one value at a time     |
+        |   2    | Add movie (single line)   | Enter all 8 values with commas |
+        |   3    | Back                      | Return to database menu        |
+        +--------+---------------------------+--------------------------------+""");
+
+        do {
+            System.out.println("Please enter an option (1-3):");
+            choice = scanner.nextLine().trim();
+
+            if (!choice.matches("[1-3]")) {
+                System.out.println("Invalid input. Please enter a number between 1 and 3.");
+            }
+            switch (choice){
+                case "1": singleEntryProcess(scanner);
+                    break;
+                case "2": multilineEntryProcess(scanner);
+                    break;
+                case "3": pressEnterToContinue(scanner);
+                    break;
+            }
+
+        } while (!choice.matches("[1-3]"));
+
+        return Integer.parseInt(choice);
+    }
     // String Input
     /**
      * Duku - 18/03/2026 - T10
@@ -185,7 +603,7 @@ public class InputView extends view.ConsoleView {
      * prompts user to press enter
      * @param scanner scanner object from java.util.Scanner
      */
-    private static void pressEnterToContinue(Scanner scanner) {
+    public static void pressEnterToContinue(Scanner scanner) {
         // source: https://stackoverflow.com/questions/26184409/java-console-prompt-for-enter-input-before-moving-on
         System.out.println("\nPress Enter to continue...");
         scanner.nextLine();
@@ -199,7 +617,7 @@ public class InputView extends view.ConsoleView {
      * @return Hashmap<String,String> of the collected values
      */
     //---------------------Input process methods ---------------------------------------------
-    private static HashMap<Integer, String> singleEntryProcess(Scanner scanner) {
+    public static HashMap<Integer, String> singleEntryProcess(Scanner scanner) {
 
         HashMap<Integer, String> entry = new HashMap<>();
 
