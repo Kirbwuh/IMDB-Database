@@ -1,4 +1,5 @@
 package model;
+import model.RowEntry;
 
 /**
  * Represents a single movie entry.
