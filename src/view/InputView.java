@@ -1,5 +1,6 @@
 package src.view;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +19,7 @@ public class InputView  {
      *
      * @param entry Hashmap of movie data.
      */
-    public static void addMovie(HashMap<Integer, String> entry) {
+    public static void addMovie(String input) {
         int id = nextId++;
         movies.put(id,new String[] {
                 entry.get(SERIES_TITLE), entry.get(RELEASE_YEAR),entry.get(CERTIFICATION),entry.get(GENRE),entry.get(IMDB_RATING),entry.get(OVERVIEW),entry.get(DIRECTOR),entry.get(GROSS)
@@ -690,51 +691,51 @@ public class InputView  {
      * @return Hashmap<String,String> of the collected values
      */
     //---------------------Input process methods ---------------------------------------------
-    public static HashMap<Integer, String> singleEntryProcess(Scanner scanner) {
+    public static ArrayList<String> singleEntryProcess(Scanner scanner) {
 
-        HashMap<Integer, String> entry = new HashMap<>();
+        ArrayList<String> movieEntries= new ArrayList<>();
 
         //------- Question 1 --------------------
         final String q1Prompt = "Please input the name of the movie:";
         String seriesTitle = getStringInput(scanner, q1Prompt);
-        entry.put(SERIES_TITLE, seriesTitle);
+        movieEntries.add(seriesTitle);
 
         //------- Question 2 --------------------
         final String q2Prompt = "Please input the release year of the movie:";
         Double releasedYear = getNumericInput(scanner, q2Prompt);
-        entry.put(RELEASE_YEAR, String.valueOf(releasedYear));
+        movieEntries.add(String.valueOf(releasedYear));
 
         //------- Question 3 --------------------
         final String q3Prompt = "Is the movie rated PG-13?";
         boolean isPG13 = getBooleanInput(scanner, q3Prompt);
-        entry.put(CERTIFICATION, String.valueOf(isPG13));
+        movieEntries.add(String.valueOf(isPG13));
 
         //------- Question 4 --------------------
         final String q4Prompt = "Please input the genre of the movie:";
         String genre = getStringInput(scanner, q4Prompt);
-        entry.put(GENRE, genre);
+        movieEntries.add(genre);
 
         //------- Question 5 --------------------
         final String q5Prompt = "Please input the IMDb rating of the movie:";
         Double rating = getNumericInput(scanner, q5Prompt);
-        entry.put(IMDB_RATING, String.valueOf(rating));
+        movieEntries.add(String.valueOf(rating));
 
         //------- Question 6 --------------------
         final String q6Prompt = "Please input the description of the movie:";
         String movieDesc = getStringInput(scanner, q6Prompt);
-        entry.put(OVERVIEW, movieDesc);
+        movieEntries.add(movieDesc);
 
         //------- Question 7 --------------------
         final String q7Prompt = "Please input the name of the director:";
         String director = getStringInput(scanner, q7Prompt);
-        entry.put(DIRECTOR, director);
+        movieEntries.add(director);
 
         //------- Question 8 --------------------
         final String q8Prompt = "Please input the gross earnings of the movie:";
         Double gross = getNumericInput(scanner, q8Prompt);
-        entry.put(GROSS, String.valueOf(gross.longValue()));
+        movieEntries.add(String.valueOf(gross));
 
-        return entry;
+        return movieEntries;
     }
 
     // Multi Line Entry ( Should be named Single Line Entry)
