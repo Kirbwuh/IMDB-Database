@@ -1,4 +1,5 @@
-package src.model;
+package model;
+import model.RowEntry;
 
 /**
  * Represents a single movie entry.
@@ -6,7 +7,7 @@ package src.model;
  * Movie adds: certification (PG-13), director, and gross earnings.
  * @author J.J. Rondon 16/03/2026 T10
  */
-public class Movie extends model.RowEntry {
+public class Movie extends RowEntry {
 
     // --------ATTRIBUTES-----------
     // ******************************
