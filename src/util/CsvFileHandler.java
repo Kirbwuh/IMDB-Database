@@ -1,5 +1,5 @@
 package src.util;
-import model.MovieDatabase;
+
 import org.w3c.dom.css.CSSValue;
 
 import java.io.File;
@@ -11,12 +11,12 @@ import java.io.File;
 public class CsvFileHandler {
     // Instance Variables
     private final String filepath;
-    private model.MovieDatabase movieEntry;
+    private Model.MovieDatabase movieEntry;
     private File movies;
 
-    public CsvFileHandler(String filepath, model.MovieDatabase movieEntry, File movies) {
+    public CsvFileHandler(String filepath, Model.MovieDatabase movieEntry, File movies) {
         this.filepath = "src/util/Movies.csv";
-        this.movieEntry = new MovieDatabase();
+        this.movieEntry = new Model.MovieDatabase();
         this.movies = new File("Movies.csv");
     }
 
@@ -25,7 +25,7 @@ public class CsvFileHandler {
      * @param filepath
      * @param db
      */
-    public void saveToCSV(String filepath, model.MovieDatabase db) {
+    public void saveToCSV(String filepath, Model.MovieDatabase db) {
 
     }
 
