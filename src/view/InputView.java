@@ -1,6 +1,5 @@
 package src.view;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,12 +17,10 @@ public class InputView  {
      * Adds a movie to the map and assigns the next available id.
      *
      * @param entry Hashmap of movie data.
+     * @return
      */
-    public static void addMovie(String input) {
-        int id = nextId++;
-        movies.put(id,new String[] {
-                entry.get(SERIES_TITLE), entry.get(RELEASE_YEAR),entry.get(CERTIFICATION),entry.get(GENRE),entry.get(IMDB_RATING),entry.get(OVERVIEW),entry.get(DIRECTOR),entry.get(GROSS)
-        });
+    public static String addMovie(String input) {
+        return input;
     }
 
     //***********************************************************************
@@ -38,13 +35,7 @@ public class InputView  {
      * @return movie object with associated title.
      */
     public static String[] getMovieByTitle(String title) {
-        for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
-            String[] movie = entry.getValue();
-            if (movie[SERIES_TITLE].equals(title)) {
-                return movie;
-            }
-        }
-        return null;
+        return new String[]{title};
     }
 
     /**
@@ -54,15 +45,8 @@ public class InputView  {
      * @param id movie ID in HashMap
      * @return movie object
      */
-    public static String[] getMovieById(int id) {
-        for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
-            int key = entry.getKey();
-            String[] movie = entry.getValue();
-            if (key == id) {
-                return movie;
-            }
-        }
-        return null;
+    public static int getMovieById(int id) {
+        return id;
     }
 
     /**
@@ -72,13 +56,8 @@ public class InputView  {
      * @param index Use the constants to index the information you want returned
      * @return ArrayList of specified values.
      */
-    public static ArrayList<String> getInformation(int index) {
-        ArrayList<String> values = new ArrayList<String>();
-        for (Map.Entry<Integer, String[]> entry : movies.entrySet()) {
-            String[] movie = entry.getValue();
-            values.add(movie[index]);
-        }
-        return values;
+    public static int getInformation(int index) {
+        return index;
     }
 
     /**
@@ -86,7 +65,7 @@ public class InputView  {
      * By: Duku Wani 2026/03/06 T10
      * @return double from calculation.
      */
-    public static String getRatingAverage (double ratingTotal, int numOfMovies){
+    public static String getRatingAverage (double Movie.imdbRating, int numOfMovies){
         for (int i = 0; i < getInformation(4).size(); i++){
             ratingTotal += Double.parseDouble(getInformation(4).get(i)); //Double.parseDouble() was recommended by IntelliJ and Looked up what it meant.
         }
@@ -201,12 +180,10 @@ public class InputView  {
      * @param update the update/change you want to make.
      */
     public static void updateMovieByTitle(String title, int index, String update) {
-        for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
-            String[] movie = entry.getValue();
-            if (movie[SERIES_TITLE].equals(title)) {
-                movie[index] = update;
-            }
-        }
+        /*
+        Psudeo code
+        Find movie name, find what the user specifically wants to change, and change movie information
+         */
     }
 
     //***********************************************************************
@@ -240,13 +217,10 @@ public class InputView  {
      * @param title movie title associated with entry.
      */
     public static void removeMovieByTitle(String title) {
-        for (Map.Entry<Integer, String[]> entry : movies.entrySet()) {
-            int id = entry.getKey();
-            String[] movie = entry.getValue();
-            if (movie[SERIES_TITLE].equals(title)) {
-                movies.remove(id);
-            }
-        }
+        /*
+        Psudeo code
+        Find movie by Title, remove movie from list
+         */
     }
 
     /**
@@ -256,11 +230,10 @@ public class InputView  {
      * @param id movie id associated with entry.
      */
     public static void removeMovieById(int id) {
-        if (movies.containsKey(id)) {
-            movies.remove(id);
-        } else {
-            System.out.println("No movie found with ID: " + id);
-        }
+        /*
+        Psudeo code
+        Find movie by id, remove movie from list
+         */
     }
 
 
@@ -274,10 +247,10 @@ public class InputView  {
      * Prints every movie currently stored in the map.
      */
     public static void printAllMovies() {
-        for (Map.Entry<Integer, String[]> entry: movies.entrySet()) {
-            String[] movie = entry.getValue();
-            System.out.println(movieToString(movie));
-        }
+        /*
+        Psudeo code
+        Find location of where movies are being stored, paste and format information
+         */
     }
 
 
@@ -289,9 +262,7 @@ public class InputView  {
             System.out.println("The movies you watch are rated " + getRatingAverage(0, 0) + " on average.");
             System.out.println("\nHere's the rating of every movie you've watched:");
             System.out.println("----------------------------------------------------");
-            for (Map.Entry<Integer, String[]> entry : movies.entrySet()) {
-                System.out.println("ID: " + entry.getKey() + " | " + entry.getValue()[SERIES_TITLE] + " | Rating: " + entry.getValue()[IMDB_RATING]);
-            }
+            // Same as Print all movies but only show movie names and ratings of said movies
             System.out.println("----------------------------------------------------");
             pressEnterToContinue(scanner);
         }
@@ -431,9 +402,10 @@ public class InputView  {
      * case 2
      * case 3
      */
-
-    /** JJ - 2026/09/14 - T10
+    /**
+     * JJ - 2026/09/14 - T10
      * Displays the main menu and returns the user's choice
+     *
      * @param scanner scanner object from java.util.Scanner
      * @return the menu option selected by the user as an int
      */
@@ -559,9 +531,9 @@ public class InputView  {
                 System.out.println("Invalid input. Please enter a number between 1 and 3.");
             }
             switch (choice){
-                case "1": singleEntryProcess(scanner);
+                case "1": multilineEntryProcess(scanner);
                     break;
-                case "2": multilineEntryProcess(scanner);
+                case "2": singlelineEntryProcess(scanner);
                     break;
                 case "3": pressEnterToContinue(scanner);
                     break;
@@ -685,57 +657,59 @@ public class InputView  {
 
     // Single line Entry ( Should be named MultiLine Entry )
 
-    /** JJ - 2026/09/14 - T10
+    /**
+     * Duku - 20/03/2026 - T10
+     * JJ - 2026/09/14 - T10
      * Prompts the user line by line to add a new movie
      * @param scanner  scanner object from java.util.Scanner
-     * @return Hashmap<String,String> of the collected values
+     * @return ArrayList of the collected values
      */
     //---------------------Input process methods ---------------------------------------------
-    public static ArrayList<String> singleEntryProcess(Scanner scanner) {
-
-        ArrayList<String> movieEntries= new ArrayList<>();
+    public static ArrayList<String> multilineEntryProcess(Scanner scanner) {
+        //
+        ArrayList<String> movieEntriesMulti = new ArrayList<>();
 
         //------- Question 1 --------------------
         final String q1Prompt = "Please input the name of the movie:";
         String seriesTitle = getStringInput(scanner, q1Prompt);
-        movieEntries.add(seriesTitle);
+        movieEntriesMulti.add(seriesTitle);
 
         //------- Question 2 --------------------
         final String q2Prompt = "Please input the release year of the movie:";
         Double releasedYear = getNumericInput(scanner, q2Prompt);
-        movieEntries.add(String.valueOf(releasedYear));
+        movieEntriesMulti.add(String.valueOf(releasedYear));
 
         //------- Question 3 --------------------
         final String q3Prompt = "Is the movie rated PG-13?";
         boolean isPG13 = getBooleanInput(scanner, q3Prompt);
-        movieEntries.add(String.valueOf(isPG13));
+        movieEntriesMulti.add(String.valueOf(isPG13));
 
         //------- Question 4 --------------------
         final String q4Prompt = "Please input the genre of the movie:";
         String genre = getStringInput(scanner, q4Prompt);
-        movieEntries.add(genre);
+        movieEntriesMulti.add(genre);
 
         //------- Question 5 --------------------
         final String q5Prompt = "Please input the IMDb rating of the movie:";
         Double rating = getNumericInput(scanner, q5Prompt);
-        movieEntries.add(String.valueOf(rating));
+        movieEntriesMulti.add(String.valueOf(rating));
 
         //------- Question 6 --------------------
         final String q6Prompt = "Please input the description of the movie:";
         String movieDesc = getStringInput(scanner, q6Prompt);
-        movieEntries.add(movieDesc);
+        movieEntriesMulti.add(movieDesc);
 
         //------- Question 7 --------------------
         final String q7Prompt = "Please input the name of the director:";
         String director = getStringInput(scanner, q7Prompt);
-        movieEntries.add(director);
+        movieEntriesMulti.add(director);
 
         //------- Question 8 --------------------
         final String q8Prompt = "Please input the gross earnings of the movie:";
         Double gross = getNumericInput(scanner, q8Prompt);
-        movieEntries.add(String.valueOf(gross));
+        movieEntriesMulti.add(String.valueOf(gross));
 
-        return movieEntries;
+        return movieEntriesMulti;
     }
 
     // Multi Line Entry ( Should be named Single Line Entry)
@@ -751,10 +725,10 @@ public class InputView  {
      * @param scanner scanner object from java.util.Scanner
      * @return HashMap<String,String> containing the validated movie data
      */
-    public static HashMap<Integer, String> multilineEntryProcess(Scanner scanner) {
+    public static ArrayList<String[]> singlelineEntryProcess(Scanner scanner) {
         String[] separatedValuesList = null;
         boolean validInput;
-        HashMap<Integer, String> entry = new HashMap<>();
+        ArrayList<String[]> movieEntriesSingle = new ArrayList<>();
 
         final String prompt = """
             Please enter exactly 8 values separated by commas, in this order:
@@ -822,18 +796,18 @@ public class InputView  {
         } while (!validInput);
 
         if (separatedValuesList == null || separatedValuesList.length != 8) {
-            return new HashMap<>();
+            return new ArrayList<>();
         }else{
-            entry.put(SERIES_TITLE, separatedValuesList[0].trim());
-            entry.put(RELEASE_YEAR, separatedValuesList[1].trim());
-            entry.put(CERTIFICATION, String.valueOf(Boolean.parseBoolean(separatedValuesList[2].trim())));
-            entry.put(GENRE, separatedValuesList[3].trim());
-            entry.put(IMDB_RATING, separatedValuesList[4].trim());
-            entry.put(OVERVIEW, separatedValuesList[5].trim());
-            entry.put(DIRECTOR, separatedValuesList[6].trim());
-            entry.put(GROSS, separatedValuesList[7].trim());
+            movieEntriesSingle.add(SERIES_TITLE, separatedValuesList[0].trim());
+            movieEntriesSingle.add(RELEASE_YEAR, separatedValuesList[1].trim());
+            movieEntriesSingle.add(CERTIFICATION, String.valueOf(Boolean.parseBoolean(separatedValuesList[2].trim())));
+            movieEntriesSingle.add(GENRE, separatedValuesList[3].trim());
+            movieEntriesSingle.add(IMDB_RATING, separatedValuesList[4].trim());
+            movieEntriesSingle.add(OVERVIEW, separatedValuesList[5].trim());
+            movieEntriesSingle.add(DIRECTOR, separatedValuesList[6].trim());
+            movieEntriesSingle.add(GROSS, separatedValuesList[7].trim());
 
-            return entry;
+            return movieEntriesSingle;
         }
 
 
