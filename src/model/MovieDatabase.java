@@ -3,12 +3,17 @@ import java.util.HashMap;
 import java.util.Map;
 import model.Movie;
 
-//Javadoc on all public methods
-
 public class MovieDatabase {
 
     private HashMap<Integer, Movie> movieDatabase;
     private int nextId = 1;
+
+    /**
+     * Creates an empty movie database and initializes its internal storage.
+     */
+    public MovieDatabase() {
+        movieDatabase = new HashMap<>();
+    }
 
     /**
      * Adds a movie to the database using the next available integer ID.
