@@ -1,11 +1,14 @@
 package src.controller;
 import Model.MovieDatabase;
 import src.view.InputView;
+import src.model.Movie;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+
+
 
 public class    MovieController {
 
@@ -17,6 +20,7 @@ public class    MovieController {
     // calling MovieDatabase
     private static void addMovieGetter(String choice){
         int choice_int = InputView.showAddMovieMenu(scanner);
+
         switch(choice_int){
             case 1:
                 MD.addMovie(InputView.multilineEntryProcess(scanner));
