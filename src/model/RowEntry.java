@@ -150,7 +150,7 @@ public class RowEntry {
      * protected so only inherited classes can access
      * @return String CSV representation of common fields
      */
-    protected String toCSVStringRow() {
+    public String toCSVStringRow() {
         return currentEntryId + "," + title + "," + year+ "," + genre+ "," + imdbRating+ "," + description;
     }
 
