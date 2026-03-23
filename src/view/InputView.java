@@ -1,27 +1,11 @@
 package src.view;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 public class InputView  {
 
     public static int nextId = 1;
-    //***********************************************************************
-    //------------------ADD DATA METHODS-------------------------------------
-    //***********************************************************************
-    /**
-     * CL-3/6/2026-T10
-     * HL-6/3/2026-T10
-     * Adds a movie to the map and assigns the next available id.
-     *
-     * @param entry Hashmap of movie data.
-     * @return
-     */
-    public static String addMovie(String input) {
-        return input;
-    }
 
     //***********************************************************************
     //------------------GET DATA METHODS------------------------------------
@@ -61,37 +45,11 @@ public class InputView  {
     }
 
     /**
-     * Calculates the average of all movies added to database.
-     * By: Duku Wani 2026/03/06 T10
-     * @return double from calculation.
-     */
-    public static String getRatingAverage (double Movie.imdbRating, int numOfMovies){
-        for (int i = 0; i < getInformation(4).size(); i++){
-            ratingTotal += Double.parseDouble(getInformation(4).get(i)); //Double.parseDouble() was recommended by IntelliJ and Looked up what it meant.
-        }
-        for (int i = 0; i <getInformation(1).size(); i++){
-            numOfMovies = getInformation(1).size();
-        }
-        double averageRating = ratingTotal/numOfMovies;
-        String formatedAverageRating = String.format("%.2f",averageRating);
-        return formatedAverageRating;
-
-    }
-
-    /**
      * By: Arraf Hoque 2026/03/06 T10
      * Prints the highest IMDB Rating movie
      */
     public static void highestValue(){
-        ArrayList<String[]> highestList = new ArrayList<>(movies.values());
-
-
-        highestList.sort((m1,m2)-> {
-            double rating1 = Double.parseDouble((m1[IMDB_RATING]));
-            double rating2 = Double.parseDouble((m2[IMDB_RATING]));
-            return Double.compare(rating2,rating1);
-        });
-        System.out.println("The highest IMDB Rated Movie is: " + movieToString(highestList.get(0))) ;
+        // TODO: highestValue Function here
     }
 
     /**
@@ -99,16 +57,7 @@ public class InputView  {
      * prints out the lowest IMDB RATING
      */
     public static void lowestValue(){
-        ArrayList<String[]> lowestList = new ArrayList<>(movies.values());
-
-
-        lowestList.sort((m1,m2)-> {
-            double rating1 = Double.parseDouble((m1[IMDB_RATING]));
-            double rating2 = Double.parseDouble((m2[IMDB_RATING]));
-            return Double.compare(rating1,rating2);
-        });
-        System.out.println("The lowest rated movie in your catalogue is: " + movieToString(lowestList.get(0))) ;
-
+        // TODO: lowestValue Function here
     }
 
     /**
@@ -117,20 +66,7 @@ public class InputView  {
      * @return top5
      */
     public static ArrayList<String[]> getTop5(){
-
-        ArrayList<String[]> movieList = new ArrayList<>(movies.values());
-
-
-        movieList.sort((m1,m2)-> { // fetch the
-            double rating1 = Double.parseDouble((m1[IMDB_RATING]));
-            double rating2 = Double.parseDouble((m2[IMDB_RATING]));
-            return Double.compare(rating2,rating1);
-        });
-        ArrayList<String[]> top5 = new ArrayList<>();
-        for (int i = 0; i < 5 && i < movieList.size(); i++){
-            top5.add(movieList.get(i));
-        }
-        return top5;
+        // TODO: getTop5 Function here
     }
 
     //***********************************************************************
@@ -144,7 +80,7 @@ public class InputView  {
      *
      * @param scanner User's input for searching up the movie
      */
-    public static void updateMovie(Scanner scanner) {
+    public static String updateMovie(Scanner scanner) {
         final String searchPrompt = "Enter the ID or Name of the Movie you would like to Search.";
         String movieName = getStringInput(scanner, searchPrompt);
         if (isNumeric(movieName)){ //if the user uses only numbers
@@ -158,33 +94,6 @@ public class InputView  {
         }
     }
 
-    /**
-     *Updates specified movie data by ID matching.
-     *
-     * @param id id (key) of movie
-     * @param index The index of the data you want to update based on constants.
-     * @param update The update/change you want to make
-     */
-    public static void updateMovieById(int id,int index,String update) {
-        String[] movie = movies.get(id);
-        if (movie != null) {
-            movie[index] = update;
-        }
-    }
-
-    /**
-     *Updates specified movie data by title matching.
-     *
-     * @param title title of movie
-     * @param index The index of the data you want to update based on constants.
-     * @param update the update/change you want to make.
-     */
-    public static void updateMovieByTitle(String title, int index, String update) {
-        /*
-        Psudeo code
-        Find movie name, find what the user specifically wants to change, and change movie information
-         */
-    }
 
     //***********************************************************************
     //------------------REMOVE DATA METHODS----------------------------------
@@ -251,6 +160,7 @@ public class InputView  {
         Psudeo code
         Find location of where movies are being stored, paste and format information
          */
+        ConsoleView.printAllMovies();
     }
 
 
@@ -411,7 +321,7 @@ public class InputView  {
      */
     public static int showMainMenu(Scanner scanner) {
         String choice;
-        int mainMenuSelect = Integer.parseInt(null);
+        int mainMenuSelect;
 
         System.out.println("********************* IMDb Movie Database - CPSC219 W26  *********************");
         System.out.println("Track and store your favourite movies with ratings, directors, genres and more.");
@@ -535,7 +445,7 @@ public class InputView  {
                     break;
                 case "2": singlelineEntryProcess(scanner);
                     break;
-                case "3": pressEnterToContinue(scanner);
+                case "3": showMainMenu(scanner);
                     break;
             }
 
