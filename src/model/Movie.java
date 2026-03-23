@@ -4,7 +4,9 @@ package src.model;
  * Represents a single movie entry.
  * Extends RowEntry
  * Movie adds: certification (PG-13), director, and gross earnings.
+ * Overrides .equals() and .hashcode().
  * @author J.J. Rondon 16/03/2026 T10
+ * @coauthor Haitam Lembaid 23/03/2026 T10
  */
 public class Movie extends src.model.RowEntry {
 
