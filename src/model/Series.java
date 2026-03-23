@@ -7,7 +7,7 @@ package src.model;
  * Series adds: numberOfSeasons, numberOfEpisodes, and creator.
  * @author [Name] [Date] T10
  */
-public class Series extends model.RowEntry {
+public class Series extends src.model.RowEntry {
 
     // --------ATTRIBUTES-----------
     // ******************************

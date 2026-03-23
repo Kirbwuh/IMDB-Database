@@ -3,7 +3,7 @@ package src.view;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class InputView extends view.ConsoleView {
+public class InputView extends src.view.ConsoleView {
 
     //***********************************************************************
     //------------------Class Variables--------------------------
