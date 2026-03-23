@@ -17,19 +17,18 @@ public class CsvFileHandler {
     /**
      * The defined constructor for CSVFileHandler.
      * @param filepath - The relative filepath of the csv file.
-     * @param movies - The csv file titled "Movie.csv".
+     * @param movies - The csv file name.
      */
     public CsvFileHandler(String filepath, File movies) {
-        this.filepath = "src/util/Movies.csv";
-        this.movies = new File("Movies.csv");
+        this.filepath = filepath;
+        this.movies = movies;
     }
 
     /**
      * Method to save added movies to CSV file. Catches IOException.
      * @param filepath - The relative filepath of the csv file.
-     * @param movies - The csv file titled "Movie.csv".
      */
-    public void saveToCSV(String filepath, File movies) {
+    public void saveToCSV(String filepath) {
         try {
             FileWriter save = new FileWriter(filepath);
             save.append();
@@ -40,11 +39,10 @@ public class CsvFileHandler {
     }
 
     /**
-     * Loads the csv file into memory for reading contents.
+     * Loads the csv file into memory to read contents.
      * @param filepath - The relative filepath of the csv file.
-     * @param movies - The csv file titled "Movie.csv".
      */
-    public void loadCSV(String filepath, File movies) {
+    public void loadCSV(String filepath) {
         try {
             FileReader load = new FileReader(filepath);
             load.readAllLines();
@@ -53,13 +51,5 @@ public class CsvFileHandler {
             e.printStackTrace();
             System.out.println("The file is not in the same directory (either doesn't exist or was moved.");
         }
-    }
-
-    /**
-     *
-     * @return
-     */
-    public File getMovies() {
-        return movies;
     }
 }
