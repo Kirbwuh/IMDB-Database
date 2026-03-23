@@ -87,7 +87,7 @@ public class InputView  {
 
 
         highestList.sort((m1,m2)-> {
-            double rating1 = Double.parseDouble((m1[        IMDB_RATING]));
+            double rating1 = Double.parseDouble((m1[IMDB_RATING]));
             double rating2 = Double.parseDouble((m2[IMDB_RATING]));
             return Double.compare(rating2,rating1);
         });
@@ -510,7 +510,7 @@ public class InputView  {
      * @param scanner scanner object from java.util.Scanner
      * @return the menu option selected by the user as an int
      */
-    private static int showAddMovieMenu(Scanner scanner) {
+    public static int showAddMovieMenu(Scanner scanner) {
         String choice;
 
         System.out.println("\n==================== Add Movie ====================");
@@ -812,4 +812,5 @@ public class InputView  {
 
 
     }
+
 }
