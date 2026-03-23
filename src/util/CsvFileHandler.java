@@ -9,7 +9,7 @@ import java.io.IOException;
  * Handles saving and loading of comma separated value files. Extends from Movie.java to use the toCSVStringRow method.
  * @author Haitam Lembaid 18/03/2026 T10
  */
-public class CsvFileHandler extends model.Movie {
+public class CsvFileHandler extends src.model.Movie {
     // Instance Variables
     private final String filepath;
     private final File movies;
