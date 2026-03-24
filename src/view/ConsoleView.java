@@ -24,25 +24,6 @@ import java.util.Scanner;
 //
 //Javadoc on every method
 
-/*
- *  showMainMenu()
- *  |
- *  +-- 1. Manage Database --> showDatabaseMenu()
- *  |         |
- *  |         +-- 1. Add Movie --> showAddMovieMenu()
- *  |         |         |
- *  |         |         +-- 1. Step by step
- *  |         |         +-- 2. Single line
- *  |         |         +-- 3. Back
- *  |         |
- *  |         +-- 2. Search by ID
- *  |         +-- 3. Update movie
- *  |         +-- 4. Remove movie
- *  |         +-- 5. Print all movies
- *  |         +-- 6. Back
- *  |
- *  +-- 2. Exit
- */
 
 public class ConsoleView {
 
@@ -57,22 +38,79 @@ public class ConsoleView {
         +--------+---------------------------+--------------------------------+
         | Option | Action                    | Description                    |
         +--------+---------------------------+--------------------------------+
-        |   1    | Manage database           | Add, search, update or remove  |
-        |   2    | Exit                      | Close the program              |
+        |   1    | Search Database           | See all movies or search       |
+        |   2    | Database Highlights       | Top 5's, highest rated, etc..  |
+        |   3    | Manage Database           | Add, update or remove movies   |
+        |   4    | Exit                      | Close the program              |
         +--------+---------------------------+--------------------------------+""");
 
         do {
-            System.out.println("Please enter an option (1 or 2):");
+            System.out.println("Please enter an option (1, 2, 3, 4):");
             choice = scanner.nextLine().trim();
 
-            if (!choice.equals("1") && !choice.equals("2")) {
-                System.out.println("Invalid input. Please enter 1 or 2.");
+            if (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4")) {
+                System.out.println("Invalid input. Please enter 1, 2, 3, or 4.");
             }
 
-        } while (!choice.equals("1") && !choice.equals("2"));
+        } while (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4"));
 
         return Integer.parseInt(choice);
     }
+
+    public int printSearchDatabase(Scanner scanner) {
+        String choice;
+
+        System.out.println("\n==================== Search Database ====================");
+        System.out.println("""
+                        +--------+---------------------------+--------------------------------+
+                        | Option | Action                    | Description                    |
+                        +--------+---------------------------+--------------------------------+
+                        |   1    | Search movie by ID        | Search for a movie             |
+                        |   2    | Print all movies          | Find a movie using its ID      |
+                        |   3    | Exit                      | Find a movie using its ID      |
+                        +--------+---------------------------+--------------------------------+""");
+
+        do {
+            System.out.println("Please enter an option (1, 2 or 3 ):");
+            choice = scanner.nextLine().trim();
+
+            if (!choice.equals("1") && !choice.equals("2") && !choice.equals("3")) {
+                System.out.println("Invalid input. Please enter 1, 2 or 3.");
+            }
+
+        } while (!choice.equals("1") && !choice.equals("2") && !choice.equals("3"));
+
+        return Integer.parseInt(choice);
+    }
+
+    public int printDatabaseHighlights(Scanner scanner) {
+        String choice;
+
+        System.out.println("\n==================== Database Highlights ====================");
+        System.out.println("""
+                        +--------+---------------------------+--------------------------------+
+                        | Option | Action                    | Description                    |
+                        +--------+---------------------------+--------------------------------+
+                        |   1    | Top 5                     | Search for a movie             |
+                        |   2    | Highest Rated Movie       | Search for a movie             |
+                        |   3    | Lowest Rated Movie        | Search for a movie             |
+                        |   4    | Reviews                   | Search for a movie             |
+                        |   5    | Exit                      | Find a movie using its ID      |
+                        +--------+---------------------------+--------------------------------+""");
+
+        do {
+            System.out.println("Please enter an option (1, 2, 3, 4):");
+            choice = scanner.nextLine().trim();
+
+            if (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4")) {
+                System.out.println("Invalid input. Please enter 1, 2, 3, or 4.");
+            }
+
+        } while (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4") && !choice.equals("4"));
+
+        return Integer.parseInt(choice);
+    }
+
 
     public int printDatabaseMenu(Scanner scanner) {
         String choice;
