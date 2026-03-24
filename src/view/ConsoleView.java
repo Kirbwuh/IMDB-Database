@@ -48,20 +48,20 @@ public class ConsoleView {
         System.out.println();
 
         System.out.println("""
-        +--------+---------------------------+--------------------------------+
-        | Option | Action                    | Description                    |
-        +--------+---------------------------+--------------------------------+
-        |   1    | Search Database           | See all movies or search       |
-        |   2    | Database Highlights       | Top 5's, highest rated, etc..  |
-        |   3    | Manage Database           | Add, update or remove movies   |
-        |   4    | Exit                      | Close the program              |
-        +--------+---------------------------+--------------------------------+""");
+                        +--------+---------------------------+--------------------------------+
+                        | Option | Action                    | Description                    |
+                        +--------+---------------------------+--------------------------------+
+                        |   1    | Search Database           | See all movies or search       |
+                        |   2    | Database Highlights       | Top 5's, highest rated, etc..  |
+                        |   3    | Manage Database           | Add, update or remove movies   |
+                        |   4    | Exit                      | Close the program              |
+                        +--------+---------------------------+--------------------------------+""");
 
         return promptForChoice(scanner, "Please enter an option (1, 2, 3, 4):", "[1-4]",
                 "Invalid input. Please enter 1, 2, 3, or 4.");
     }
 
-    public int printSearchDatabase(Scanner scanner) {
+    public int printSearchDatabaseMenu(Scanner scanner) {
         System.out.println("\n==================== Search Database ====================");
         System.out.println("""
                         +--------+---------------------------+--------------------------------+
@@ -76,7 +76,7 @@ public class ConsoleView {
                 "Invalid input. Please enter 1, 2 or 3.");
     }
 
-    public int printDatabaseHighlights(Scanner scanner) {
+    public int printDatabaseHighlightsMenu(Scanner scanner) {
         System.out.println("\n==================== Database Highlights ====================");
         System.out.println("""
                         +--------+---------------------------+--------------------------------+
@@ -89,45 +89,39 @@ public class ConsoleView {
                         |   5    | Exit                      | Find a movie using its ID      |
                         +--------+---------------------------+--------------------------------+""");
 
-        return promptForChoice(scanner, "Please enter an option (1, 2, 3, 4, 5):", "[1-5]",
-                "Invalid input. Please enter 1, 2, 3, 4, or 5.");
+        return promptForChoice(scanner, "Please enter an option (1-5):", "[1-5]",
+                "Invalid input. Please enter a number between 1 and 5.");
     }
 
 
-    public int printDatabaseMenu(Scanner scanner) {
-        System.out.println("\n==================== Database Management ====================");
+    public int printManageDatabaseMenu(Scanner scanner) {
+        System.out.println("\n==================== Manage Database ====================");
         System.out.println("""
                         +--------+---------------------------+--------------------------------+
                         | Option | Action                    | Description                    |
                         +--------+---------------------------+--------------------------------+
                         |   1    | Add movie                 | Choose an add method           |
-                        |   2    | Search movie by ID        | Find a movie using its ID      |
-                        |   3    | Update movie              | Modify an existing movie       |
-                        |   4    | Remove movie              | Delete a movie from database   |
-                        |   5    | Print all movies          | Display all stored movies      |
-                        |   6    | Reviews                   | Average & individual ratings   |
-                        |   7    | Highest rated movie       | Display the highest rated movie|
-                        |   8    | Lowest rated movie        | Display the lowest rated movie |
-                        |   9    | Print Top 5 Movies        | Display the top 5 rated movies |
-                        |   10   | Back                      | Return to main menu            |
+                        |   2    | Update movie              | Modify an existing movie       |
+                        |   3    | Remove movie              | Delete a movie from database   |
+                        |   4    | Back                      | Return to main menu            |
                         +--------+---------------------------+--------------------------------+""");
 
-        return promptForChoice(scanner, "Please enter an option (1-10):", "([1-9]|10)",
-                "Invalid input. Please enter a number between 1 and 10.");
+        return promptForChoice(scanner, "Please enter an option (1-4):", "([1-4])",
+                "Invalid input. Please enter a number between 1 and 4.");
     }
 
-    public int printAddMovieMenu(Scanner scanner) {
-        System.out.println("\n==================== Add Movie ====================");
-        System.out.println("""
-        +--------+---------------------------+--------------------------------+
-        | Option | Action                    | Description                    |
-        +--------+---------------------------+--------------------------------+
-        |   1    | Add movie (step by step)  | Answer one value at a time     |
-        |   2    | Add movie (single line)   | Enter all 8 values with commas |
-        |   3    | Back                      | Return to database menu        |
-        +--------+---------------------------+--------------------------------+""");
-
-        return promptForChoice(scanner, "Please enter an option (1-3):", "[1-3]",
-                "Invalid input. Please enter a number between 1 and 3.");
-    }
+//    public int printAddMovieMenu(Scanner scanner) {
+//        System.out.println("\n==================== Add Movie ====================");
+//        System.out.println("""
+//        +--------+---------------------------+--------------------------------+
+//        | Option | Action                    | Description                    |
+//        +--------+---------------------------+--------------------------------+
+//        |   1    | Add movie (step by step)  | Answer one value at a time     |
+//        |   2    | Add movie (single line)   | Enter all 8 values with commas |
+//        |   3    | Back                      | Return to database menu        |
+//        +--------+---------------------------+--------------------------------+""");
+//
+//        return promptForChoice(scanner, "Please enter an option (1-3):", "[1-3]",
+//                "Invalid input. Please enter a number between 1 and 3.");
+//    }
 }
