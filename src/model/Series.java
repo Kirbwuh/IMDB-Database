@@ -5,7 +5,7 @@ package src.model;
  * Extends  RowEntry
  * (title, year, genre, imdbRating, description).
  * Series adds: numberOfSeasons, numberOfEpisodes, and creator.
- * @author [Name] [Date] T10
+ * @author J.J. Rondon 23/03/2026 T10
  */
 public class Series extends src.model.RowEntry {
 
