@@ -1,12 +1,12 @@
 package model;
 
 /**
- * Base class for all  database entries.
+ * Abstract base class for all database entries.
  * Holds fields common to every type of entry (Movie, Series):
  * a unique ID, title, year, genre, IMDB rating, and description.
  * @author J.J. Rondon 16/03/2026 T10
  */
-public class RowEntry {
+public abstract class RowEntry {
 
     // --------ATTRIBUTES-----------
     // ******************************
@@ -43,15 +43,27 @@ public class RowEntry {
      * @param description   short description
      */
     protected RowEntry(String title, int year, String genre,
-                    double imdbRating, String description) {
+                       double imdbRating, String description) {
         this.currentEntryId = nextId;
         nextId++;
-        this.title      = title;
-        this.year       = year;
-        this.genre      = genre;
-        this.imdbRating = imdbRating;
+        this.title       = title;
+        this.year        = year;
+        this.genre       = genre;
+        this.imdbRating  = imdbRating;
         this.description = description;
     }
+
+    // ******************************
+    // Abstract Methods
+    // ******************************
+
+    /**
+     * Returns a CSV row for this entry.
+     * Every subclass MUST provide its own implementation
+     * since Movie and Series have different fields.
+     * @return String CSV row representation of this entry
+     */
+    public abstract String toCSVStringRow();
 
     // ******************************
     // Getters
@@ -91,7 +103,7 @@ public class RowEntry {
      * Returns the overview description of this entry
      * @return String overview
      */
-    public String getDescription()    { return description; }
+    public String getDescription() { return description; }
 
     // ******************************
     // Setters
@@ -101,25 +113,25 @@ public class RowEntry {
      * Updates the title of this entry.
      * @param title new title
      */
-    public void setTitle(String title) { this.title = title; }
+    public void setTitle(String title)             { this.title = title; }
 
     /**
      * Updates the year of this entry.
      * @param year new year
      */
-    public void setYear(int year) { this.year = year; }
+    public void setYear(int year)                  { this.year = year; }
 
     /**
      * Updates the genre of this entry.
      * @param genre new genre
      */
-    public void setGenre(String genre) { this.genre = genre; }
+    public void setGenre(String genre)             { this.genre = genre; }
 
     /**
      * Updates the IMDB rating of this entry.
      * @param imdbRating new rating
      */
-    public void setImdbRating(double imdbRating) { this.imdbRating = imdbRating; }
+    public void setImdbRating(double imdbRating)   { this.imdbRating = imdbRating; }
 
     /**
      * Updates the overview of this entry.
@@ -133,11 +145,12 @@ public class RowEntry {
 
     /**
      * Returns a formatted string of the common fields.
+     * Child classes should call super.toString() and append their own fields.
      * @return String formatted common field details
      */
     @Override
     public String toString() {
-        return " ID: "          + currentEntryId
+        return " ID: "             + currentEntryId
                 + "\n Title: "     + title
                 + "\n Year: "      + year
                 + "\n Genre: "     + genre
@@ -146,12 +159,14 @@ public class RowEntry {
     }
 
     /**
-     * Returns a CSV row starting with the common fields.
-     * protected so only inherited classes can access
+     * Returns a CSV string of the common fields only.
+     * Called by subclasses via super.commonCSVFields() to build their full row.
+     * Protected so only subclasses can use it as a building block.
      * @return String CSV representation of common fields
      */
-    protected String toCSVStringRow() {
-        return currentEntryId + "," + title + "," + year+ "," + genre+ "," + imdbRating+ "," + description;
+    protected String commonCSVFields() {
+        return currentEntryId + "," + title + "," + year + ","
+                + genre + "," + imdbRating + "," + description;
     }
 
 }
