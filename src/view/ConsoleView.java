@@ -27,9 +27,22 @@ import java.util.Scanner;
 
 public class ConsoleView {
 
-    public int printMainMenu(Scanner scanner) {
+    private int promptForChoice(Scanner scanner, String prompt, String validPattern, String errorMessage) {
         String choice;
 
+        do {
+            System.out.println(prompt);
+            choice = scanner.nextLine().trim();
+
+            if (!choice.matches(validPattern)) {
+                System.out.println(errorMessage);
+            }
+        } while (!choice.matches(validPattern));
+
+        return Integer.parseInt(choice);
+    }
+
+    public int printMainMenu(Scanner scanner) {
         System.out.println("********************* IMDb Movie Database - CPSC219 W26  *********************");
         System.out.println("Track and store your favourite movies with ratings, directors, genres and more.");
         System.out.println();
@@ -44,22 +57,11 @@ public class ConsoleView {
         |   4    | Exit                      | Close the program              |
         +--------+---------------------------+--------------------------------+""");
 
-        do {
-            System.out.println("Please enter an option (1, 2, 3, 4):");
-            choice = scanner.nextLine().trim();
-
-            if (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4")) {
-                System.out.println("Invalid input. Please enter 1, 2, 3, or 4.");
-            }
-
-        } while (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4"));
-
-        return Integer.parseInt(choice);
+        return promptForChoice(scanner, "Please enter an option (1, 2, 3, 4):", "[1-4]",
+                "Invalid input. Please enter 1, 2, 3, or 4.");
     }
 
     public int printSearchDatabase(Scanner scanner) {
-        String choice;
-
         System.out.println("\n==================== Search Database ====================");
         System.out.println("""
                         +--------+---------------------------+--------------------------------+
@@ -70,22 +72,11 @@ public class ConsoleView {
                         |   3    | Exit                      | Find a movie using its ID      |
                         +--------+---------------------------+--------------------------------+""");
 
-        do {
-            System.out.println("Please enter an option (1, 2 or 3 ):");
-            choice = scanner.nextLine().trim();
-
-            if (!choice.equals("1") && !choice.equals("2") && !choice.equals("3")) {
-                System.out.println("Invalid input. Please enter 1, 2 or 3.");
-            }
-
-        } while (!choice.equals("1") && !choice.equals("2") && !choice.equals("3"));
-
-        return Integer.parseInt(choice);
+        return promptForChoice(scanner, "Please enter an option (1, 2 or 3 ):", "[1-3]",
+                "Invalid input. Please enter 1, 2 or 3.");
     }
 
     public int printDatabaseHighlights(Scanner scanner) {
-        String choice;
-
         System.out.println("\n==================== Database Highlights ====================");
         System.out.println("""
                         +--------+---------------------------+--------------------------------+
@@ -98,23 +89,12 @@ public class ConsoleView {
                         |   5    | Exit                      | Find a movie using its ID      |
                         +--------+---------------------------+--------------------------------+""");
 
-        do {
-            System.out.println("Please enter an option (1, 2, 3, 4):");
-            choice = scanner.nextLine().trim();
-
-            if (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4")) {
-                System.out.println("Invalid input. Please enter 1, 2, 3, or 4.");
-            }
-
-        } while (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4") && !choice.equals("4"));
-
-        return Integer.parseInt(choice);
+        return promptForChoice(scanner, "Please enter an option (1, 2, 3, 4, 5):", "[1-5]",
+                "Invalid input. Please enter 1, 2, 3, 4, or 5.");
     }
 
 
     public int printDatabaseMenu(Scanner scanner) {
-        String choice;
-
         System.out.println("\n==================== Database Management ====================");
         System.out.println("""
                         +--------+---------------------------+--------------------------------+
@@ -132,22 +112,11 @@ public class ConsoleView {
                         |   10   | Back                      | Return to main menu            |
                         +--------+---------------------------+--------------------------------+""");
 
-        do {
-            System.out.println("Please enter an option (1-10):");
-            choice = scanner.nextLine().trim();
-
-            if (!choice.matches("([1-9]|10)")) {
-                System.out.println("Invalid input. Please enter a number between 1 and 10.");
-            }
-
-        } while (!choice.matches("([1-9]|10)"));
-
-        return Integer.parseInt(choice);
+        return promptForChoice(scanner, "Please enter an option (1-10):", "([1-9]|10)",
+                "Invalid input. Please enter a number between 1 and 10.");
     }
 
     public int printAddMovieMenu(Scanner scanner) {
-        String choice;
-
         System.out.println("\n==================== Add Movie ====================");
         System.out.println("""
         +--------+---------------------------+--------------------------------+
@@ -158,16 +127,7 @@ public class ConsoleView {
         |   3    | Back                      | Return to database menu        |
         +--------+---------------------------+--------------------------------+""");
 
-        do {
-            System.out.println("Please enter an option (1-3):");
-            choice = scanner.nextLine().trim();
-
-            if (!choice.matches("[1-3]")) {
-                System.out.println("Invalid input. Please enter a number between 1 and 3.");
-            }
-
-        } while (!choice.matches("[1-3]"));
-
-        return Integer.parseInt(choice);
+        return promptForChoice(scanner, "Please enter an option (1-3):", "[1-3]",
+                "Invalid input. Please enter a number between 1 and 3.");
     }
 }
