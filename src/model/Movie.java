@@ -108,7 +108,7 @@ public class Movie extends RowEntry {
      */
     @Override
     public String toCSVStringRow() {
-        return super.toCSVStringRow()    // id,title,year,genre,imdbRating,description
+        return super.commonCSVFields()    // id,title,year,genre,imdbRating,description
                 + "," + certification
                 + "," + director
                 + "," + gross;
