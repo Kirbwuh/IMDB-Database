@@ -1,4 +1,4 @@
-package model;
+package src.model;
 
 /**
  * Represents a single series entry.
@@ -7,7 +7,7 @@ package model;
  * Series adds: numberOfSeasons, numberOfEpisodes, and creator.
  * @author [Name] [Date] T10
  */
-public class Series extends RowEntry {
+public class Series extends src.model.RowEntry {
 
     // --------ATTRIBUTES-----------
     // ******************************

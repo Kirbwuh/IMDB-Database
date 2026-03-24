@@ -490,100 +490,100 @@ public class CPSC219W26Project {
      * @return the menu option selected by the user as an int
      */
     private static int showMainMenu(Scanner scanner) {
-        String choice;
-
-        System.out.println("********************* IMDb Movie Database - CPSC219 W26  *********************");
-        System.out.println("Track and store your favourite movies with ratings, directors, genres and more.");
-        System.out.println();
-
-        System.out.println("""
-        +--------+---------------------------+--------------------------------+
-        | Option | Action                    | Description                    |
-        +--------+---------------------------+--------------------------------+
-        |   1    | Manage database           | Add, search, update or remove  |
-        |   2    | Exit                      | Close the program              |
-        +--------+---------------------------+--------------------------------+""");
-
-        do {
-            System.out.println("Please enter an option (1 or 2):");
-            choice = scanner.nextLine().trim();
-
-            if (!choice.equals("1") && !choice.equals("2")) {
-                System.out.println("Invalid input. Please enter 1 or 2.");
-            }
-
-        } while (!choice.equals("1") && !choice.equals("2"));
-
-        return Integer.parseInt(choice);
-    }
+//        String choice;
+//
+//        System.out.println("********************* IMDb Movie Database - CPSC219 W26  *********************");
+//        System.out.println("Track and store your favourite movies with ratings, directors, genres and more.");
+//        System.out.println();
+//
+//        System.out.println("""
+//        +--------+---------------------------+--------------------------------+
+//        | Option | Action                    | Description                    |
+//        +--------+---------------------------+--------------------------------+
+//        |   1    | Manage database           | Add, search, update or remove  |
+//        |   2    | Exit                      | Close the program              |
+//        +--------+---------------------------+--------------------------------+""");
+//
+//        do {
+//            System.out.println("Please enter an option (1 or 2):");
+//            choice = scanner.nextLine().trim();
+//
+//            if (!choice.equals("1") && !choice.equals("2")) {
+//                System.out.println("Invalid input. Please enter 1 or 2.");
+//            }
+//
+//        } while (!choice.equals("1") && !choice.equals("2"));
+//
+//        return Integer.parseInt(choice);
+//    }
     /** JJ - 2026/09/14 - T10
      * Displays the database management menu and returns the user's choice
      * @param scanner scanner object from java.util.Scanner
      * @return the menu option selected by the user as an int
      */
-    private static int showDatabaseMenu(Scanner scanner) {
-        String choice;
-
-        System.out.println("\n==================== Database Management ====================");
-        System.out.println("""
-                        +--------+---------------------------+--------------------------------+
-                        | Option | Action                    | Description                    |
-                        +--------+---------------------------+--------------------------------+
-                        |   1    | Add movie                 | Choose an add method           |
-                        |   2    | Search movie by ID        | Find a movie using its ID      |
-                        |   3    | Update movie              | Modify an existing movie       |
-                        |   4    | Remove movie              | Delete a movie from database   |
-                        |   5    | Print all movies          | Display all stored movies      |
-                        |   6    | Reviews                   | Average & individual ratings   |
-                        |   7    | Highest rated movie       | Display the highest rated movie|
-                        |   8    | Lowest rated movie        | Display the lowest rated movie |
-                        |   9    | Print Top 5 Movies        | Display the top 5 rated movies |
-                        |   10   | Back                      | Return to main menu            |
-                        +--------+---------------------------+--------------------------------+""");
-
-        do {
-            System.out.println("Please enter an option (1-10):");
-            choice = scanner.nextLine().trim();
-
-            if (!choice.matches("([1-9]|10)")) {
-                System.out.println("Invalid input. Please enter a number between 1 and 10.");
-            }
-
-        } while (!choice.matches("([1-9]|10)"));
-
-        return Integer.parseInt(choice);
-    }
+//    private static int showDatabaseMenu(Scanner scanner) {
+//        String choice;
+//
+//        System.out.println("\n==================== Database Management ====================");
+//        System.out.println("""
+//                        +--------+---------------------------+--------------------------------+
+//                        | Option | Action                    | Description                    |
+//                        +--------+---------------------------+--------------------------------+
+//                        |   1    | Add movie                 | Choose an add method           |
+//                        |   2    | Search movie by ID        | Find a movie using its ID      |
+//                        |   3    | Update movie              | Modify an existing movie       |
+//                        |   4    | Remove movie              | Delete a movie from database   |
+//                        |   5    | Print all movies          | Display all stored movies      |
+//                        |   6    | Reviews                   | Average & individual ratings   |
+//                        |   7    | Highest rated movie       | Display the highest rated movie|
+//                        |   8    | Lowest rated movie        | Display the lowest rated movie |
+//                        |   9    | Print Top 5 Movies        | Display the top 5 rated movies |
+//                        |   10   | Back                      | Return to main menu            |
+//                        +--------+---------------------------+--------------------------------+""");
+//
+//        do {
+//            System.out.println("Please enter an option (1-10):");
+//            choice = scanner.nextLine().trim();
+//
+//            if (!choice.matches("([1-9]|10)")) {
+//                System.out.println("Invalid input. Please enter a number between 1 and 10.");
+//            }
+//
+//        } while (!choice.matches("([1-9]|10)"));
+//
+//        return Integer.parseInt(choice);
+//    }
 
     /** JJ - 2026/09/14 - T10
      * Displays the add movie submenu and returns the user's choice
      * @param scanner scanner object from java.util.Scanner
      * @return the menu option selected by the user as an int
      */
-    private static int showAddMovieMenu(Scanner scanner) {
-        String choice;
-
-        System.out.println("\n==================== Add Movie ====================");
-        System.out.println("""
-        +--------+---------------------------+--------------------------------+
-        | Option | Action                    | Description                    |
-        +--------+---------------------------+--------------------------------+
-        |   1    | Add movie (step by step)  | Answer one value at a time     |
-        |   2    | Add movie (single line)   | Enter all 8 values with commas |
-        |   3    | Back                      | Return to database menu        |
-        +--------+---------------------------+--------------------------------+""");
-
-        do {
-            System.out.println("Please enter an option (1-3):");
-            choice = scanner.nextLine().trim();
-
-            if (!choice.matches("[1-3]")) {
-                System.out.println("Invalid input. Please enter a number between 1 and 3.");
-            }
-
-        } while (!choice.matches("[1-3]"));
-
-        return Integer.parseInt(choice);
-    }
+//    private static int showAddMovieMenu(Scanner scanner) {
+//        String choice;
+//
+//        System.out.println("\n==================== Add Movie ====================");
+//        System.out.println("""
+//        +--------+---------------------------+--------------------------------+
+//        | Option | Action                    | Description                    |
+//        +--------+---------------------------+--------------------------------+
+//        |   1    | Add movie (step by step)  | Answer one value at a time     |
+//        |   2    | Add movie (single line)   | Enter all 8 values with commas |
+//        |   3    | Back                      | Return to database menu        |
+//        +--------+---------------------------+--------------------------------+""");
+//
+//        do {
+//            System.out.println("Please enter an option (1-3):");
+//            choice = scanner.nextLine().trim();
+//
+//            if (!choice.matches("[1-3]")) {
+//                System.out.println("Invalid input. Please enter a number between 1 and 3.");
+//            }
+//
+//        } while (!choice.matches("[1-3]"));
+//
+//        return Integer.parseInt(choice);
+//    }
 
     //***********************************************************************
     //---------------- Helper Methods ---------------------------------------
