@@ -88,6 +88,13 @@ public class  MovieController{
         }
     }
 
+    /**
+     * handles the updatemovie method from MovieDatabase
+     * @param id
+     * @param field
+     * @param value
+     * @param title
+     */
     private void handleUpdateMovie(int id, int field, String value, String title){
         MovieDatabase MD = new MovieDatabase();
         if (title == null){ //if there is no title, use the movie ID
