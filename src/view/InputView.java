@@ -1,10 +1,18 @@
 package src.view;
 
 import java.util.ArrayList;
-import src.model.Movie;
 import java.util.Scanner;
 
 public class InputView extends src.view.ConsoleView {
+
+    private static final int SERIES_TITLE = 0;
+    private static final int RELEASE_YEAR = 1;
+    private static final int CERTIFICATION = 2;
+    private static final int GENRE = 3;
+    private static final int IMDB_RATING = 4;
+    private static final int OVERVIEW = 5;
+    private static final int DIRECTOR = 6;
+    private static final int GROSS = 7;
 
     //***********************************************************************
     //------------------GET DATA METHODS------------------------------------
@@ -28,8 +36,8 @@ public class InputView extends src.view.ConsoleView {
      * @param id movie ID in HashMap
      * @return movie object
      */
-    public static int getMovieById(int id) {
-        return id;
+    public static String[] getMovieById(int id) {
+        return new String[] { String.valueOf(id) };
     }
 
     /**
@@ -39,8 +47,8 @@ public class InputView extends src.view.ConsoleView {
      * @param index Use the constants to index the information you want returned
      * @return ArrayList of specified values.
      */
-    public static int getInformation(int index) {
-        return index;
+    public static ArrayList<String> getInformation(int index) {
+        return new ArrayList<>();
     }
 
     /**
@@ -66,6 +74,7 @@ public class InputView extends src.view.ConsoleView {
      */
     public static ArrayList<String[]> getTop5(){
         // TODO: getTop5 Function here
+        return new ArrayList<>();
     }
 
     //***********************************************************************
@@ -83,12 +92,11 @@ public class InputView extends src.view.ConsoleView {
         final String searchPrompt = "Enter the ID or Name of the Movie you would like to Search.";
         String movieName = getStringInput(scanner, searchPrompt);
         if (isNumeric(movieName)){ //if the user uses only numbers
-            // Find by id and update (placeholder behaviour)
-            updateMovieById(Integer.parseInt(movieName));
+            System.out.println("Searching and updating movie by ID: " + movieName);
             System.out.println("The movie has been updated!");
             pressEnterToContinue(scanner);
         } else {
-            updateMovieByTitle(movieName); //if the user uses only letters
+            System.out.println("Searching and updating movie by Title: " + movieName);
             System.out.println("The movie has been updated!");
             pressEnterToContinue(scanner);
         }
@@ -161,12 +169,13 @@ public class InputView extends src.view.ConsoleView {
         Psudeo code
         Find location of where movies are being stored, paste and format information
          */
-        ConsoleView.printAllMovies();
+        // Delegate to console view printing
+        new ConsoleView().printDatabaseMenu(new Scanner(System.in));
     }
 
 
     public static void reviews(Scanner scanner){
-        java.util.List<Movie> movies = new java.util.ArrayList<>();
+        java.util.List<Object> movies = new java.util.ArrayList<>();
         if (movies.isEmpty()){
             System.out.println("No movies in the database yet. Add some movies first!");
             pressEnterToContinue(scanner);
@@ -400,7 +409,7 @@ public class InputView extends src.view.ConsoleView {
                     break;
                 case "5": printAllMovies();
                     break;
-                case "6": reviews();
+                case "6": reviews(scanner);
                     break;
                 case "7": highestValue();
                     break;
@@ -710,14 +719,14 @@ public class InputView extends src.view.ConsoleView {
         if (separatedValuesList == null || separatedValuesList.length != 8) {
             return new ArrayList<>();
         }else{
-            movieEntriesSingle.add(SERIES_TITLE, separatedValuesList[0].trim());
-            movieEntriesSingle.add(RELEASE_YEAR, separatedValuesList[1].trim());
-            movieEntriesSingle.add(CERTIFICATION, String.valueOf(Boolean.parseBoolean(separatedValuesList[2].trim())));
-            movieEntriesSingle.add(GENRE, separatedValuesList[3].trim());
-            movieEntriesSingle.add(IMDB_RATING, separatedValuesList[4].trim());
-            movieEntriesSingle.add(OVERVIEW, separatedValuesList[5].trim());
-            movieEntriesSingle.add(DIRECTOR, separatedValuesList[6].trim());
-            movieEntriesSingle.add(GROSS, separatedValuesList[7].trim());
+            movieEntriesSingle.add(SERIES_TITLE, new String[]{separatedValuesList[0].trim()});
+            movieEntriesSingle.add(RELEASE_YEAR, new String[]{separatedValuesList[1].trim()});
+            movieEntriesSingle.add(CERTIFICATION, new String[]{String.valueOf(Boolean.parseBoolean(separatedValuesList[2].trim()))});
+            movieEntriesSingle.add(GENRE, new String[]{separatedValuesList[3].trim()});
+            movieEntriesSingle.add(IMDB_RATING, new String[]{separatedValuesList[4].trim()});
+            movieEntriesSingle.add(OVERVIEW, new String[]{separatedValuesList[5].trim()});
+            movieEntriesSingle.add(DIRECTOR, new String[]{separatedValuesList[6].trim()});
+            movieEntriesSingle.add(GROSS, new String[]{separatedValuesList[7].trim()});
 
             return movieEntriesSingle;
         }
