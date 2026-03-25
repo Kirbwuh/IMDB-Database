@@ -5,50 +5,52 @@ import src.model.RowEntry;
 
 
 public abstract class Database<Entry extends RowEntry> {
-    private final Class<Entry> entry;  // abstract object to be series or movie
-    protected HashMap<Integer, Entry> database = new HashMap<>();
+    private final Class<Entry> entry;  // Java Generic. abstract object to be series or movie
+    protected final HashMap<Integer, Entry> database = new HashMap<>();
     private int nextId = 1;
 
     /**
-     * Creates an empty movie database and initializes its internal storage.
+     * Creates an empty database for the given row entry type.
+     *
+     * @param entry the concrete entry class stored by this database
      */
     protected Database(Class<Entry> entry) {
         this.entry = entry;
     }
 
     /**
-     * Adds a movie to the database using the next available integer ID.
+     * Adds an entry to the database using the next available integer ID.
      *
-     * @param movie the movie to add
+     * @param entry the entry to add
      */
     public void addEntry(Entry entry) {
         database.put(nextId++, entry);
     }
 
     /**
-     * Removes the movie associated with the given ID.
+     * Removes the entry associated with the given ID.
      *
-     * @param id the ID of the movie to remove
+     * @param id the ID of the entry to remove
      */
     public void removeEntry(int id) {
         database.remove(id);
     }
 
     /**
-     * Retrieves the movie associated with the given ID.
+     * Retrieves the entry associated with the given ID.
      *
-     * @param id the ID of the movie to retrieve
-     * @return the matching movie, or {@code null} if no movie exists with that ID
+     * @param id the ID of the entry to retrieve
+     * @return the matching entry, or {@code null} if no entry exists with that ID
      */
     public Entry getEntry(int id) {
         return database.get(id);
     }
 
     /**
-     * Retrieves the first movie whose title matches the given title.
+     * Retrieves the first entry whose title matches the given title.
      *
-     * @param title the title of the movie to retrieve
-     * @return the matching movie, or {@code null} if no movie with that title is found
+     * @param title the title of the entry to retrieve
+     * @return the matching entry, or {@code null} if no entry with that title is found
      */
     public Entry getEntry(String title) {
         for (Map.Entry<Integer, Entry> entry: database.entrySet()) {
@@ -61,18 +63,18 @@ public abstract class Database<Entry extends RowEntry> {
     }
 
     /**
-     * Returns all movies currently stored in the database.
+     * Returns all entries currently stored in the database.
      *
-     * @return a map of movie IDs to movie objects
+     * @return a map of entry IDs to their corresponding entry objects
      */
     public HashMap<Integer, Entry> getAllEntries() {
         return database;
     }
 
     /**
-     * Updates a field of the movie associated with the given ID.
+     * Updates a field of the entry associated with the given ID.
      *
-     * @param id the ID of the movie to update
+     * @param id the ID of the entry to update
      * @param field the field number to update
      * @param value the new value for the selected field
      */
@@ -105,9 +107,9 @@ public abstract class Database<Entry extends RowEntry> {
     }
 
     /**
-     * Updates a field of the first movie whose title matches the given title.
+     * Updates a field of the first entry whose title matches the given title.
      *
-     * @param title the title of the movie to update
+     * @param title the title of the entry to update
      * @param field the field number to update
      * @param value the new value for the selected field
      */
@@ -139,9 +141,9 @@ public abstract class Database<Entry extends RowEntry> {
     }
 
     /**
-     * Removes the first movie whose title matches the given title.
+     * Removes the first entry whose title matches the given title.
      *
-     * @param title the title of the movie to remove
+     * @param title the title of the entry to remove
      */
     public void removeEntry(String title) {
         for (Map.Entry<Integer, Entry> entry : database.entrySet()) {
