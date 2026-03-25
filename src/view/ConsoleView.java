@@ -1,32 +1,35 @@
 package src.view;
-
 import java.util.Scanner;
 
-//Extract ALL System.out menu printing into a dedicated ConsoleView class. No data logic here — pure display.
-//
-//Checklist
-//
-//Create ConsoleView with printMainMenu()
-//
-//printDatabaseMenu()
-//
-//printAddMovieMenu()
-//
-//printMovie(Movie m)
+/**
+ * CPSC 219 W26 Project
+ * <p>
+ * ConsoleView
+ * <p>
+ * Dedicated class to print all displays.
+ *
+ * @author Christopher Lassota
+ * @email chris.lassota1@ucalgary.ca
+ */
+
 //
 //printAllMovies(List list)
 //
 //printRatings(List, double avg)
 //
-//printMessage(String msg) for generic output
-//
-//printError(String msg) for error output
-//
-//Javadoc on every method
 
 
 public class ConsoleView {
 
+    /**
+     * Prompts the user until a valid menu option is entered.
+     *
+     * @param scanner scanner used to read input from the console
+     * @param prompt prompt shown before reading input
+     * @param validPattern regular expression that defines valid input
+     * @param errorMessage message shown when the input is invalid
+     * @return the validated choice as an integer
+     */
     private int promptForChoice(Scanner scanner, String prompt, String validPattern, String errorMessage) {
         String choice;
 
@@ -42,6 +45,12 @@ public class ConsoleView {
         return Integer.parseInt(choice);
     }
 
+    /**
+     * Prints the main menu and returns the user's selection.
+     *
+     * @param scanner scanner used to read input from the console
+     * @return the selected main menu option
+     */
     public int printMainMenu(Scanner scanner) {
         System.out.println("********************* IMDb Movie Database - CPSC219 W26  *********************");
         System.out.println("Track and store your favourite movies with ratings, directors, genres and more.");
@@ -61,6 +70,12 @@ public class ConsoleView {
                 "Invalid input. Please enter 1, 2, 3, or 4.");
     }
 
+    /**
+     * Prints the search database menu and returns the user's selection.
+     *
+     * @param scanner scanner used to read input from the console
+     * @return the selected search database menu option
+     */
     public int printSearchDatabaseMenu(Scanner scanner) {
         System.out.println("\n==================== Search Database ====================");
         System.out.println("""
@@ -76,6 +91,12 @@ public class ConsoleView {
                 "Invalid input. Please enter 1, 2 or 3.");
     }
 
+    /**
+     * Prints the database highlights menu and returns the user's selection.
+     *
+     * @param scanner scanner used to read input from the console
+     * @return the selected database highlights menu option
+     */
     public int printDatabaseHighlightsMenu(Scanner scanner) {
         System.out.println("\n==================== Database Highlights ====================");
         System.out.println("""
@@ -94,6 +115,12 @@ public class ConsoleView {
     }
 
 
+    /**
+     * Prints the manage database menu and returns the user's selection.
+     *
+     * @param scanner scanner used to read input from the console
+     * @return the selected manage database menu option
+     */
     public int printManageDatabaseMenu(Scanner scanner) {
         System.out.println("\n==================== Manage Database ====================");
         System.out.println("""
