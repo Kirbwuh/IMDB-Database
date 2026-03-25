@@ -35,14 +35,28 @@ public class  MovieController{
     }
 
     // calling MovieDatabase
-    private static void addMovieGetter(String choice){
-        int choice_int = InputView.showAddMovieMenu(scanner);
-
-        switch(choice_int){
-            case 1:
-                MD.addMovie(InputView.multilineEntryProcess(scanner));
-
+    private void handleAddMovie(Movie movie){
+        MovieDatabase MD = new MovieDatabase();
+        MD.addMovie(movie);
+    }
+    private void handleRemoveMovie(int id){
+        MovieDatabase MD = new MovieDatabase();
+        MD.removeMovie(id);
+    }
+    private void handleGetMovie(int id, String title){
+        MovieDatabase MD = new MovieDatabase();
+        if (title == null){
+            System.out.println(MD.getMovie(id));
+        } else if (id == 0) {
+            System.out.println(MD.getMovie(title));
         }
+        else{
+            System.out.println("Please enter a valid movie ID or title.");
+        }
+    }
+    private void handlePrintAllMovie(){
+        MovieDatabase MD = new MovieDatabase();
+        System.out.println(MD.getAllMovies());
     }
 
 
