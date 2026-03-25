@@ -1,4 +1,4 @@
-package model;
+package src.model;
 
 /**
  * Represents a single movie entry.
@@ -62,6 +62,7 @@ public class Movie extends RowEntry {
      * @return long gross earnings in dollars
      */
     public long getGross() { return gross; }
+
 
     // ******************************
     // Setters

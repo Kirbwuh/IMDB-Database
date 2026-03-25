@@ -1,5 +1,7 @@
 package src.view;
 
+import src.model.MovieDatabase;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -11,45 +13,45 @@ public class InputView  {
     //------------------GET DATA METHODS------------------------------------
     //***********************************************************************
 
-    /**
-     * CL-3/6/2026-T10
-     * Returns movie object by associated title
-     *
-     * @param title movie title associated with entry.
-     * @return movie object with associated title.
-     */
-    public static String[] getMovieByTitle(String title) {
-        return new String[]{title};
-    }
-
-    /**
-     * CL-3/6/2026-T10
-     * Returns movie object by associated ID
-     *
-     * @param id movie ID in HashMap
-     * @return movie object
-     */
-    public static int getMovieById(int id) {
-        return id;
-    }
-
-    /**
-     * CL-3/6/2026-T10
-     * Returns an ArrayList of specified values present in the HashMap. For example using GENRE will return all the genres.
-     *
-     * @param index Use the constants to index the information you want returned
-     * @return ArrayList of specified values.
-     */
-    public static int getInformation(int index) {
-        return index;
-    }
+//    /**
+//     * CL-3/6/2026-T10
+//     * Returns movie object by associated title
+//     *
+//     * @param title movie title associated with entry.
+//     * @return movie object with associated title.
+//     */
+//    public static String[] getMovieByTitle(String title) {
+//        return new String[]{title};
+//    }
+//
+//    /**
+//     * CL-3/6/2026-T10
+//     * Returns movie object by associated ID
+//     *
+//     * @param id movie ID in HashMap
+//     * @return movie object
+//     */
+//    public static int getMovieById(int id) {
+//        return id;
+//    }
+//
+//    /**
+//     * CL-3/6/2026-T10
+//     * Returns an ArrayList of specified values present in the HashMap. For example using GENRE will return all the genres.
+//     *
+//     * @param index Use the constants to index the information you want returned
+//     * @return ArrayList of specified values.
+//     */
+//    public static int getInformation(int index) {
+//        return index;
+//    }
 
     /**
      * By: Arraf Hoque 2026/03/06 T10
      * Prints the highest IMDB Rating movie
      */
     public static void highestValue(){
-        // TODO: highestValue Function here
+        return MovieDatabase.getHighestRated();
     }
 
     /**
@@ -57,7 +59,7 @@ public class InputView  {
      * prints out the lowest IMDB RATING
      */
     public static void lowestValue(){
-        // TODO: lowestValue Function here
+        return MovieDatabase.getLowestRated();
     }
 
     /**
@@ -66,7 +68,7 @@ public class InputView  {
      * @return top5
      */
     public static ArrayList<String[]> getTop5(){
-        // TODO: getTop5 Function here
+        return MovieDatabase.getTop5();
     }
 
     //***********************************************************************
@@ -76,20 +78,26 @@ public class InputView  {
     //Need to update what movie's are in the update methods
     /**
      * Duku - 20/03/2026 -T10.
-     * Allows the user to update a movie by either looking up the Name or Id of the movie
+     * Allows the user to update a movie by either looking up the Name or ID of the movie
      *
      * @param scanner User's input for searching up the movie
      */
-    public static String updateMovie(Scanner scanner) {
-        final String searchPrompt = "Enter the ID or Name of the Movie you would like to Search.";
+    public static void updateMovie(Scanner scanner) {
+        final String searchPrompt = "Enter the ID or Name of the Movie you would like to update.";
         String movieName = getStringInput(scanner, searchPrompt);
-        if (isNumeric(movieName)){ //if the user uses only numbers
-            updateMovieByTitle(model.Movie);
-            System.out.println("The movie has been updated!");
-            pressEnterToContinue(scanner);
+        if (!isNumeric(movieName)){//if the user uses only letters
+            int categoryNumber = getCategoryInformation(scanner);
+            System.out.println("Enter the new value for the category you're changing.");
+            String newValue = scanner.nextLine();
+            MovieDatabase.updateMovie(movieName,categoryNumber,newValue); //Update Movie with title.
+            System.out.println("The value has been updated!");
         } else {
-            updateMovieById(model.Movie); //if the user uses only letters
-            System.out.println("The movie has been updated!");
+            int movieNameInt = Integer.parseInt(String.valueOf(scanner));
+            int categoryNumber = getCategoryInformation(scanner);
+            final String valuePrompt = "Enter the new value for the category you're changing.";
+            String newValue = getStringInput(scanner,valuePrompt);
+            MovieDatabase.updateMovie(movieNameInt,categoryNumber,newValue); //Update Movie with ID number
+            System.out.println("The value has been updated!");
             pressEnterToContinue(scanner);
         }
     }
@@ -101,19 +109,20 @@ public class InputView  {
 
     /**
      * Duku - 20/03/2026 -T10.
-     * Allows the user to update a movie by either looking up the Name or Id of the movie
+     * Allows the user to remove a movie by either looking up the Name or ID of the movie
      *
      * @param scanner User's input for searching up the movie
      */
     public static void removeMovie(Scanner scanner) {
-        final String searchPrompt = "Enter the ID or Name of the Movie you would like to Search.";
+        final String searchPrompt = "Enter the ID or Name of the Movie you would like to remove.";
         String movieName = getStringInput(scanner, searchPrompt);
-        if (isNumeric(movieName)){ //if the user uses only numbers
-            removeMovieById(model.Movie);
+        if (!isNumeric(movieName)){ //if the user uses only letters
+            removeMovieByTitle(String.valueOf(scanner));
             System.out.println("The movie has been removed!");
             pressEnterToContinue(scanner);
         } else {
-            removeMovieByTitle(model.Movie); //if the user uses only letters
+            int scannerInt = Integer.parseInt(String.valueOf(scanner));
+            removeMovieById(scannerInt); //if the user uses only numbers
             System.out.println("The movie has been removed!");
             pressEnterToContinue(scanner);
         }
@@ -126,10 +135,7 @@ public class InputView  {
      * @param title movie title associated with entry.
      */
     public static void removeMovieByTitle(String title) {
-        /*
-        Psudeo code
-        Find movie by Title, remove movie from list
-         */
+        return MovieDatabase.removeMovie(title);
     }
 
     /**
@@ -139,10 +145,8 @@ public class InputView  {
      * @param id movie id associated with entry.
      */
     public static void removeMovieById(int id) {
-        /*
-        Psudeo code
-        Find movie by id, remove movie from list
-         */
+        return MovieDatabase.removeMovie(id);
+        //TODO add proper implementation of Movie.Java & MovieDatabase.Java
     }
 
 
@@ -156,15 +160,12 @@ public class InputView  {
      * Prints every movie currently stored in the map.
      */
     public static void printAllMovies() {
-        /*
-        Psudeo code
-        Find location of where movies are being stored, paste and format information
-         */
-        ConsoleView.printAllMovies();
+        return MovieDatabase.getAllMovies;
     }
 
 
     public static void reviews(model.Movie){
+        //TODO rewrite how reviews will be displayed.
         if (movies.isEmpty()){
             System.out.println("No movies in the database yet. Add some movies first!");
             pressEnterToContinue(scanner);
@@ -224,18 +225,16 @@ public class InputView  {
             return new String[] {};
         }
     }
-    /**
-     * CL-3/6/2026-T10
-     * Prompts the user to search for a movie by its title
-     *
-     * @param scanner scanner object from java.util.Scanner
-     * @return movie String[] or null
-     */
-    private static String[] searchMovieByTitle(Scanner scanner) {
-        final String searchPrompt = "Enter the TITLE of the Movie you would like to Search.";
-        String searchInput = getStringInput(scanner, searchPrompt);
-        return getMovieByTitle(searchInput);
-    }
+//    /**
+//     * CL-3/6/2026-T10
+//     * Prompts the user to search for a movie by its title
+//     *
+//     * @param scanner scanner object from java.util.Scanner
+//     * @return movie String[] or null
+//     */
+//    private static String searchMovieByTitle(Scanner scanner) {
+//        return getMovie(scanner); // From MovieDatabase.Java
+//    }
 
     /**
      * CL-3/6/2026-T10
@@ -244,14 +243,20 @@ public class InputView  {
      * @param scanner scanner object from java.util.Scanner
      * @return movie String[] or null
      */
-    private static String[] searchMovieByID(Scanner scanner) {
-        final String searchPrompt = "Enter the ID of the Movie you would like to Search.";
-        int searchInput = getIntegerInput(scanner, searchPrompt);
-
-        return getMovieById(searchInput);
+    public static void searchMovie(Scanner scanner) {
+        final String searchPrompt = "Enter the ID or Name of the Movie you would like to Search.";
+        String movieName = getStringInput(scanner, searchPrompt);
+        if (!isNumeric(movieName)){ //if the user uses only letters
+            String movieInfo = MovieDatabase.getMovie(String.valueOf(scanner));
+            System.out.println(movieInfo);
+            pressEnterToContinue(scanner);
+        } else {
+            int scannerInt = Integer.parseInt(String.valueOf(scanner)); //returns the movie assigned to the id given
+            String movieInfo = MovieDatabase.getMovie(scannerInt); //if the user uses only numbers
+            System.out.println(movieInfo);
+            pressEnterToContinue(scanner);
+        }
     }
-
-    //need to make search function to combine both methods
 
     /**
      * CL-3/6/2026-T10
@@ -260,19 +265,18 @@ public class InputView  {
      * @param scanner scanner object from java.util.scanner
      * @return an ArrayList<String> containing all category data.
      */
-    private static ArrayList<String> getCategoryInformation(Scanner scanner) {
+    private static int getCategoryInformation(Scanner scanner) {
         final String prompt = ("""
-                Please enter a number corresponding to the data you want displayed:
+                Please enter a number corresponding to the data you want to change:
                 1. Series Titles
                 2. Release Years
-                3. PG- 13
+                3. PG-13
                 4. Genres
                 5. IMDB Ratings
                 6. Overviews
                 7. Gross Earnings
                 """);
-        int searchInput = getIntegerInput(scanner, prompt);
-        return getInformation(searchInput);
+        return getIntegerInput(scanner, prompt);
     }
     //***********************************************************************
     //------------------Main Method--------------------------
@@ -390,7 +394,7 @@ public class InputView  {
             switch (choice){
                 case "1": showAddMovieMenu(scanner);
                     break;
-                case "2": searchMovieByID(scanner);
+                case "2": searchMovie(scanner);
                     break;
                 case "3": updateMovie(scanner);
                     break;
@@ -671,7 +675,7 @@ public class InputView  {
 
                 switch (i) {
                     //-------- String values
-                    case SERIES_TITLE:
+                    case SERIES_TITLE: //Todo Change Variables reffering to movie aspects
                     case GENRE:
                     case OVERVIEW:
                     case DIRECTOR:
@@ -682,7 +686,7 @@ public class InputView  {
                         break;
 
                     //---------Numeric values
-                    case RELEASE_YEAR:
+                    case RELEASE_YEAR://Todo Change Variables reffering to movie aspects
                     case IMDB_RATING:
                     case GROSS:
                         if (!isNumeric(value)) {
@@ -692,7 +696,7 @@ public class InputView  {
                         break;
 
                     //-----------Boolean value
-                    case CERTIFICATION: // PG-13 (true / false)
+                    case CERTIFICATION: // PG-13 (true / false) //Todo Change Variables reffering to movie aspects
                         if (!(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))) {
                             System.out.println("Invalid input: PG-13 must be true or false.");
                             validInput = false;
