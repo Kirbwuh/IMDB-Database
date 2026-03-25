@@ -87,13 +87,6 @@ public abstract class Database<Entry extends RowEntry> {
             case 5:
                 target.setDescription(value);
                 break;
-// Add in actual class
-//            case 6:
-//                target.setDirector(value);
-//                break;
-//            case 7:
-//                target.setGross(Long.parseLong(value));
-//                break;
         }
     }
 

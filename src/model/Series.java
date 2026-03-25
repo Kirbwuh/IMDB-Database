@@ -43,7 +43,7 @@ public class Series extends src.model.RowEntry {
         this.creator          = creator;
     }
 
-    // ******************************
+    // ******************************`
     // Getters
     // ******************************
 
