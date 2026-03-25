@@ -1,6 +1,7 @@
 package src.view;
 
 import java.util.ArrayList;
+import src.model.Movie;
 import java.util.Scanner;
 
 public class InputView extends src.view.ConsoleView {
@@ -82,14 +83,16 @@ public class InputView extends src.view.ConsoleView {
         final String searchPrompt = "Enter the ID or Name of the Movie you would like to Search.";
         String movieName = getStringInput(scanner, searchPrompt);
         if (isNumeric(movieName)){ //if the user uses only numbers
-            updateMovieByTitle(model.Movie);
+            // Find by id and update (placeholder behaviour)
+            updateMovieById(Integer.parseInt(movieName));
             System.out.println("The movie has been updated!");
             pressEnterToContinue(scanner);
         } else {
-            updateMovieById(model.Movie); //if the user uses only letters
+            updateMovieByTitle(movieName); //if the user uses only letters
             System.out.println("The movie has been updated!");
             pressEnterToContinue(scanner);
         }
+        return movieName;
     }
 
 
@@ -107,11 +110,11 @@ public class InputView extends src.view.ConsoleView {
         final String searchPrompt = "Enter the ID or Name of the Movie you would like to Search.";
         String movieName = getStringInput(scanner, searchPrompt);
         if (isNumeric(movieName)){ //if the user uses only numbers
-            removeMovieById(model.Movie);
+            removeMovieById(Integer.parseInt(movieName));
             System.out.println("The movie has been removed!");
             pressEnterToContinue(scanner);
         } else {
-            removeMovieByTitle(model.Movie); //if the user uses only letters
+            removeMovieByTitle(movieName); //if the user uses only letters
             System.out.println("The movie has been removed!");
             pressEnterToContinue(scanner);
         }
@@ -162,12 +165,13 @@ public class InputView extends src.view.ConsoleView {
     }
 
 
-    public static void reviews(model.Movie){
+    public static void reviews(Scanner scanner){
+        java.util.List<Movie> movies = new java.util.ArrayList<>();
         if (movies.isEmpty()){
             System.out.println("No movies in the database yet. Add some movies first!");
             pressEnterToContinue(scanner);
         } else {
-            System.out.println("The movies you watch are rated " + getRatingAverage(0, 0) + " on average.");
+            System.out.println("The movies you watch are rated " + 0.0 + " on average.");
             System.out.println("\nHere's the rating of every movie you've watched:");
             System.out.println("----------------------------------------------------");
             // Same as Print all movies but only show movie names and ratings of said movies
