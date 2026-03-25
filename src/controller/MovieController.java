@@ -65,7 +65,9 @@ public class  MovieController{
         MovieDatabase MD = new MovieDatabase();
         System.out.println(MD.getAllMovies());
     }
-    private
+    public ArrayList<String> getTopRatings(){
+
+    }
 
 
 
