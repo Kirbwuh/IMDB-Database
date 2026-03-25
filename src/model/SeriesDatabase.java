@@ -1,4 +1,4 @@
-package Model;
+package src.model;
 import src.model.Series;
 
 import java.util.HashMap;
@@ -7,9 +7,9 @@ import java.util.HashMap;
  * Stores and manages {@link Series} entries.
  *
  * <p>This class provides series-specific wrapper methods around the generic
- * functionality defined in {@link Database}.</p>
+ * functionality defined in {@link Model.Database}.</p>
  */
-public class SeriesDatabase extends Database<Series> {
+public class SeriesDatabase extends Model.Database<Series> {
 
     /**
      * Creates an empty series database.
