@@ -75,15 +75,15 @@ public class  MovieController{
     }
     public void handleTop5(){
         MovieDatabase MD = new MovieDatabase();
-        System.out.println(MD.getTop5);
+        System.out.println(MD.getTop5());
     }
     public void handleHighestRating(){
         MovieDatabase MD = new MovieDatabase();
-        System.out.println(MD.getHighestRating);
+        System.out.println(MD.getHighestRated());
     }
     public void handleLowestRating(){
         MovieDatabase MD = new MovieDatabase();
-        System.out.println(MD.getLowestRating);
+        System.out.println(MD.getLowestRated());
     }
 
 
