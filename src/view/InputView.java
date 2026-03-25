@@ -5,9 +5,7 @@ import src.model.MovieDatabase;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class InputView  {
-
-    public static int nextId = 1;
+public class InputView extends src.view.ConsoleView {
 
     //***********************************************************************
     //------------------GET DATA METHODS------------------------------------
