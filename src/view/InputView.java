@@ -164,13 +164,13 @@ public class InputView extends src.view.ConsoleView {
      * CL-3/6/2026-T10
      * Prints every movie currently stored in the map.
      */
-    public static void printAllMovies() {
+    public static void printAllMovies(Scanner scanner) {
         /*
         Psudeo code
         Find location of where movies are being stored, paste and format information
          */
         // Delegate to console view printing
-        new ConsoleView().printDatabaseMenu(new Scanner(System.in));
+        new ConsoleView().printSearchDatabaseMenu(scanner);
     }
 
 
@@ -407,7 +407,7 @@ public class InputView extends src.view.ConsoleView {
                     break;
                 case "4": removeMovie(scanner);
                     break;
-                case "5": printAllMovies();
+                case "5": printAllMovies(scanner);
                     break;
                 case "6": reviews(scanner);
                     break;
