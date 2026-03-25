@@ -16,8 +16,8 @@ class SeriesTest {
     @Test
     public void constructor_TwoSeriesNeverShareTheSameId() {
         // Arrange
-        Series seriesA = new Series("Breaking Bad", 2008, "Crime", 9.5, "yes", 5, 62, "Gilligan");
-        Series seriesB = new Series("The Wire",     2002, "Crime", 9.3, "no",  5, 60, "Simon");
+        Series seriesA = new Series("Breaking Bad", 2008, "Drama", 9.5, "yes", 5, 62, "Gilligan");
+        Series seriesB = new Series("The Wire",     2002, "Drama", 9.3, "no",  5, 60, "Simon");
         // Act
         int idA = seriesA.getCurrentEntryId();
         int idB = seriesB.getCurrentEntryId();
@@ -31,8 +31,8 @@ class SeriesTest {
     @Test
     public void constructor_IdAutoIncrementsWithEachNewSeries() {
         // Arrange
-        Series first  = new Series("Breaking Bad", 2008, "Crime", 9.5, "yes", 5, 62, "Gilligan");
-        Series second = new Series("The Wire",     2002, "Crime", 9.3, "no",  5, 60, "Simon");
+        Series first  = new Series("Breaking Bad", 2008, "Drama", 9.5, "yes", 5, 62, "Gilligan");
+        Series second = new Series("The Wire",     2002, "Drama", 9.3, "no",  5, 60, "Simon");
         // Act
         int firstId  = first.getCurrentEntryId();
         int secondId = second.getCurrentEntryId();
@@ -49,7 +49,7 @@ class SeriesTest {
      */
     @Test
     public void getTitle_ReturnsCorrectTitle() {
-        Series entry = new Series("Breaking Bad", 2008, "Crime", 9.5, "yes", 5, 62, "Gilligan");
+        Series entry = new Series("Breaking Bad", 2008, "Drama", 9.5, "yes", 5, 62, "Gilligan");
         String result = entry.getTitle();
         assertEquals("Breaking Bad", result);
     }
@@ -59,7 +59,7 @@ class SeriesTest {
      */
     @Test
     public void getYear_ReturnsCorrectYear() {
-        Series entry = new Series("Breaking Bad", 2008, "Crime", 9.5, "yes", 5, 62, "Gilligan");
+        Series entry = new Series("Breaking Bad", 2008, "Drama", 9.5, "yes", 5, 62, "Gilligan");
         int result = entry.getYear();
         assertEquals(2008, result);
     }
@@ -69,9 +69,9 @@ class SeriesTest {
      */
     @Test
     public void getGenre_ReturnsCorrectGenre() {
-        Series entry = new Series("Breaking Bad", 2008, "Crime", 9.5, "yes", 5, 62, "Gilligan");
+        Series entry = new Series("Breaking Bad", 2008, "Drama", 9.5, "yes", 5, 62, "Gilligan");
         String result = entry.getGenre();
-        assertEquals("Crime", result);
+        assertEquals("Drama", result);
     }
 
     /**
@@ -79,7 +79,7 @@ class SeriesTest {
      */
     @Test
     public void getImdbRating_ReturnsCorrectRating() {
-        Series entry = new Series("Breaking Bad", 2008, "Crime", 9.5, "yes", 5, 62, "Gilligan");
+        Series entry = new Series("Breaking Bad", 2008, "Drama", 9.5, "yes", 5, 62, "Gilligan");
         double result = entry.getImdbRating();
         assertEquals(9.5, result);
     }
@@ -89,7 +89,7 @@ class SeriesTest {
      */
     @Test
     public void getDescription_ReturnsCorrectDescription() {
-        Series entry = new Series("Breaking Bad", 2008, "Crime", 9.5, "yes", 5, 62, "Gilligan");
+        Series entry = new Series("Breaking Bad", 2008, "Drama", 9.5, "yes", 5, 62, "Gilligan");
         String result = entry.getDescription();
         assertEquals("yes", result);
     }
@@ -103,7 +103,7 @@ class SeriesTest {
      */
     @Test
     public void getNumberOfSeasons_ReturnsCorrectValue() {
-        Series entry = new Series("Breaking Bad", 2008, "Crime", 9.5, "yes", 5, 62, "Gilligan");
+        Series entry = new Series("Breaking Bad", 2008, "Drama", 9.5, "yes", 5, 62, "Gilligan");
         int result = entry.getNumberOfSeasons();
         assertEquals(5, result);
     }
@@ -113,7 +113,7 @@ class SeriesTest {
      */
     @Test
     public void getNumberOfEpisodes_ReturnsCorrectValue() {
-        Series entry = new Series("Breaking Bad", 2008, "Crime", 9.5, "yes", 5, 62, "Gilligan");
+        Series entry = new Series("Breaking Bad", 2008, "Drama", 9.5, "yes", 5, 62, "Gilligan");
         int result = entry.getNumberOfEpisodes();
         assertEquals(62, result);
     }
@@ -123,7 +123,7 @@ class SeriesTest {
      */
     @Test
     public void getCreator_ReturnsCorrectCreator() {
-        Series entry = new Series("Breaking Bad", 2008, "Crime", 9.5, "yes", 5, 62, "Gilligan");
+        Series entry = new Series("Breaking Bad", 2008, "Drama", 9.5, "yes", 5, 62, "Gilligan");
         String result = entry.getCreator();
         assertEquals("Gilligan", result);
     }
@@ -137,7 +137,7 @@ class SeriesTest {
      */
     @Test
     public void setTitle_UpdatesTitleCorrectly() {
-        Series entry = new Series("Breaking Bad", 2008, "Crime", 9.5, "yes", 5, 62, "Gilligan");
+        Series entry = new Series("Breaking Bad", 2008, "Drama", 9.5, "yes", 5, 62, "Gilligan");
         entry.setTitle("The Wire");
         assertEquals("The Wire", entry.getTitle());
     }
@@ -147,7 +147,7 @@ class SeriesTest {
      */
     @Test
     public void setYear_UpdatesYearCorrectly() {
-        Series entry = new Series("Breaking Bad", 2008, "Crime", 9.5, "yes", 5, 62, "Gilligan");
+        Series entry = new Series("Breaking Bad", 2008, "Drama", 9.5, "yes", 5, 62, "Gilligan");
         entry.setYear(2002);
         assertEquals(2002, entry.getYear());
     }
@@ -157,7 +157,7 @@ class SeriesTest {
      */
     @Test
     public void setGenre_UpdatesGenreCorrectly() {
-        Series entry = new Series("Breaking Bad", 2008, "Crime", 9.5, "yes", 5, 62, "Gilligan");
+        Series entry = new Series("Breaking Bad", 2008, "Drama", 9.5, "yes", 5, 62, "Gilligan");
         entry.setGenre("Drama");
         assertEquals("Drama", entry.getGenre());
     }
@@ -167,7 +167,7 @@ class SeriesTest {
      */
     @Test
     public void setImdbRating_UpdatesRatingCorrectly() {
-        Series entry = new Series("Breaking Bad", 2008, "Crime", 9.5, "yes", 5, 62, "Gilligan");
+        Series entry = new Series("Breaking Bad", 2008, "Drama", 9.5, "yes", 5, 62, "Gilligan");
         entry.setImdbRating(9.9);
         assertEquals(9.9, entry.getImdbRating(), 0.001);
     }
@@ -177,7 +177,7 @@ class SeriesTest {
      */
     @Test
     public void setDescription_UpdatesDescriptionCorrectly() {
-        Series entry = new Series("Breaking Bad", 2008, "Crime", 9.5, "yes", 5, 62, "Gilligan");
+        Series entry = new Series("Breaking Bad", 2008, "Drama", 9.5, "yes", 5, 62, "Gilligan");
         entry.setDescription("You are goddamn right!");
         assertEquals("You are goddamn right!", entry.getDescription());
     }
@@ -230,7 +230,7 @@ class SeriesTest {
         assertAll("toString should contain all Series fields",
                 () -> assertTrue(result.contains("Breaking Bad"), "missing title"),
                 () -> assertTrue(result.contains("2008"),         "missing year"),
-                () -> assertTrue(result.contains("Crime"),        "missing genre"),
+                () -> assertTrue(result.contains("Drama"),        "missing genre"),
                 () -> assertTrue(result.contains("9.5"),          "missing IMDB rating"),
                 () -> assertTrue(result.contains("yes"),          "missing description"),
                 () -> assertTrue(result.contains("5"),            "missing number of seasons"),
@@ -248,12 +248,12 @@ class SeriesTest {
      */
     @Test
     public void toCSVStringRow_ContainsAllFields() {
-        Series entry = new Series("Breaking Bad", 2008, "Crime", 9.5, "yes", 5, 62, "Gilligan");
+        Series entry = new Series("Breaking Bad", 2008, "Drama", 9.5, "yes", 5, 62, "Gilligan");
         String result = entry.toCSVStringRow();
         assertAll("toCSVStringRow should contain all Series fields",
                 () -> assertTrue(result.contains("Breaking Bad"), "missing title"),
                 () -> assertTrue(result.contains("2008"),         "missing year"),
-                () -> assertTrue(result.contains("Crime"),        "missing genre"),
+                () -> assertTrue(result.contains("Drama"),        "missing genre"),
                 () -> assertTrue(result.contains("9.5"),          "missing IMDB rating"),
                 () -> assertTrue(result.contains("yes"),          "missing description"),
                 () -> assertTrue(result.contains("5"),            "missing number of seasons"),

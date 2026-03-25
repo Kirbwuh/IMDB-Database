@@ -16,7 +16,7 @@ class MovieTest {
     @Test
     public void constructor_TwoMoviesNeverShareTheSameId() {
         // Arrange
-        Movie movieA = new Movie("Inception", 2010, false, "Sci-Fi", 8.8, "yes", "Nolan", 836);
+        Movie movieA = new Movie("Inception", 2010, false, "Action", 8.8, "yes", "Nolan", 836);
         Movie movieB = new Movie("Tenet",     2020, false, "Action", 7.3, "no",   "Nolan", 363);
         // Act
         int idA = movieA.getCurrentEntryId();
@@ -31,7 +31,7 @@ class MovieTest {
     @Test
     public void constructor_IdAutoIncrementsWithEachNewMovie() {
         // Arrange
-        Movie first  = new Movie("Inception", 2010, false, "Sci-Fi", 8.8, "yes", "Nolan", 836);
+        Movie first  = new Movie("Inception", 2010, false, "Action", 8.8, "yes", "Nolan", 836);
         Movie second = new Movie("Tenet",     2020, false, "Action", 7.3, "no",   "Nolan", 363);
         // Act
         int firstId  = first.getCurrentEntryId();
@@ -53,7 +53,7 @@ class MovieTest {
     @Test
     public void getTitle_ReturnsCorrectTitle() {
         // Arrange
-        Movie entry = new Movie("Inception", 2010, false, "Sci-Fi", 8.8, "yes", "Nolan", 836);
+        Movie entry = new Movie("Inception", 2010, false, "Action", 8.8, "yes", "Nolan", 836);
         // Act
         String result = entry.getTitle();
         // Assert
@@ -67,7 +67,7 @@ class MovieTest {
     @Test
     public void getYear_ReturnsCorrectYear() {
         // Arrange
-        Movie entry = new Movie("Inception", 2010, false, "Sci-Fi", 8.8, "yes", "Nolan", 836);
+        Movie entry = new Movie("Inception", 2010, false, "Action", 8.8, "yes", "Nolan", 836);
         // Act
         int result = entry.getYear();
         // Assert
@@ -80,11 +80,11 @@ class MovieTest {
     @Test
     public void getGenre_ReturnsCorrectGenre() {
         // Arrange
-        Movie entry = new Movie("Inception", 2010, false, "Sci-Fi", 8.8, "yes", "Nolan", 836);
+        Movie entry = new Movie("Inception", 2010, false, "Action", 8.8, "yes", "Nolan", 836);
         // Act
         String result = entry.getGenre();
         // Assert
-        assertEquals("Sci-Fi", result);
+        assertEquals("Action", result);
     }
 
     /**
@@ -93,7 +93,7 @@ class MovieTest {
     @Test
     public void getImdbRating_ReturnsCorrectRating() {
         // Arrange
-        Movie entry = new Movie("Inception", 2010, false, "Sci-Fi", 8.8, "yes", "Nolan", 836);;
+        Movie entry = new Movie("Inception", 2010, false, "Action", 8.8, "yes", "Nolan", 836);;
         // Act
         double result = entry.getImdbRating();
         // Assert
@@ -106,7 +106,7 @@ class MovieTest {
     @Test
     public void getDescription_ReturnsCorrectDescription() {
         // Arrange
-        Movie entry = new Movie("Inception", 2010, false, "Sci-Fi", 8.8, "yes", "Nolan", 836);;
+        Movie entry = new Movie("Inception", 2010, false, "Action", 8.8, "yes", "Nolan", 836);;
         // Act
         String result = entry.getDescription();
         // Assert
@@ -123,7 +123,7 @@ class MovieTest {
     @Test
     public void isCertification_ReturnsFalseWhenNotPG13() {
         // Arrange
-        Movie entry = new Movie("Inception", 2010, false, "Sci-Fi", 8.8, "yes", "Nolan", 836);;
+        Movie entry = new Movie("Inception", 2010, false, "Action", 8.8, "yes", "Nolan", 836);;
         // Act
         boolean result = entry.isCertification();
         // Assert
@@ -149,7 +149,7 @@ class MovieTest {
     @Test
     public void getDirector_ReturnsCorrectDirector() {
         // Arrange
-        Movie entry = new Movie("Inception", 2010, false, "Sci-Fi", 8.8, "yes", "Nolan", 836);;
+        Movie entry = new Movie("Inception", 2010, false, "Action", 8.8, "yes", "Nolan", 836);;
         // Act
         String result = entry.getDirector();
         // Assert
@@ -162,7 +162,7 @@ class MovieTest {
     @Test
     public void getGross_ReturnsCorrectGross() {
         // Arrange
-        Movie entry = new Movie("Inception", 2010, false, "Sci-Fi", 8.8, "yes", "Nolan", 836);
+        Movie entry = new Movie("Inception", 2010, false, "Action", 8.8, "yes", "Nolan", 836);
         // Act
         long result = entry.getGross();
         // Assert
@@ -179,7 +179,7 @@ class MovieTest {
     @Test
     public void setTitle_UpdatesTitleCorrectly() {
         // Arrange
-        Movie entry = new Movie("Inception", 2010, false, "Sci-Fi", 8.8, "yes", "Nolan", 836);;
+        Movie entry = new Movie("Inception", 2010, false, "Action", 8.8, "yes", "Nolan", 836);;
         // Act
         entry.setTitle("Tenet");
         // Assert
@@ -192,7 +192,7 @@ class MovieTest {
     @Test
     public void setYear_UpdatesYearCorrectly() {
         // Arrange
-        Movie entry = new Movie("Inception", 2010, false, "Sci-Fi", 8.8, "yes", "Nolan", 836);;
+        Movie entry = new Movie("Inception", 2010, false, "Action", 8.8, "yes", "Nolan", 836);;
         // Act
         entry.setYear(2020);
         // Assert
@@ -205,7 +205,7 @@ class MovieTest {
     @Test
     public void setGenre_UpdatesGenreCorrectly() {
         // Arrange
-        Movie entry = new Movie("Inception", 2010, false, "Sci-Fi", 8.8, "yes", "Nolan", 836);;
+        Movie entry = new Movie("Inception", 2010, false, "Action", 8.8, "yes", "Nolan", 836);;
         // Act
         entry.setGenre("Action");
         // Assert
@@ -231,7 +231,7 @@ class MovieTest {
     @Test
     public void setDescription_UpdatesDescriptionCorrectly() {
         // Arrange
-        Movie entry = new Movie("Inception", 2010, false, "Sci-Fi", 8.8, "yes", "Nolan", 836);;
+        Movie entry = new Movie("Inception", 2010, false, "Action", 8.8, "yes", "Nolan", 836);;
         // Act
         entry.setDescription("New desc");
         // Assert
@@ -248,7 +248,7 @@ class MovieTest {
     @Test
     public void setCertification_UpdatesCertificationCorrectly() {
         // Arrange
-        Movie entry = new Movie("Inception", 2010, false, "Sci-Fi", 8.8, "yes", "Nolan", 836);;
+        Movie entry = new Movie("Inception", 2010, false, "Action", 8.8, "yes", "Nolan", 836);;
         // Act
         entry.setCertification(true);
         // Assert
@@ -261,7 +261,7 @@ class MovieTest {
     @Test
     public void setDirector_UpdatesDirectorCorrectly() {
         // Arrange
-        Movie entry = new Movie("Inception", 2010, false, "Sci-Fi", 8.8, "yes", "Nolan", 836);;
+        Movie entry = new Movie("Inception", 2010, false, "Action", 8.8, "yes", "Nolan", 836);;
         // Act
         entry.setDirector("Kubrick");
         // Assert
@@ -274,7 +274,7 @@ class MovieTest {
     @Test
     public void setGross_UpdatesGrossCorrectly() {
         // Arrange
-        Movie entry = new Movie("Inception", 2010, false, "Sci-Fi", 8.8, "yes", "Nolan", 836);;
+        Movie entry = new Movie("Inception", 2010, false, "Action", 8.8, "yes", "Nolan", 836);;
         // Act
         entry.setGross(500000000);
         // Assert
@@ -298,7 +298,7 @@ class MovieTest {
         assertAll("toString should contain all Movie fields",
                 () -> assertTrue(result.contains("Inception"),  "missing title"),
                 () -> assertTrue(result.contains("2010"),       "missing year"),
-                () -> assertTrue(result.contains("Sci-Fi"),     "missing genre"),
+                () -> assertTrue(result.contains("Action"),     "missing genre"),
                 () -> assertTrue(result.contains("8.8"),        "missing IMDB rating"),
                 () -> assertTrue(result.contains("yes"), "missing description"),
                 () -> assertTrue(result.contains("Nolan"),      "missing director"),
@@ -316,14 +316,14 @@ class MovieTest {
     @Test
     public void toCSVStringRow_ContainsAllFields() {
         // Arrange
-        Movie entry = new Movie("Inception", 2010, false, "Sci-Fi", 8.8, "yes", "Nolan", 836);
+        Movie entry = new Movie("Inception", 2010, false, "Action", 8.8, "yes", "Nolan", 836);
         // Act
         String result = entry.toCSVStringRow();
         // Assert
         assertAll("toCSVStringRow should contain all Movie fields",
                 () -> assertTrue(result.contains("Inception"),  "missing title"),
                 () -> assertTrue(result.contains("2010"),       "missing year"),
-                () -> assertTrue(result.contains("Sci-Fi"),     "missing genre"),
+                () -> assertTrue(result.contains("Action"),     "missing genre"),
                 () -> assertTrue(result.contains("8.8"),        "missing IMDB rating"),
                 () -> assertTrue(result.contains("yes"), "missing description"),
                 () -> assertTrue(result.contains("false"),      "missing certification"),
