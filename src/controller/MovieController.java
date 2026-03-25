@@ -23,6 +23,7 @@ public class  MovieController{
 
     /**
      * turns the string of attributes into a movie object
+     * Arraf Hoque T10
      * @param data -an ArrayList of Strings-
      * @return movie object
      */
@@ -40,13 +41,22 @@ public class  MovieController{
     }
 
     /**
-     *
+     * Performs MovieDatabase addMovie
+     * Arraf Hoque T10
      * @param movie
      */
     private void handleAddMovie(Movie movie){
         MovieDatabase MD = new MovieDatabase();
         MD.addMovie(movie); // call addMovie in MD
     }
+
+    /**
+     *  Performs MovieDatabase removeMovie
+     *  Prints if there is an error with input
+     *  Arraf Hoque T10
+     * @param id
+     * @param title
+     */
     private void handleRemoveMovie(int id, String title){
         MovieDatabase MD = new MovieDatabase();
         if (title == null){ //if there is no title, use the movie ID
@@ -58,6 +68,14 @@ public class  MovieController{
             System.out.println("Please enter a valid movie ID or title."); // print if all else fails
         }
     }
+
+    /**
+     * Performs getMovie
+     * Prints error message if it fails
+     * Arraf Hoque T10
+     * @param id
+     * @param title
+     */
     private void handleGetMovie(int id, String title){
         MovieDatabase MD = new MovieDatabase();
         if (title == null){ //if there is no title, use the movie ID
@@ -69,18 +87,38 @@ public class  MovieController{
             System.out.println("Please enter a valid movie ID or title.");
         }
     }
+
+    /**
+     * Prints all movies in the database
+     * Arraf Hoque T10
+     */
     private void handlePrintAllMovie(){
         MovieDatabase MD = new MovieDatabase();
         System.out.println(MD.getAllMovies());
     }
+
+    /**
+     * prints the top 5 movies ranked
+     * Arraf Hoque T10
+     */
     public void handleTop5(){
         MovieDatabase MD = new MovieDatabase();
         System.out.println(MD.getTop5());
     }
+
+    /**
+     * gets the highest rated movie in the database
+     * Arraf Hoque T10
+     */
     public void handleHighestRating(){
         MovieDatabase MD = new MovieDatabase();
         System.out.println(MD.getHighestRated());
     }
+
+    /**
+     * gets lowest rated movie oin the database
+     * Arraf Hoque T10
+     */
     public void handleLowestRating(){
         MovieDatabase MD = new MovieDatabase();
         System.out.println(MD.getLowestRated());
