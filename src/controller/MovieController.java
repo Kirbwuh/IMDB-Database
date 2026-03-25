@@ -33,6 +33,9 @@ public class  MovieController{
 
             return movie;
     }
+    private static ArrayList<String> movieToString(Movie movie){
+
+    }
 
     // calling MovieDatabase
     private void handleAddMovie(Movie movie){
@@ -66,6 +69,7 @@ public class  MovieController{
         System.out.println(MD.getAllMovies());
     }
     public ArrayList<String> getTopRatings(){
+
 
     }
 
