@@ -70,7 +70,7 @@ public abstract class Database<Entry extends RowEntry> {
      * @param value the new value for the selected field
      */
     public void updateEntry(int id, int field, String value) {
-        Entry target = getMovie(id);
+        Entry target = getEntry(id);
         switch(field) {
             case 1:
                 target.setTitle(value);
@@ -122,12 +122,6 @@ public abstract class Database<Entry extends RowEntry> {
             case 5:
                 target.setDescription(value);
                 break;
-//            case 6:
-//                target.setDirector(value);
-//                break;
-//            case 7:
-//                target.setGross(Long.parseLong(value));
-//                break;
         }
     }
 

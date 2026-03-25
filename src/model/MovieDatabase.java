@@ -14,23 +14,47 @@ public class MovieDatabase extends Database<Movie> {
     }
 
     public Movie getMovie(int id) {
-        getEntry(id);
+        return getEntry(id);
     }
 
     public Movie getMovie(String title) {
-        getEntry(title);
+        return getEntry(title);
     }
 
     public HashMap<Integer, Movie> getAllMovies() {
-        getAllEntries();
+        return getAllEntries();
     }
 
     public void updateMovie(int id, int field, String value) {
-        updateEntry(id, field, value);
+        if (field < 6) {
+            updateEntry(id, field, value);
+        } else {
+            Movie target = getMovie(id);
+            switch(field) {
+                case 6:
+                target.setDirector(value);
+                break;
+            case 7:
+                target.setGross(Long.parseLong(value));
+                break;
+            }
+        }
     }
 
     public void updateMovie(String title, int field, String value) {
-        updateEntry(title, field, value);
+        if (field < 6) {
+            updateEntry(title, field, value);
+        } else {
+            Movie target = getMovie(title);
+            switch(field) {
+                case 6:
+                    target.setDirector(value);
+                    break;
+                case 7:
+                    target.setGross(Long.parseLong(value));
+                    break;
+            }
+        }
     }
 
     public void removeMovie(int id) {

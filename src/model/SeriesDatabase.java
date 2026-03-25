@@ -21,7 +21,7 @@ public class SeriesDatabase extends Database<Series> {
         getEntry(title);
     }
 
-    public HashMap<Integer, Series> getAllSeriess() {
+    public HashMap<Integer, Series> getAllSeries() {
         getAllEntries();
     }
 
