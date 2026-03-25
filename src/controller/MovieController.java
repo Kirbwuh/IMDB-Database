@@ -88,6 +88,18 @@ public class  MovieController{
         }
     }
 
+    private void handleUpdateMovie(int id, int field, String value, String title){
+        MovieDatabase MD = new MovieDatabase();
+        if (title == null){ //if there is no title, use the movie ID
+            MD.updateMovie(id, field, value);
+        } else if (id == 0) {
+            MD.updateMovie(title, field, value);// if no int, pass the title use case
+        }
+        else{
+            System.out.println("Please enter a valid movie ID or title.");
+        }
+    }
+
     /**
      * Prints all movies in the database
      * Arraf Hoque T10
