@@ -28,15 +28,6 @@ public abstract class Database<Entry extends RowEntry> {
     }
 
     /**
-     * Removes the entry associated with the given ID.
-     *
-     * @param id the ID of the entry to remove
-     */
-    public void removeEntry(int id) {
-        database.remove(id);
-    }
-
-    /**
      * Retrieves the entry associated with the given ID.
      *
      * @param id the ID of the entry to retrieve
@@ -138,6 +129,15 @@ public abstract class Database<Entry extends RowEntry> {
 //                target.setGross(Long.parseLong(value));
 //                break;
         }
+    }
+
+    /**
+     * Removes the entry associated with the given ID.
+     *
+     * @param id the ID of the entry to remove
+     */
+    public void removeEntry(int id) {
+        database.remove(id);
     }
 
     /**
