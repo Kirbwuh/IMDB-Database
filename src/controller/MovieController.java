@@ -39,9 +39,16 @@ public class  MovieController{
         MovieDatabase MD = new MovieDatabase();
         MD.addMovie(movie);
     }
-    private void handleRemoveMovie(int id){
+    private void handleRemoveMovie(int id, String title){
         MovieDatabase MD = new MovieDatabase();
-        MD.removeMovie(id);
+        if (title == null){
+           MD.removeMovie(id);
+        } else if (id == 0) {
+            MD.removeMovie(title);
+        }
+        else{
+            System.out.println("Please enter a valid movie ID or title.");
+        }
     }
     private void handleGetMovie(int id, String title){
         MovieDatabase MD = new MovieDatabase();
@@ -58,6 +65,8 @@ public class  MovieController{
         MovieDatabase MD = new MovieDatabase();
         System.out.println(MD.getAllMovies());
     }
+    private
+
 
 
 }
