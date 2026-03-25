@@ -12,7 +12,7 @@ import java.io.IOException;
 public class CsvFileHandler extends model.Movie {
     // Instance Variables
     private final String filepath;
-    private final File movies;
+    private final String movies;
 
     /**
      * Constructor built from extending Movie.java, with filepath and movies instance variables added in.
@@ -26,7 +26,7 @@ public class CsvFileHandler extends model.Movie {
      * @param gross         total box office gross earnings
      */
     public CsvFileHandler(String title, int year, boolean certification, String genre, double imdbRating,
-                          String description, String director, long gross, String filepath, File movies) {
+                          String description, String director, long gross, String filepath, String movies) {
         super(title, year, certification, genre, imdbRating, description, director, gross);
         this.filepath = filepath;
         this.movies = movies;
