@@ -25,7 +25,7 @@ public abstract class RowEntry {
     private String title;
     private int year;
     // TODO: Change genre string for enum
-    private String genre;
+    private Genre genre;
     private double imdbRating;
     private String description;
 
@@ -48,7 +48,7 @@ public abstract class RowEntry {
         nextId++;
         this.title       = title;
         this.year        = year;
-        this.genre       = genre;
+        this.genre       = Genre.fromString(genre);
         this.imdbRating  = imdbRating;
         this.description = description;
     }
@@ -91,7 +91,7 @@ public abstract class RowEntry {
      * Returns the genre(s) of this entry
      * @return String genre
      */
-    public String getGenre()       { return genre; }
+    public String getGenre()       { return genre.toString(); }
 
     /**
      * Returns the IMDB rating of this entry
@@ -125,7 +125,7 @@ public abstract class RowEntry {
      * Updates the genre of this entry.
      * @param genre new genre
      */
-    public void setGenre(String genre)             { this.genre = genre; }
+    public void setGenre(String genre)             { this.genre = Genre.fromString(genre); }
 
     /**
      * Updates the IMDB rating of this entry.
