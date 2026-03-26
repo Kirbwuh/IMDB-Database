@@ -1,7 +1,10 @@
 package src.controller;
 import Model.MovieDatabase;
+import org.junit.jupiter.params.shadow.com.univocity.parsers.csv.Csv;
 import src.view.InputView;
 import model.Movie;
+import util.CsvFileHandler;
+
 
 
 
@@ -20,13 +23,22 @@ public class  MovieController{
 
     private static Scanner scanner; //init Scanner
 
-
+    /**
+     * calls the loadCSV function from CsvFileHandler
+     * Arraf Hoque T10
+     * @param filepath
+     */
+    private void handleLoadCSV(String filepath){
+        CsvFileHandler CSV = new CsvFileHandler();
+        CSV.loadCSV(filepath);
+    }
     /**
      * turns the string of attributes into a movie object
      * Arraf Hoque T10
      * @param data -an ArrayList of Strings-
      * @return movie object
      */
+
     private static Object stringToMovie(ArrayList<String> data){
             Movie movie = new Movie( // create new movie object
                     data.get(0),                         // title
