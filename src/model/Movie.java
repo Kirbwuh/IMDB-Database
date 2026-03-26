@@ -107,6 +107,10 @@ public class Movie extends src.model.RowEntry {
         }
     }
 
+    /**
+     * Overrides hashcode() in RowEntry.
+     * @return An integer hash made from the director and title of an entry.
+     */
     @Override
     public int hashcode() {
         return Objects.hash(getDirector(), getTitle());
