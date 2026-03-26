@@ -5,14 +5,11 @@ import src.model.Movie;
 import src.model.SeriesDatabase;
 import src.util.HelperMethods;
 import src.util.CsvFileHandler;
+import src.model.RowEntry;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
-
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 
 /**
@@ -186,13 +183,48 @@ public class Controller {
         return out;
     }
 
-
     /**
      * prints the top 5 movies ranked
+     * Collection of Movies -> get from the list of movies two movies -> compared movie 1 to movie 2 -> sort the objects on imbdrating
      * Arraf Hoque T10
+     *
+     *
+     ArrayList<String[]> movieList = new ArrayList<>(movies.values());
+
+
+     movieList.sort((m1,m2)-> { // fetch the
+     double rating1 = Double.parseDouble((m1[IMDB_RATING]));
+     double rating2 = Double.parseDouble((m2[IMDB_RATING]));
+     return Double.compare(rating2,rating1);
+     });
+     ArrayList<String[]> top5 = new ArrayList<>();
+     for (int i = 0; i < 5 && i < movieList.size(); i++){
+     top5.add(movieList.get(i));
+     }
+     return top5;
+
      */
-    public void handleTop5(){
-        System.out.println(MDB.getTop5());
+    public static List<Movie> getTop5(Movie movie1, Movie movie2){
+        // Sort via descending IMDB rating
+//        Map<Integer, Movie> all = MDB.getAllMovies();
+//        all.sort((m1,m2)->{
+//            double m1 = movie1.getImdbRating();
+//            double m2 = movie2.getImdbRating();
+//            return Double.compare(m2, m1);
+//        });
+        for(Map.Entry<Integer, Movie> entry: MDB.getAllEntries().entrySet()){
+            Movie value = entry.getValue();
+            int key = entry.getKey();
+            value
+        }
+
+        ArrayList<Movie> top5 = new ArrayList<>();
+        for (int i = 0; i<5;)
+
+
+
+
+
 
     }
 
@@ -200,19 +232,38 @@ public class Controller {
      * gets the highest rated movie in the database
      * Arraf Hoque T10
      */
-//    public void handleHighestRating(){
-//        MovieDatabase MD = new MovieDatabase();
-//        System.out.println(MD.getHighestRated());
-//    }
+    public Movie handleHighestRating(){
+
+        Movie highestRated = null;
+
+        for(Map.Entry<Integer, Movie> entry: MDB.getAllEntries().entrySet()){
+            Movie value = entry.getValue();
+            if (value.getImdbRating() >= highestRated.getImdbRating()){
+                highestRated = value;
+            }
+
+        }
+        return highestRated;
+
+    }
 
     /**
      * gets lowest rated movie oin the database
      * Arraf Hoque T10
      */
-//    public void handleLowestRating(){
-//        MovieDatabase MD = new MovieDatabase();
-//        System.out.println(MD.getLowestRated());
-//    }
+    public Movie handleLowestRating(){
+        Movie lowestRated = null;
+
+        for(Map.Entry<Integer, Movie> entry: MDB.getAllEntries().entrySet()){
+            Movie value = entry.getValue();
+            int key = entry.getKey();
+            if (value.getImdbRating() <= lowestRated.getImdbRating()){
+                lowestRated = value;
+            }
+
+        }
+        return lowestRated;
+    }
 
 
 
