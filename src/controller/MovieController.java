@@ -1,7 +1,7 @@
 package src.controller;
-import Model.MovieDatabase;
+import src.model.MovieDatabase;
 import src.view.InputView;
-import model.Movie;
+import src.model.Movie;
 
 
 
@@ -120,32 +120,32 @@ public class  MovieController{
      * prints the top 5 movies ranked
      * Arraf Hoque T10
      */
-    public void handleTop5(){
-        MovieDatabase MD = new MovieDatabase();
-        System.out.println(MD.getTop5());
-    }
+
+//    public void handleTop5(){
+//        MovieDatabase MD = new MovieDatabase();
+//        System.out.println(MD.getTop5());
+//    }
 
     /**
      * gets the highest rated movie in the database
      * Arraf Hoque T10
      */
-    public void handleHighestRating(){
-        MovieDatabase MD = new MovieDatabase();
-        System.out.println(MD.getHighestRated());
-    }
+//    public void handleHighestRating(){
+//        MovieDatabase MD = new MovieDatabase();
+//        System.out.println(MD.getHighestRated());
+//    }
 
     /**
      * gets lowest rated movie oin the database
      * Arraf Hoque T10
      */
-    public void handleLowestRating(){
-        MovieDatabase MD = new MovieDatabase();
-        System.out.println(MD.getLowestRated());
-    }
+//    public void handleLowestRating(){
+//        MovieDatabase MD = new MovieDatabase();
+//        System.out.println(MD.getLowestRated());
+//    }
 
 
 
-public class MovieController {
 
 
 }
