@@ -7,9 +7,9 @@ import java.util.HashMap;
  * Stores and manages {@link Series} entries.
  *
  * <p>This class provides series-specific wrapper methods around the generic
- * functionality defined in {@link Model.Database}.</p>
+ * functionality defined in {@link src,model.Database}.</p>
  */
-public class SeriesDatabase extends Model.Database<Series> {
+public class SeriesDatabase extends src.model.Database<Series> {
 
     /**
      * Creates an empty series database.
