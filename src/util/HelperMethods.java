@@ -1,5 +1,7 @@
 package src.util;
 
+import java.util.Scanner;
+
 public class HelperMethods {
 
     /** JJ - 2026/09/14 - T10
