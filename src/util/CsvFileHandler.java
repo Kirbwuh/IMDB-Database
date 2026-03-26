@@ -1,7 +1,6 @@
 package src.util;
 
 import src.model.Movie;
-import src.model.RowEntry;
 import src.model.Series;
 
 import java.io.FileReader;
