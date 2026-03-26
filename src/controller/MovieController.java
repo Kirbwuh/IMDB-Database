@@ -1,9 +1,13 @@
 package src.controller;
+
 import src.model.MovieDatabase;
 import src.model.Movie;
-import src.util.CsvFileHandler;
+import src.util.HelperMethods;
 
-
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -24,12 +28,27 @@ public class  MovieController{
 
     static {
         try {
-            CsvFileHandler loader = new CsvFileHandler("", 0, false, "", 0.0, "", "", 0L, CSV_PATH, "");
-            loader.loadCSV(CSV_PATH);
+            if (Files.exists(Paths.get(CSV_PATH))) {
+                List<String> lines = Files.readAllLines(Paths.get(CSV_PATH));
+                for (String line : lines) {
+                    if (line == null || line.trim().isEmpty()) continue;
+                    String[] parts = HelperMethods.separateCommaValues(line);
+                    if (parts.length < 8) continue;
+                    ArrayList<String> entries = new ArrayList<>();
+                    for (int i = 0; i < parts.length && i < 8; i++) {
+                        String value = parts[i];
+                        value = value.trim();
+                        entries.add(value);
+                    }
+                    Movie movie = stringToMovie(entries);
+                    DB.addMovie(movie);
+                }
+            }
             csvLoaded = true;
-        } catch (Exception e) {
+        }  catch (Exception e) {
             System.out.println("Error loading CSV");
         }
+
     }
 
 
