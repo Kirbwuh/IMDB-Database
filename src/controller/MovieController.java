@@ -3,6 +3,7 @@ package src.controller;
 import src.model.MovieDatabase;
 import src.model.Movie;
 import src.util.HelperMethods;
+import src.util.CsvFileHandler;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -62,6 +63,11 @@ public class  MovieController{
             System.out.println("Error loading CSV");
         }
 
+    }
+
+    private void handleLoadCSV(String filepath){
+        CsvFileHandler CSV = new CsvFileHandler(filepath);
+        CSV.loadCSV();
     }
 
 
@@ -169,11 +175,11 @@ public class  MovieController{
      * prints the top 5 movies ranked
      * Arraf Hoque T10
      */
+    public void handleTop5(){
+        MovieDatabase MD = new MovieDatabase();
+        System.out.println(MD.getTop5());
 
-//    public void handleTop5(){
-//        MovieDatabase MD = new MovieDatabase();
-//        System.out.println(MD.getTop5());
-//    }
+    }
 
     /**
      * gets the highest rated movie in the database
