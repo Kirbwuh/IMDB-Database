@@ -2,7 +2,6 @@ package src.controller;
 
 import src.model.MovieDatabase;
 import src.model.Movie;
-import src.model.Series;
 import src.model.SeriesDatabase;
 import src.util.HelperMethods;
 import src.util.CsvFileHandler;
@@ -20,7 +19,7 @@ import java.util.Scanner;
  * Main Controller Method
  * Arraf Hoque T10
  */
-public class  MovieController{
+public class Controller {
 
 
     private static Scanner scanner; //init Scanner
@@ -58,7 +57,7 @@ public class  MovieController{
 
                     // convert to movie object
                     Movie movie = stringToMovie(entries);
-                    DB.addMovie(movie);
+                    MDB.addMovie(movie);
                 }
             }
             csvLoaded = true;
@@ -147,9 +146,9 @@ public class  MovieController{
      */
         private void handleGetMovie(int id, String title){
         if (title == null){ //if there is no title, use the movie ID
-            System.out.println(DB.getMovie(id));
+            System.out.println(MDB.getMovie(id));
         } else if (id == 0) {
-            System.out.println(DB.getMovie(title));// if no int, pass the title use case
+            System.out.println(MDB.getMovie(title));// if no int, pass the title use case
         }
         else{
             System.out.println("Please enter a valid movie ID or title.");
@@ -165,9 +164,9 @@ public class  MovieController{
      */
         private void handleUpdateMovie(int id, int field, String value, String title){
         if (title == null){ //if there is no title, use the movie ID
-            DB.updateMovie(id, field, value);
+            MDB.updateMovie(id, field, value);
         } else if (id == 0) {
-            DB.updateMovie(title, field, value);// if no int, pass the title use case
+            MDB.updateMovie(title, field, value);// if no int, pass the title use case
         }
         else{
             System.out.println("Please enter a valid movie ID or title.");
@@ -179,7 +178,7 @@ public class  MovieController{
      * Arraf Hoque T10
      */
     public static ArrayList<String> handlePrintAllMovies() {
-        Map<Integer, Movie> all = DB.getAllMovies();
+        Map<Integer, Movie> all = MDB.getAllMovies();
         ArrayList<String> out = new ArrayList<>();
         for (Map.Entry<Integer, Movie> e : all.entrySet()) {
             out.add(e.getKey() + ": " + e.getValue().toString());
@@ -193,8 +192,7 @@ public class  MovieController{
      * Arraf Hoque T10
      */
     public void handleTop5(){
-        MovieDatabase MD = new MovieDatabase();
-        System.out.println(MD.getTop5());
+        System.out.println(MDB.getTop5());
 
     }
 

@@ -2,7 +2,7 @@ package src.view;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import src.controller.MovieController;
+import src.controller.Controller;
 import src.util.HelperMethods;
 
 public class InputView extends src.view.ConsoleView {
@@ -482,8 +482,8 @@ public class InputView extends src.view.ConsoleView {
         Double gross = HelperMethods.getNumericInput(scanner, q8Prompt);
         movieEntriesMulti.add(String.valueOf(gross));
 
-        MovieController.handleAddMovie(movieEntriesMulti);
-        ArrayList<String> allAfter = MovieController.handlePrintAllMovies();
+        Controller.handleAddMovie(movieEntriesMulti);
+        ArrayList<String> allAfter = Controller.handlePrintAllMovies();
         for (int i = 0; i < allAfter.size(); i++) {
             System.out.println(allAfter.get(i));
         }
@@ -586,8 +586,8 @@ public class InputView extends src.view.ConsoleView {
             movieEntriesSingle.add(GROSS, separatedValuesList[7].trim());
 
            
-            MovieController.handleAddMovie(movieEntriesSingle);
-            ArrayList<String> allAfter = MovieController.handlePrintAllMovies();
+            Controller.handleAddMovie(movieEntriesSingle);
+            ArrayList<String> allAfter = Controller.handlePrintAllMovies();
             for (int i = 0; i < allAfter.size(); i++) {
                 System.out.println(allAfter.get(i));
             }
