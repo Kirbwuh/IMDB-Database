@@ -10,6 +10,16 @@ public class Main {
 		ConsoleView consoleView = new ConsoleView();
 		InputView inputView = new InputView(scanner);
 
+		if (args.length > 0) {
+			if ("--load".equals(args[0])) {
+				try {
+					src.controller.MovieController.loadMoviesFromCsv();
+				} catch (Exception e) {
+            		System.out.println("Error loading CSV");
+				}
+			}
+		}
+
 		while (true) {
 			InputView.showMainMenu(scanner);
 		}

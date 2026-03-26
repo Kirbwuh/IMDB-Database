@@ -26,7 +26,7 @@ public class  MovieController{
     private static boolean csvLoaded = false;
     private static final String CSV_PATH = "src/util/Movies.csv";
 
-    static {
+    public static void loadMoviesFromCsv(){
         try {
             if (Files.exists(Paths.get(CSV_PATH))) {
                 List<String> lines = Files.readAllLines(Paths.get(CSV_PATH));
