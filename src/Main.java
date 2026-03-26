@@ -10,7 +10,8 @@ public class Main {
 		ConsoleView consoleView = new ConsoleView();
 		InputView inputView = new InputView(scanner);
 
-		consoleView.printMainMenu(scanner);
-		InputView.showMainMenu(scanner);
+		while (true) {
+			InputView.showMainMenu(scanner);
+		}
 	}
 }

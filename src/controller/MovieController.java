@@ -1,6 +1,7 @@
 package src.controller;
 import src.model.MovieDatabase;
 import src.model.Movie;
+import src.util.CsvFileHandler;
 
 
 
@@ -18,6 +19,18 @@ public class  MovieController{
 
     private static Scanner scanner; //init Scanner
     private static final MovieDatabase DB = new MovieDatabase();
+    private static boolean csvLoaded = false;
+    private static final String CSV_PATH = "src/util/Movies.csv";
+
+    static {
+        try {
+            CsvFileHandler loader = new CsvFileHandler("", 0, false, "", 0.0, "", "", 0L, CSV_PATH, "");
+            loader.loadCSV(CSV_PATH);
+            csvLoaded = true;
+        } catch (Exception e) {
+            System.out.println("Error loading CSV");
+        }
+    }
 
 
     /**
@@ -44,8 +57,8 @@ public class  MovieController{
          * @param data list of string fields in expected order
          */
         public static void addMovie(ArrayList<String> movieEntries) {
-        Movie movie = stringToMovie(movieEntries);
-        DB.addMovie(movie);
+            Movie movie = stringToMovie(movieEntries);
+            DB.addMovie(movie);
         }
 
     /**
