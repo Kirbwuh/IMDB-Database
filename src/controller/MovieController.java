@@ -26,26 +26,40 @@ public class  MovieController{
     private static boolean csvLoaded = false;
     private static final String CSV_PATH = "src/util/Movies.csv";
 
+    /** JJ - 2026/09/14 - T10
+     * Loads movies from the CSV file located at `CSV_PATH` into MOvie Database
+     
+     */
     public static void loadMoviesFromCsv(){
+        // Load the CSV file once at startup 
+        // at least 8 elements.
         try {
             if (Files.exists(Paths.get(CSV_PATH))) {
                 List<String> lines = Files.readAllLines(Paths.get(CSV_PATH));
                 for (String line : lines) {
-                    if (line == null || line.trim().isEmpty()) continue;
+                    if (line == null || line.trim().isEmpty())
+                        continue; // skip blank lines
+
                     String[] parts = HelperMethods.separateCommaValues(line);
-                    if (parts.length < 8) continue;
+                    if (parts.length < 8)
+                        continue; // skip less than 8 elements
+
                     ArrayList<String> entries = new ArrayList<>();
+                    // copy up to t8 elements
                     for (int i = 0; i < parts.length && i < 8; i++) {
                         String value = parts[i];
                         value = value.trim();
                         entries.add(value);
                     }
+
+                    // convert to movie object
                     Movie movie = stringToMovie(entries);
                     DB.addMovie(movie);
                 }
             }
             csvLoaded = true;
-        }  catch (Exception e) {
+        } catch (Exception e) {
+           
             System.out.println("Error loading CSV");
         }
 
