@@ -96,11 +96,11 @@ public class InputView extends src.view.ConsoleView {
         if (HelperMethods.isNumeric(movieName)){ //if the user uses only numbers
             System.out.println("Searching and updating movie by ID: " + movieName);
             System.out.println("The movie has been updated!");
-            pressEnterToContinue(scanner);
+            HelperMethods.pressEnterToContinue(scanner);
         } else {
             System.out.println("Searching and updating movie by Title: " + movieName);
             System.out.println("The movie has been updated!");
-            pressEnterToContinue(scanner);
+            HelperMethods.pressEnterToContinue(scanner);
         }
         return movieName;
     }
@@ -122,11 +122,11 @@ public class InputView extends src.view.ConsoleView {
         if (HelperMethods.isNumeric(movieName)){ //if the user uses only numbers
             removeMovieById(Integer.parseInt(movieName));
             System.out.println("The movie has been removed!");
-            pressEnterToContinue(scanner);
+            HelperMethods.pressEnterToContinue(scanner);
         } else {
             removeMovieByTitle(movieName); //if the user uses only letters
             System.out.println("The movie has been removed!");
-            pressEnterToContinue(scanner);
+            HelperMethods.pressEnterToContinue(scanner);
         }
     }
 
@@ -180,14 +180,14 @@ public class InputView extends src.view.ConsoleView {
         java.util.List<Object> movies = new java.util.ArrayList<>();
         if (movies.isEmpty()){
             System.out.println("No movies in the database yet. Add some movies first!");
-            pressEnterToContinue(scanner);
+            HelperMethods.pressEnterToContinue(scanner);
         } else {
             System.out.println("The movies you watch are rated " + 0.0 + " on average.");
             System.out.println("\nHere's the rating of every movie you've watched:");
             System.out.println("----------------------------------------------------");
             // Same as Print all movies but only show movie names and ratings of said movies
             System.out.println("----------------------------------------------------");
-            pressEnterToContinue(scanner);
+            HelperMethods.pressEnterToContinue(scanner);
         }
     }
 
@@ -404,7 +404,7 @@ public class InputView extends src.view.ConsoleView {
                     break;
                 case "9": getTop5();
                     break;
-                case "10": pressEnterToContinue(scanner);
+                case "10": HelperMethods.pressEnterToContinue(scanner);
                     break;
             }
 
@@ -451,74 +451,11 @@ public class InputView extends src.view.ConsoleView {
 
         return Integer.parseInt(choice);
     }
-    // String Input
-    /**
-     * Duku - 18/03/2026 - T10
-     * JJ - 2026/09/14 - T10
-     * This method receives a scanner object and captures
-     * the user input and normalize it, whilst printing in console the data to be
-     * capture
-     * @param scanner scanner object from java.util.Scanner
-     * @param prompt the prompt that specifies the user which data to input
-     * @return the normalized input of the user as a String
-     */
     
 
-    // Numeric Input
-    /**
-     * Duku - 17/03/2026 - T10
-     * JJ - 2026/09/14 - T10
-     * This method receives a scanner object and captures
-     * the user input, validating that it is numeric, whilst printing in console
-     * the data to be captured.
-     *
-     * @param scanner scanner object from java.util.Scanner
-     * @param prompt the prompt that specifies the user which numeric data to input
-     * @return the numeric input of the user as a Double
-     */
     
 
-    // Integer Input
-    // Can be used to find the ID Number of a movie
-    /**
-     * Duku - 17/03/2026 - T10
-     * CL-3/6/2026-T10
-     * JJ - 2026/09/14 - T10
-     * This method receives a scanner object and captures
-     * the user input, validating that it is numeric, whilst printing in console
-     * the data to be captured.
-     *
-     * @param scanner scanner object from java.util.Scanner
-     * @param prompt the prompt that specifies the user which numeric data to input
-     * @return the numeric input of the user as an Integer
-     */
     
-
-    //Boolean Input
-
-    /**
-     * Duku - 17/03/2026 - T10
-     * This method receives a scanner object and returns the user input
-     * as a boolean
-     * @param scanner scanner object from java.util.Scanner
-     * @param prompt the prompt specifying if the input is yes or no
-     * @return the boolean if the movie is rated PG-13 or not
-     */
-    
-
-    // Pressing enter to continue
-
-    /**
-     * Duku - 18/03/2026 - T10
-     * JJ - 2026/09/14 - T10
-     * prompts user to press enter
-     * @param scanner scanner object from java.util.Scanner
-     */
-    public static void pressEnterToContinue(Scanner scanner) {
-        // source: https://stackoverflow.com/questions/26184409/java-console-prompt-for-enter-input-before-moving-on
-        System.out.println("\nPress Enter to continue...");
-        scanner.nextLine();
-    }
 
     // Single line Entry ( Should be named MultiLine Entry )
 

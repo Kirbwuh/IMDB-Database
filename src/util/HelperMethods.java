@@ -122,4 +122,16 @@ public class HelperMethods {
 
         return input.equals("1");
     }
+
+    /**
+     * Duku - 18/03/2026 - T10
+     * JJ - 2026/09/14 - T10
+     * prompts user to press enter
+     * @param scanner scanner object from java.util.Scanner
+     */
+    public static void pressEnterToContinue(Scanner scanner) {
+        // source: https://stackoverflow.com/questions/26184409/java-console-prompt-for-enter-input-before-moving-on
+        System.out.println("\nPress Enter to continue...");
+        scanner.nextLine();
+    }
 }
