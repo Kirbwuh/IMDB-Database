@@ -1,13 +1,14 @@
-package model;
-import model.RowEntry;
+package src.model;
 
 /**
  * Represents a single movie entry.
  * Extends RowEntry
  * Movie adds: certification (PG-13), director, and gross earnings.
+ * Overrides .equals() and .hashcode().
  * @author J.J. Rondon 16/03/2026 T10
+ * @coauthor Haitam Lembaid 23/03/2026 T10
  */
-public class Movie extends RowEntry {
+public class Movie extends src.model.RowEntry {
 
     // --------ATTRIBUTES-----------
     // ******************************
@@ -109,7 +110,7 @@ public class Movie extends RowEntry {
      */
     @Override
     public String toCSVStringRow() {
-        return super.toCSVStringRow()    // id,title,year,genre,imdbRating,description
+        return super.commonCSVFields()    // id,title,year,genre,imdbRating,description
                 + "," + certification
                 + "," + director
                 + "," + gross;

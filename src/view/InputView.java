@@ -1,27 +1,18 @@
 package src.view;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
-public class InputView  {
+public class InputView extends src.view.ConsoleView {
 
-    public static int nextId = 1;
-    //***********************************************************************
-    //------------------ADD DATA METHODS-------------------------------------
-    //***********************************************************************
-    /**
-     * CL-3/6/2026-T10
-     * HL-6/3/2026-T10
-     * Adds a movie to the map and assigns the next available id.
-     *
-     * @param entry Hashmap of movie data.
-     * @return
-     */
-    public static String addMovie(String input) {
-        return input;
-    }
+    private static final int SERIES_TITLE = 0;
+    private static final int RELEASE_YEAR = 1;
+    private static final int CERTIFICATION = 2;
+    private static final int GENRE = 3;
+    private static final int IMDB_RATING = 4;
+    private static final int OVERVIEW = 5;
+    private static final int DIRECTOR = 6;
+    private static final int GROSS = 7;
 
     //***********************************************************************
     //------------------GET DATA METHODS------------------------------------
@@ -45,8 +36,8 @@ public class InputView  {
      * @param id movie ID in HashMap
      * @return movie object
      */
-    public static int getMovieById(int id) {
-        return id;
+    public static String[] getMovieById(int id) {
+        return new String[] { String.valueOf(id) };
     }
 
     /**
@@ -246,20 +237,23 @@ public class InputView  {
      * CL-3/6/2026-T10
      * Prints every movie currently stored in the map.
      */
-    public static void printAllMovies() {
+    public static void printAllMovies(Scanner scanner) {
         /*
         Psudeo code
         Find location of where movies are being stored, paste and format information
          */
+        // Delegate to console view printing
+        new ConsoleView().printSearchDatabaseMenu(scanner);
     }
 
 
-    public static void reviews(model.Movie){
+    public static void reviews(Scanner scanner){
+        java.util.List<Object> movies = new java.util.ArrayList<>();
         if (movies.isEmpty()){
             System.out.println("No movies in the database yet. Add some movies first!");
             pressEnterToContinue(scanner);
         } else {
-            System.out.println("The movies you watch are rated " + getRatingAverage(0, 0) + " on average.");
+            System.out.println("The movies you watch are rated " + 0.0 + " on average.");
             System.out.println("\nHere's the rating of every movie you've watched:");
             System.out.println("----------------------------------------------------");
             // Same as Print all movies but only show movie names and ratings of said movies
@@ -411,7 +405,7 @@ public class InputView  {
      */
     public static int showMainMenu(Scanner scanner) {
         String choice;
-        int mainMenuSelect = Integer.parseInt(null);
+        int mainMenuSelect;
 
         System.out.println("********************* IMDb Movie Database - CPSC219 W26  *********************");
         System.out.println("Track and store your favourite movies with ratings, directors, genres and more.");
@@ -486,9 +480,9 @@ public class InputView  {
                     break;
                 case "4": removeMovie(scanner);
                     break;
-                case "5": printAllMovies();
+                case "5": printAllMovies(scanner);
                     break;
-                case "6": reviews();
+                case "6": reviews(scanner);
                     break;
                 case "7": highestValue();
                     break;
@@ -510,7 +504,7 @@ public class InputView  {
      * @param scanner scanner object from java.util.Scanner
      * @return the menu option selected by the user as an int
      */
-    public static int showAddMovieMenu(Scanner scanner) {
+    private static int showAddMovieMenu(Scanner scanner) {
         String choice;
 
         System.out.println("\n==================== Add Movie ====================");
@@ -535,7 +529,7 @@ public class InputView  {
                     break;
                 case "2": singlelineEntryProcess(scanner);
                     break;
-                case "3": pressEnterToContinue(scanner);
+                case "3": showMainMenu(scanner);
                     break;
             }
 
@@ -798,14 +792,14 @@ public class InputView  {
         if (separatedValuesList == null || separatedValuesList.length != 8) {
             return new ArrayList<>();
         }else{
-            movieEntriesSingle.add(SERIES_TITLE, separatedValuesList[0].trim());
-            movieEntriesSingle.add(RELEASE_YEAR, separatedValuesList[1].trim());
-            movieEntriesSingle.add(CERTIFICATION, String.valueOf(Boolean.parseBoolean(separatedValuesList[2].trim())));
-            movieEntriesSingle.add(GENRE, separatedValuesList[3].trim());
-            movieEntriesSingle.add(IMDB_RATING, separatedValuesList[4].trim());
-            movieEntriesSingle.add(OVERVIEW, separatedValuesList[5].trim());
-            movieEntriesSingle.add(DIRECTOR, separatedValuesList[6].trim());
-            movieEntriesSingle.add(GROSS, separatedValuesList[7].trim());
+            movieEntriesSingle.add(SERIES_TITLE, new String[]{separatedValuesList[0].trim()});
+            movieEntriesSingle.add(RELEASE_YEAR, new String[]{separatedValuesList[1].trim()});
+            movieEntriesSingle.add(CERTIFICATION, new String[]{String.valueOf(Boolean.parseBoolean(separatedValuesList[2].trim()))});
+            movieEntriesSingle.add(GENRE, new String[]{separatedValuesList[3].trim()});
+            movieEntriesSingle.add(IMDB_RATING, new String[]{separatedValuesList[4].trim()});
+            movieEntriesSingle.add(OVERVIEW, new String[]{separatedValuesList[5].trim()});
+            movieEntriesSingle.add(DIRECTOR, new String[]{separatedValuesList[6].trim()});
+            movieEntriesSingle.add(GROSS, new String[]{separatedValuesList[7].trim()});
 
             return movieEntriesSingle;
         }
