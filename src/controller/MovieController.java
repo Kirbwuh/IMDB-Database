@@ -1,12 +1,10 @@
 package src.controller;
 import src.model.MovieDatabase;
-import src.view.InputView;
 import src.model.Movie;
 
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -25,19 +23,19 @@ public class  MovieController{
     /**
      * turns the string of attributes into a movie object
      * Arraf Hoque T10
-     * @param data -an ArrayList of Strings-
+     * @param movieEntriesData -an ArrayList of Strings-
      * @return movie object
      */
-        private static Movie stringToMovie(ArrayList<String> movieEntries){
+        private static Movie stringToMovie(ArrayList<String> movieEntriesData){
             Movie movie = new Movie(
-                movieEntries.get(0),                         // title
-                Integer.parseInt(movieEntries.get(1)),       // year
-                Boolean.parseBoolean(movieEntries.get(2)),   // certification
-                movieEntries.get(3),                         // genre
-                Double.parseDouble(movieEntries.get(4)),     // IMDB RATING
-                movieEntries.get(5),                         // description
-                movieEntries.get(6),                         // director
-                Long.parseLong(movieEntries.get(7)));        // gross profit
+                movieEntriesData.get(0),                         // title
+                Integer.parseInt(movieEntriesData.get(1)),       // year
+                Boolean.parseBoolean(movieEntriesData.get(2)),   // certification
+                movieEntriesData.get(3),                         // genre
+                Double.parseDouble(movieEntriesData.get(4)),     // IMDB RATING
+                movieEntriesData.get(5),                         // description
+                movieEntriesData.get(6),                         // director
+                Long.parseLong(movieEntriesData.get(7)));        // gross profit
             return movie;
         }
 
