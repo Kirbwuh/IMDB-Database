@@ -1,5 +1,7 @@
 package src.model;
 
+import java.util.Objects;
+
 /**
  * Represents a single series entry.
  * Extends  RowEntry
@@ -90,6 +92,29 @@ public class Series extends src.model.RowEntry {
     // ******************************
     // Methods
     // ******************************
+
+    /**
+     * Overrides equals(Obj o) to take in Movie onjects and checks if one entry is the same as another..
+     * @param entry - The entry to be entered into the CSV.
+     * @return true if two entries are the same, false otherwise.
+     */
+    @Override
+    public boolean equals(Movie entry) {
+        if (entry.toCSVStringRow().contains(entry.toCSVStringRow())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Overrides hashcode() in RowEntry.
+     * @return An integer hash made from the director and title of an entry.
+     */
+    @Override
+    public int hashcode() {
+        return Objects.hash(getCreator(), getTitle());
+    }
 
     /**
      * Returns a formatted string of all movie fields.
