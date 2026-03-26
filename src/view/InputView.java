@@ -2,6 +2,8 @@ package src.view;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import src.controller.MovieController;
+import src.util.HelperMethods;
 
 public class InputView extends src.view.ConsoleView {
 
@@ -47,26 +49,8 @@ public class InputView extends src.view.ConsoleView {
      * @param index Use the constants to index the information you want returned
      * @return ArrayList of specified values.
      */
-    public static int getInformation(int index) {
-        return index;
-    }
-
-    /**
-     * Calculates the average of all movies added to database.
-     * By: Duku Wani 2026/03/06 T10
-     * @return double from calculation.
-     */
-    public static String getRatingAverage (double Movie.imdbRating, int numOfMovies){
-        for (int i = 0; i < getInformation(4).size(); i++){
-            ratingTotal += Double.parseDouble(getInformation(4).get(i)); //Double.parseDouble() was recommended by IntelliJ and Looked up what it meant.
-        }
-        for (int i = 0; i <getInformation(1).size(); i++){
-            numOfMovies = getInformation(1).size();
-        }
-        double averageRating = ratingTotal/numOfMovies;
-        String formatedAverageRating = String.format("%.2f",averageRating);
-        return formatedAverageRating;
-
+    public static ArrayList<String> getInformation(int index) {
+        return new ArrayList<>();
     }
 
     /**
@@ -74,15 +58,7 @@ public class InputView extends src.view.ConsoleView {
      * Prints the highest IMDB Rating movie
      */
     public static void highestValue(){
-        ArrayList<String[]> highestList = new ArrayList<>(movies.values());
-
-
-        highestList.sort((m1,m2)-> {
-            double rating1 = Double.parseDouble((m1[IMDB_RATING]));
-            double rating2 = Double.parseDouble((m2[IMDB_RATING]));
-            return Double.compare(rating2,rating1);
-        });
-        System.out.println("The highest IMDB Rated Movie is: " + movieToString(highestList.get(0))) ;
+        // TODO: highestValue Function here
     }
 
     /**
@@ -90,16 +66,7 @@ public class InputView extends src.view.ConsoleView {
      * prints out the lowest IMDB RATING
      */
     public static void lowestValue(){
-        ArrayList<String[]> lowestList = new ArrayList<>(movies.values());
-
-
-        lowestList.sort((m1,m2)-> {
-            double rating1 = Double.parseDouble((m1[IMDB_RATING]));
-            double rating2 = Double.parseDouble((m2[IMDB_RATING]));
-            return Double.compare(rating1,rating2);
-        });
-        System.out.println("The lowest rated movie in your catalogue is: " + movieToString(lowestList.get(0))) ;
-
+        // TODO: lowestValue Function here
     }
 
     /**
@@ -108,20 +75,8 @@ public class InputView extends src.view.ConsoleView {
      * @return top5
      */
     public static ArrayList<String[]> getTop5(){
-
-        ArrayList<String[]> movieList = new ArrayList<>(movies.values());
-
-
-        movieList.sort((m1,m2)-> { // fetch the
-            double rating1 = Double.parseDouble((m1[IMDB_RATING]));
-            double rating2 = Double.parseDouble((m2[IMDB_RATING]));
-            return Double.compare(rating2,rating1);
-        });
-        ArrayList<String[]> top5 = new ArrayList<>();
-        for (int i = 0; i < 5 && i < movieList.size(); i++){
-            top5.add(movieList.get(i));
-        }
-        return top5;
+        // TODO: getTop5 Function here
+        return new ArrayList<>();
     }
 
     //***********************************************************************
@@ -135,47 +90,21 @@ public class InputView extends src.view.ConsoleView {
      *
      * @param scanner User's input for searching up the movie
      */
-    public static void updateMovie(Scanner scanner) {
+    public static String updateMovie(Scanner scanner) {
         final String searchPrompt = "Enter the ID or Name of the Movie you would like to Search.";
-        String movieName = getStringInput(scanner, searchPrompt);
-        if (isNumeric(movieName)){ //if the user uses only numbers
-            updateMovieByTitle(model.Movie);
+        String movieName = HelperMethods.getStringInput(scanner, searchPrompt);
+        if (HelperMethods.isNumeric(movieName)){ //if the user uses only numbers
+            System.out.println("Searching and updating movie by ID: " + movieName);
             System.out.println("The movie has been updated!");
-            pressEnterToContinue(scanner);
+            HelperMethods.pressEnterToContinue(scanner);
         } else {
-            updateMovieById(model.Movie); //if the user uses only letters
+            System.out.println("Searching and updating movie by Title: " + movieName);
             System.out.println("The movie has been updated!");
-            pressEnterToContinue(scanner);
+            HelperMethods.pressEnterToContinue(scanner);
         }
+        return movieName;
     }
 
-    /**
-     *Updates specified movie data by ID matching.
-     *
-     * @param id id (key) of movie
-     * @param index The index of the data you want to update based on constants.
-     * @param update The update/change you want to make
-     */
-    public static void updateMovieById(int id,int index,String update) {
-        String[] movie = movies.get(id);
-        if (movie != null) {
-            movie[index] = update;
-        }
-    }
-
-    /**
-     *Updates specified movie data by title matching.
-     *
-     * @param title title of movie
-     * @param index The index of the data you want to update based on constants.
-     * @param update the update/change you want to make.
-     */
-    public static void updateMovieByTitle(String title, int index, String update) {
-        /*
-        Psudeo code
-        Find movie name, find what the user specifically wants to change, and change movie information
-         */
-    }
 
     //***********************************************************************
     //------------------REMOVE DATA METHODS----------------------------------
@@ -189,15 +118,15 @@ public class InputView extends src.view.ConsoleView {
      */
     public static void removeMovie(Scanner scanner) {
         final String searchPrompt = "Enter the ID or Name of the Movie you would like to Search.";
-        String movieName = getStringInput(scanner, searchPrompt);
-        if (isNumeric(movieName)){ //if the user uses only numbers
-            removeMovieById(model.Movie);
+        String movieName = HelperMethods.getStringInput(scanner, searchPrompt);
+        if (HelperMethods.isNumeric(movieName)){ //if the user uses only numbers
+            removeMovieById(Integer.parseInt(movieName));
             System.out.println("The movie has been removed!");
-            pressEnterToContinue(scanner);
+            HelperMethods.pressEnterToContinue(scanner);
         } else {
-            removeMovieByTitle(model.Movie); //if the user uses only letters
+            removeMovieByTitle(movieName); //if the user uses only letters
             System.out.println("The movie has been removed!");
-            pressEnterToContinue(scanner);
+            HelperMethods.pressEnterToContinue(scanner);
         }
     }
 
@@ -251,63 +180,19 @@ public class InputView extends src.view.ConsoleView {
         java.util.List<Object> movies = new java.util.ArrayList<>();
         if (movies.isEmpty()){
             System.out.println("No movies in the database yet. Add some movies first!");
-            pressEnterToContinue(scanner);
+            HelperMethods.pressEnterToContinue(scanner);
         } else {
             System.out.println("The movies you watch are rated " + 0.0 + " on average.");
             System.out.println("\nHere's the rating of every movie you've watched:");
             System.out.println("----------------------------------------------------");
             // Same as Print all movies but only show movie names and ratings of said movies
             System.out.println("----------------------------------------------------");
-            pressEnterToContinue(scanner);
+            HelperMethods.pressEnterToContinue(scanner);
         }
     }
 
-    //***********************************************************************
-    //---------------- Helper Methods ---------------------------------------
-    //***********************************************************************
-
-    /**
-     * Duku - 17/03/2026 - T10
-     * JJ - 2026/09/14 - T10
-     * Normalizes a word by converting it to lower case and trimming spaces
-     * @param word String a string
-     * @return returns a normalized string (lower case and spaces trimmed)
-     */
-    public static String normalizeWord(String word){
-        return word.toLowerCase().trim();
-    }
-
-    /**
-     * Duku - 17/03/2026 - T10
-     * JJ - 2026/09/14 - T10
-     * Checks if an input ony contains numeric values
-     * @param input A String
-     * @return a boolean that checks if the string only contains numbers
-     */
-    public static boolean isNumeric(String input) {
-        // source:
-        // https://stackoverflow.com/questions/15111420/how-to-check-if-a-string-contains-only-digits-in-java
-        // https://stackoverflow.com/questions/10921058/regex-matching-numbers-and-decimals
-        String regex = "^[+-]?(\\d*|\\d{1,3}(,\\d{3})*)(\\.\\d+)?\\b$";
-        return input.matches(regex);
-    }
-
-    /** JJ - 2026/09/14 - T10
-     * Takes a string in the form:
-     *  "<element1>,<element2>...."
-     *  and separates them into an Array
-     *  if not a valid separated values String returns an empty String
-     * @param commaValuesString String with elements separate with comma values
-     * @return  String[] and array with the values separated
-     */
-    public static String[] separateCommaValues (String commaValuesString){
-        if (commaValuesString.contains(",")){
-            return commaValuesString.split(",");
-
-        }else{
-            return new String[] {};
-        }
-    }
+  
+    
     /**
      * CL-3/6/2026-T10
      * Prompts the user to search for a movie by its title
@@ -317,7 +202,7 @@ public class InputView extends src.view.ConsoleView {
      */
     private static String[] searchMovieByTitle(Scanner scanner) {
         final String searchPrompt = "Enter the TITLE of the Movie you would like to Search.";
-        String searchInput = getStringInput(scanner, searchPrompt);
+        String searchInput = HelperMethods.getStringInput(scanner, searchPrompt);
         return getMovieByTitle(searchInput);
     }
 
@@ -330,7 +215,7 @@ public class InputView extends src.view.ConsoleView {
      */
     private static String[] searchMovieByID(Scanner scanner) {
         final String searchPrompt = "Enter the ID of the Movie you would like to Search.";
-        int searchInput = getIntegerInput(scanner, searchPrompt);
+        int searchInput = HelperMethods.getIntegerInput(scanner, searchPrompt);
 
         return getMovieById(searchInput);
     }
@@ -355,7 +240,7 @@ public class InputView extends src.view.ConsoleView {
                 6. Overviews
                 7. Gross Earnings
                 """);
-        int searchInput = getIntegerInput(scanner, prompt);
+        int searchInput = HelperMethods.getIntegerInput(scanner, prompt);
         return getInformation(searchInput);
     }
     //***********************************************************************
@@ -490,7 +375,7 @@ public class InputView extends src.view.ConsoleView {
                     break;
                 case "9": getTop5();
                     break;
-                case "10": pressEnterToContinue(scanner);
+                case "10": HelperMethods.pressEnterToContinue(scanner);
                     break;
             }
 
@@ -537,117 +422,11 @@ public class InputView extends src.view.ConsoleView {
 
         return Integer.parseInt(choice);
     }
-    // String Input
-    /**
-     * Duku - 18/03/2026 - T10
-     * JJ - 2026/09/14 - T10
-     * This method receives a scanner object and captures
-     * the user input and normalize it, whilst printing in console the data to be
-     * capture
-     * @param scanner scanner object from java.util.Scanner
-     * @param prompt the prompt that specifies the user which data to input
-     * @return the normalized input of the user as a String
-     */
-    public static String getStringInput (Scanner scanner, String prompt ){
-        System.out.println(prompt);
-        return (normalizeWord(scanner.nextLine()));
-    }
+    
 
-    // Numeric Input
-    /**
-     * Duku - 17/03/2026 - T10
-     * JJ - 2026/09/14 - T10
-     * This method receives a scanner object and captures
-     * the user input, validating that it is numeric, whilst printing in console
-     * the data to be captured.
-     *
-     * @param scanner scanner object from java.util.Scanner
-     * @param prompt the prompt that specifies the user which numeric data to input
-     * @return the numeric input of the user as a Double
-     */
-    public static Double getNumericInput(Scanner scanner, String prompt) {
-        String numericInput;
+    
 
-        do {
-            System.out.println(prompt);
-            numericInput = scanner.nextLine();
-            if (!isNumeric(numericInput)) {
-                System.out.println("Invalid input. Please enter a numeric value.");
-            }
-        } while (!isNumeric(numericInput));
-
-        return Double.parseDouble(numericInput);
-    }
-
-    // Integer Input
-    // Can be used to find the ID Number of a movie
-    /**
-     * Duku - 17/03/2026 - T10
-     * CL-3/6/2026-T10
-     * JJ - 2026/09/14 - T10
-     * This method receives a scanner object and captures
-     * the user input, validating that it is numeric, whilst printing in console
-     * the data to be captured.
-     *
-     * @param scanner scanner object from java.util.Scanner
-     * @param prompt the prompt that specifies the user which numeric data to input
-     * @return the numeric input of the user as an Integer
-     */
-    public static Integer getIntegerInput(Scanner scanner, String prompt) {
-        String numericInput;
-
-        do {
-            System.out.println(prompt);
-            numericInput = scanner.nextLine();
-            if (!isNumeric(numericInput)) {
-                System.out.println("Invalid input. Please enter a numeric value.");
-            }
-        } while (!isNumeric(numericInput));
-
-        return Integer.parseInt(numericInput);
-    }
-
-    //Boolean Input
-
-    /**
-     * Duku - 17/03/2026 - T10
-     * This method receives a scanner object and returns the user input
-     * as a boolean
-     * @param scanner scanner object from java.util.Scanner
-     * @param prompt the prompt specifying if the input is yes or no
-     * @return the boolean if the movie is rated PG-13 or not
-     */
-    public static boolean getBooleanInput(Scanner scanner, String prompt) {
-        String input;
-
-
-        do {
-            System.out.println(prompt + " (0 = No, 1 = Yes)");
-            input = scanner.nextLine();
-
-            if (!input.equals("0") && !input.equals("1")) {
-                System.out.println("Invalid input. Please enter 0 or 1.");
-            }
-
-        } while (!input.equals("0") && !input.equals("1"));
-
-        return input.equals("1");
-
-    }
-
-    // Pressing enter to continue
-
-    /**
-     * Duku - 18/03/2026 - T10
-     * JJ - 2026/09/14 - T10
-     * prompts user to press enter
-     * @param scanner scanner object from java.util.Scanner
-     */
-    public static void pressEnterToContinue(Scanner scanner) {
-        // source: https://stackoverflow.com/questions/26184409/java-console-prompt-for-enter-input-before-moving-on
-        System.out.println("\nPress Enter to continue...");
-        scanner.nextLine();
-    }
+    
 
     // Single line Entry ( Should be named MultiLine Entry )
 
@@ -665,44 +444,49 @@ public class InputView extends src.view.ConsoleView {
 
         //------- Question 1 --------------------
         final String q1Prompt = "Please input the name of the movie:";
-        String seriesTitle = getStringInput(scanner, q1Prompt);
+        String seriesTitle = HelperMethods.getStringInput(scanner, q1Prompt);
         movieEntriesMulti.add(seriesTitle);
 
         //------- Question 2 --------------------
         final String q2Prompt = "Please input the release year of the movie:";
-        Double releasedYear = getNumericInput(scanner, q2Prompt);
+        Double releasedYear = HelperMethods.getNumericInput(scanner, q2Prompt);
         movieEntriesMulti.add(String.valueOf(releasedYear));
 
         //------- Question 3 --------------------
         final String q3Prompt = "Is the movie rated PG-13?";
-        boolean isPG13 = getBooleanInput(scanner, q3Prompt);
+        boolean isPG13 = HelperMethods.getBooleanInput(scanner, q3Prompt);
         movieEntriesMulti.add(String.valueOf(isPG13));
 
         //------- Question 4 --------------------
         final String q4Prompt = "Please input the genre of the movie:";
-        String genre = getStringInput(scanner, q4Prompt);
+        String genre = HelperMethods.getStringInput(scanner, q4Prompt);
         movieEntriesMulti.add(genre);
 
         //------- Question 5 --------------------
         final String q5Prompt = "Please input the IMDb rating of the movie:";
-        Double rating = getNumericInput(scanner, q5Prompt);
+        Double rating = HelperMethods.getNumericInput(scanner, q5Prompt);
         movieEntriesMulti.add(String.valueOf(rating));
 
         //------- Question 6 --------------------
         final String q6Prompt = "Please input the description of the movie:";
-        String movieDesc = getStringInput(scanner, q6Prompt);
+        String movieDesc = HelperMethods.getStringInput(scanner, q6Prompt);
         movieEntriesMulti.add(movieDesc);
 
         //------- Question 7 --------------------
         final String q7Prompt = "Please input the name of the director:";
-        String director = getStringInput(scanner, q7Prompt);
+        String director = HelperMethods.getStringInput(scanner, q7Prompt);
         movieEntriesMulti.add(director);
 
         //------- Question 8 --------------------
         final String q8Prompt = "Please input the gross earnings of the movie:";
-        Double gross = getNumericInput(scanner, q8Prompt);
+        Double gross = HelperMethods.getNumericInput(scanner, q8Prompt);
         movieEntriesMulti.add(String.valueOf(gross));
 
+        MovieController.handleAddMovie(movieEntriesMulti);
+        ArrayList<String> allAfter = MovieController.handlePrintAllMovies();
+        for (int i = 0; i < allAfter.size(); i++) {
+            System.out.println(allAfter.get(i));
+        }
         return movieEntriesMulti;
     }
 
@@ -719,10 +503,10 @@ public class InputView extends src.view.ConsoleView {
      * @param scanner scanner object from java.util.Scanner
      * @return HashMap<String,String> containing the validated movie data
      */
-    public static ArrayList<String[]> singlelineEntryProcess(Scanner scanner) {
+    public static ArrayList<String> singlelineEntryProcess(Scanner scanner) {
         String[] separatedValuesList = null;
         boolean validInput;
-        ArrayList<String[]> movieEntriesSingle = new ArrayList<>();
+        ArrayList<String> movieEntriesSingle = new ArrayList<>();
 
         final String prompt = """
             Please enter exactly 8 values separated by commas, in this order:
@@ -734,7 +518,7 @@ public class InputView extends src.view.ConsoleView {
             validInput = true;
             separatedValuesList = null;
 
-            String inputString = getStringInput(scanner, prompt);
+            String inputString = HelperMethods.getStringInput(scanner, prompt);
 
             if (inputString.trim().isEmpty()) {
                 System.out.println("Invalid input: input cannot be empty. Please enter all 8 values.");
@@ -742,7 +526,7 @@ public class InputView extends src.view.ConsoleView {
                 continue;
             }
 
-            separatedValuesList = separateCommaValues(inputString);
+            separatedValuesList = HelperMethods.separateCommaValues(inputString);
 
             if (separatedValuesList.length != 8) {
                 System.out.println("Invalid input: you must enter exactly 8 comma-separated values.");
@@ -769,7 +553,7 @@ public class InputView extends src.view.ConsoleView {
                     case RELEASE_YEAR:
                     case IMDB_RATING:
                     case GROSS:
-                        if (!isNumeric(value)) {
+                        if (!HelperMethods.isNumeric(value)) {
                             System.out.println("Invalid input: numeric value expected at position " + (i + 1));
                             validInput = false;
                         }
@@ -792,19 +576,25 @@ public class InputView extends src.view.ConsoleView {
         if (separatedValuesList == null || separatedValuesList.length != 8) {
             return new ArrayList<>();
         }else{
-            movieEntriesSingle.add(SERIES_TITLE, new String[]{separatedValuesList[0].trim()});
-            movieEntriesSingle.add(RELEASE_YEAR, new String[]{separatedValuesList[1].trim()});
-            movieEntriesSingle.add(CERTIFICATION, new String[]{String.valueOf(Boolean.parseBoolean(separatedValuesList[2].trim()))});
-            movieEntriesSingle.add(GENRE, new String[]{separatedValuesList[3].trim()});
-            movieEntriesSingle.add(IMDB_RATING, new String[]{separatedValuesList[4].trim()});
-            movieEntriesSingle.add(OVERVIEW, new String[]{separatedValuesList[5].trim()});
-            movieEntriesSingle.add(DIRECTOR, new String[]{separatedValuesList[6].trim()});
-            movieEntriesSingle.add(GROSS, new String[]{separatedValuesList[7].trim()});
+            movieEntriesSingle.add(SERIES_TITLE, separatedValuesList[0].trim());
+            movieEntriesSingle.add(RELEASE_YEAR, separatedValuesList[1].trim());
+            movieEntriesSingle.add(CERTIFICATION, String.valueOf(Boolean.parseBoolean(separatedValuesList[2].trim())));
+            movieEntriesSingle.add(GENRE, separatedValuesList[3].trim());
+            movieEntriesSingle.add(IMDB_RATING, separatedValuesList[4].trim());
+            movieEntriesSingle.add(OVERVIEW, separatedValuesList[5].trim());
+            movieEntriesSingle.add(DIRECTOR, separatedValuesList[6].trim());
+            movieEntriesSingle.add(GROSS, separatedValuesList[7].trim());
+
+           
+            MovieController.handleAddMovie(movieEntriesSingle);
+            ArrayList<String> allAfter = MovieController.handlePrintAllMovies();
+            for (int i = 0; i < allAfter.size(); i++) {
+                System.out.println(allAfter.get(i));
+            }
 
             return movieEntriesSingle;
         }
 
 
     }
-
 }

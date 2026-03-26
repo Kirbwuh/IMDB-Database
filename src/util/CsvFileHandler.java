@@ -1,45 +1,37 @@
 package src.util;
 
-import java.io.File;
+import src.model.Movie;
+import src.model.Series;
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Handles saving and loading of comma separated value files. Extends from Movie.java to use the toCSVStringRow method.
  * @author Haitam Lembaid 18/03/2026 T10
  */
-public class CsvFileHandler extends src.model.Movie {
+public class CsvFileHandler {
     // Instance Variables
     private final String filepath;
-    private final String movies;
 
     /**
-     * Constructor built from extending Movie.java, with filepath and movies instance variables added in.
-     * @param title         movie title
-     * @param year          release year
-     * @param certification true if rated PG-13
-     * @param genre         genre(s) of the movie
-     * @param imdbRating    IMDB rating out of 10
-     * @param description   short description of the movie
-     * @param director      name of the director
-     * @param gross         total box office gross earnings
+     * Constructor for CSVFileHandler
+     * @param filepath - The filepath to be passed in.
      */
-    public CsvFileHandler(String title, int year, boolean certification, String genre, double imdbRating,
-                          String description, String director, long gross, String filepath, String movies) {
-        super(title, year, certification, genre, imdbRating, description, director, gross);
+    public CsvFileHandler (String filepath) {
         this.filepath = filepath;
-        this.movies = movies;
     }
 
     /**
      * Method to save added movies to CSV file. Catches IOException.
-     * @param filepath - The relative filepath of the csv file.
+     * @param movie - A movie object
      */
-    public void saveToCSV(String filepath) {
+    public void saveToCSV(Movie movie) {
         try {
             FileWriter save = new FileWriter(filepath);
-            save.append(toCSVStringRow());
+            save.append(movie.toCSVStringRow());
             save.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -48,13 +40,35 @@ public class CsvFileHandler extends src.model.Movie {
     }
 
     /**
-     * Loads the csv file into memory to read contents.
-     * @param filepath - The relative filepath of the csv file.
+     * Method to save added series to CSV file. Catches IOException.
+     * @param series
      */
-    public void loadCSV(String filepath) {
+    public void saveToCSV(Series series) {
+        try {
+            FileWriter save = new FileWriter(filepath);
+            save.append(series.toCSVStringRow());
+            save.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("The file is not in the same directory (either doesn't exist or was moved.)");
+        }
+    }
+
+    /**
+     * Loads the csv file into memory to read contents. Catches IOException.
+     */
+    public void loadCSV() {
         try {
             FileReader load = new FileReader(filepath);
-            load.readAllLines();
+            List<String> lines = load.readAllLines();
+            for (String line : lines) {
+                if (line == null || line.trim().isEmpty())
+                    continue; // skip blank lines
+
+                String[] parts = HelperMethods.separateCommaValues(line);
+                if (parts.length < 8)
+                    continue; // skip less than 8 elements
+            }
             load.close();
         } catch (IOException e) {
             e.printStackTrace();

@@ -9,7 +9,7 @@ import java.util.HashMap;
  * <p>This class provides movie-specific wrapper methods around the generic
  * functionality defined in {@link Model.Database}.</p>
  */
-public class MovieDatabase extends Model.Database<Movie> {
+public class MovieDatabase extends src.model.Database<Movie> {
 
     /**
      * Creates an empty movie database.
