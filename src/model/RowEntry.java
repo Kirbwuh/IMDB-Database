@@ -6,7 +6,7 @@ package src.model;
  * a unique ID, title, year, genre, IMDB rating, and description.
  * @author J.J. Rondon 16/03/2026 T10
  */
-public class RowEntry {
+public abstract class RowEntry {
 
     // --------ATTRIBUTES-----------
     // ******************************
@@ -130,6 +130,10 @@ public class RowEntry {
     // ******************************
     // Methods
     // ******************************
+
+    public abstract boolean equals(Movie other);
+
+    public abstract int hashcode();
 
     /**
      * Returns a formatted string of the common fields.

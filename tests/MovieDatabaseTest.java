@@ -1,5 +1,7 @@
-import Model.MovieDatabase;
-import model.Movie;
+package tests;
+
+import src.model.MovieDatabase;
+import src.model.Movie;
 import org.junit.jupiter.api.Test;
 
 
