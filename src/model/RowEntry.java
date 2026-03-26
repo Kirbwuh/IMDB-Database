@@ -143,6 +143,10 @@ public abstract class RowEntry {
     // Methods
     // ******************************
 
+    public abstract boolean equals(Movie other);
+
+    public abstract int hashcode();
+
     /**
      * Returns a formatted string of the common fields.
      * Child classes should call super.toString() and append their own fields.
