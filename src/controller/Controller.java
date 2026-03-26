@@ -187,44 +187,16 @@ public class Controller {
      * prints the top 5 movies ranked
      * Collection of Movies -> get from the list of movies two movies -> compared movie 1 to movie 2 -> sort the objects on imbdrating
      * Arraf Hoque T10
-     *
-     *
-     ArrayList<String[]> movieList = new ArrayList<>(movies.values());
-
-
-     movieList.sort((m1,m2)-> { // fetch the
-     double rating1 = Double.parseDouble((m1[IMDB_RATING]));
-     double rating2 = Double.parseDouble((m2[IMDB_RATING]));
-     return Double.compare(rating2,rating1);
-     });
-     ArrayList<String[]> top5 = new ArrayList<>();
-     for (int i = 0; i < 5 && i < movieList.size(); i++){
-     top5.add(movieList.get(i));
-     }
-     return top5;
-
      */
-    public static List<Movie> getTop5(Movie movie1, Movie movie2){
-        // Sort via descending IMDB rating
-//        Map<Integer, Movie> all = MDB.getAllMovies();
-//        all.sort((m1,m2)->{
-//            double m1 = movie1.getImdbRating();
-//            double m2 = movie2.getImdbRating();
-//            return Double.compare(m2, m1);
-//        });
-        for(Map.Entry<Integer, Movie> entry: MDB.getAllEntries().entrySet()){
-            Movie value = entry.getValue();
-            int key = entry.getKey();
-            value
-        }
+    public static ArrayList<Movie> getTop5(){
 
+        ArrayList<Movie> movies = new ArrayList<>(MDB.getAllMovies().values());
+        movies.sort(Comparator.comparingDouble(Movie::getImdbRating).reversed());
         ArrayList<Movie> top5 = new ArrayList<>();
-        for (int i = 0; i<5;)
-
-
-
-
-
+        for (int i = 0; i < 5 && i < movies.size(); i++){
+            top5.add(movies.get(i));
+        }
+        return top5;
 
     }
 
@@ -234,12 +206,12 @@ public class Controller {
      */
     public Movie handleHighestRating(){
 
-        Movie highestRated = null;
+        Movie highestRated = null; // init highestRated
 
-        for(Map.Entry<Integer, Movie> entry: MDB.getAllEntries().entrySet()){
-            Movie value = entry.getValue();
-            if (value.getImdbRating() >= highestRated.getImdbRating()){
-                highestRated = value;
+        for(Map.Entry<Integer, Movie> entry: MDB.getAllEntries().entrySet()){ // for each entry in MDB
+            Movie value = entry.getValue(); //obtain entry
+            if (value.getImdbRating() >= highestRated.getImdbRating()){ // Compare ratings, if new value is higher
+                highestRated = value; // make it the new highest
             }
 
         }
@@ -248,7 +220,7 @@ public class Controller {
     }
 
     /**
-     * gets lowest rated movie oin the database
+     * gets lowest rated movie in the database
      * Arraf Hoque T10
      */
     public Movie handleLowestRating(){
