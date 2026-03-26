@@ -191,36 +191,7 @@ public class InputView extends src.view.ConsoleView {
         }
     }
 
-    //***********************************************************************
-    //---------------- Helper Methods ---------------------------------------
-    //***********************************************************************
-
-    /**
-     * Duku - 17/03/2026 - T10
-     * JJ - 2026/09/14 - T10
-     * Normalizes a word by converting it to lower case and trimming spaces
-     * @param word String a string
-     * @return returns a normalized string (lower case and spaces trimmed)
-     */
-    
-
-    /**
-     * Duku - 17/03/2026 - T10
-     * JJ - 2026/09/14 - T10
-     * Checks if an input ony contains numeric values
-     * @param input A String
-     * @return a boolean that checks if the string only contains numbers
-     */
-    
-
-    /** JJ - 2026/09/14 - T10
-     * Takes a string in the form:
-     *  "<element1>,<element2>...."
-     *  and separates them into an Array
-     *  if not a valid separated values String returns an empty String
-     * @param commaValuesString String with elements separate with comma values
-     * @return  String[] and array with the values separated
-     */
+  
     
     /**
      * CL-3/6/2026-T10
