@@ -2,6 +2,8 @@ package src.controller;
 
 import src.model.MovieDatabase;
 import src.model.Movie;
+import src.model.Series;
+import src.model.SeriesDatabase;
 import src.util.HelperMethods;
 import src.util.CsvFileHandler;
 
@@ -22,7 +24,9 @@ public class  MovieController{
 
 
     private static Scanner scanner; //init Scanner
-    private static final MovieDatabase DB = new MovieDatabase();
+    private static final MovieDatabase MDB = new MovieDatabase();
+    private static final SeriesDatabase SBD = new SeriesDatabase();
+
     private static boolean csvLoaded = false;
     private static final String CSV_PATH = "src/util/Movies.csv";
 
@@ -77,8 +81,21 @@ public class  MovieController{
      * @param movieEntriesData -an ArrayList of Strings-
      * @return movie object
      */
-        private static Movie stringToMovie(ArrayList<String> movieEntriesData){
-            Movie movie = new Movie(
+    private static Movie stringToMovie(ArrayList<String> movieEntriesData){
+        Movie movie = new Movie(
+            movieEntriesData.get(0),                         // title
+            Integer.parseInt(movieEntriesData.get(1)),       // year
+            Boolean.parseBoolean(movieEntriesData.get(2)),   // certification
+            movieEntriesData.get(3),                         // genre
+            Double.parseDouble(movieEntriesData.get(4)),     // IMDB RATING
+            movieEntriesData.get(5),                         // description
+            movieEntriesData.get(6),                         // director
+            Long.parseLong(movieEntriesData.get(7)));        // gross profit
+        return movie;
+    }
+
+    private static Movie stringToSeries(ArrayList<String> movieEntriesData){
+        Movie movie = new Movie(
                 movieEntriesData.get(0),                         // title
                 Integer.parseInt(movieEntriesData.get(1)),       // year
                 Boolean.parseBoolean(movieEntriesData.get(2)),   // certification
@@ -87,8 +104,8 @@ public class  MovieController{
                 movieEntriesData.get(5),                         // description
                 movieEntriesData.get(6),                         // director
                 Long.parseLong(movieEntriesData.get(7)));        // gross profit
-            return movie;
-        }
+        return movie;
+    }
 
     /**
      * Performs MovieDatabase addMovie
@@ -97,7 +114,7 @@ public class  MovieController{
      */
         public static void handleAddMovie(ArrayList<String> movieEntries) {
             Movie movie = stringToMovie(movieEntries);
-            DB.addMovie(movie);
+            MDB.addMovie(movie);
         }
 
 
@@ -112,9 +129,9 @@ public class  MovieController{
      */
         private void handleRemoveMovie(int id, String title){
         if (title == null){ //if there is no title, use the movie ID
-           DB.removeMovie(id);
+            MDB.removeMovie(id);
         } else if (id == 0) { // if no int, pass the title use case
-            DB.removeMovie(title);
+            MDB.removeMovie(title);
         }
         else{
             System.out.println("Please enter a valid movie ID or title."); // print if all else fails
