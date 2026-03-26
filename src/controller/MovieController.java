@@ -1,9 +1,9 @@
 package src.controller;
-import Model.MovieDatabase;
+import src.model.MovieDatabase;
 import org.junit.jupiter.params.shadow.com.univocity.parsers.csv.Csv;
 import src.view.InputView;
-import model.Movie;
-import util.CsvFileHandler;
+import src.model.Movie;
+import src.util.CsvFileHandler;
 
 
 
