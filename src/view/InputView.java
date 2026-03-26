@@ -511,8 +511,8 @@ public class InputView extends src.view.ConsoleView {
         Double gross = HelperMethods.getNumericInput(scanner, q8Prompt);
         movieEntriesMulti.add(String.valueOf(gross));
 
-        MovieController.addMovie(movieEntriesMulti);
-        ArrayList<String> allAfter = MovieController.getAllMoviesAsStrings();
+        MovieController.handleAddMovie(movieEntriesMulti);
+        ArrayList<String> allAfter = MovieController.handlePrintAllMovies();
         for (int i = 0; i < allAfter.size(); i++) {
             System.out.println(allAfter.get(i));
         }
@@ -615,8 +615,8 @@ public class InputView extends src.view.ConsoleView {
             movieEntriesSingle.add(GROSS, separatedValuesList[7].trim());
 
            
-            MovieController.addMovie(movieEntriesSingle);
-            ArrayList<String> allAfter = MovieController.getAllMoviesAsStrings();
+            MovieController.handleAddMovie(movieEntriesSingle);
+            ArrayList<String> allAfter = MovieController.handlePrintAllMovies();
             for (int i = 0; i < allAfter.size(); i++) {
                 System.out.println(allAfter.get(i));
             }

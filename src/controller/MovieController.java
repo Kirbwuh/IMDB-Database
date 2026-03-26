@@ -7,7 +7,6 @@ import src.util.HelperMethods;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -85,23 +84,18 @@ public class  MovieController{
             return movie;
         }
 
-        /**
-         * Public entry point for adding a movie from view data
-         * @param data list of string fields in expected order
-         */
-        public static void addMovie(ArrayList<String> movieEntries) {
+    /**
+     * Performs MovieDatabase addMovie
+     * Arraf Hoque T10
+     * @param movieEntries
+     */
+        public static void handleAddMovie(ArrayList<String> movieEntries) {
             Movie movie = stringToMovie(movieEntries);
             DB.addMovie(movie);
         }
 
-    /**
-     * Performs MovieDatabase addMovie
-     * Arraf Hoque T10
-     * @param movie
-     */
-        private void handleAddMovie(Movie movie){
-        DB.addMovie(movie);
-    }
+
+
 
     /**
      *  Performs MovieDatabase removeMovie
@@ -161,9 +155,15 @@ public class  MovieController{
      * Prints all movies in the database
      * Arraf Hoque T10
      */
-        private void handlePrintAllMovie(){
-        System.out.println(DB.getAllMovies());
+    public static ArrayList<String> handlePrintAllMovies() {
+        Map<Integer, Movie> all = DB.getAllMovies();
+        ArrayList<String> out = new ArrayList<>();
+        for (Map.Entry<Integer, Movie> e : all.entrySet()) {
+            out.add(e.getKey() + ": " + e.getValue().toString());
+        }
+        return out;
     }
+
 
     /**
      * prints the top 5 movies ranked
@@ -193,14 +193,7 @@ public class  MovieController{
 //        System.out.println(MD.getLowestRated());
 //    }
 
-    public static ArrayList<String> getAllMoviesAsStrings() {
-        Map<Integer, Movie> all = DB.getAllMovies();
-        ArrayList<String> out = new ArrayList<>();
-        for (Map.Entry<Integer, Movie> e : all.entrySet()) {
-            out.add(e.getKey() + ": " + e.getValue().toString());
-        }
-        return out;
-    }
+
 
 
 
