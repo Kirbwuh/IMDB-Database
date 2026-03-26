@@ -3,6 +3,7 @@ package src.view;
 import java.util.ArrayList;
 import java.util.Scanner;
 import src.controller.MovieController;
+import src.util.HelperMethods;
 
 public class InputView extends src.view.ConsoleView {
 
@@ -91,8 +92,8 @@ public class InputView extends src.view.ConsoleView {
      */
     public static String updateMovie(Scanner scanner) {
         final String searchPrompt = "Enter the ID or Name of the Movie you would like to Search.";
-        String movieName = getStringInput(scanner, searchPrompt);
-        if (isNumeric(movieName)){ //if the user uses only numbers
+        String movieName = HelperMethods.getStringInput(scanner, searchPrompt);
+        if (HelperMethods.isNumeric(movieName)){ //if the user uses only numbers
             System.out.println("Searching and updating movie by ID: " + movieName);
             System.out.println("The movie has been updated!");
             pressEnterToContinue(scanner);
@@ -117,8 +118,8 @@ public class InputView extends src.view.ConsoleView {
      */
     public static void removeMovie(Scanner scanner) {
         final String searchPrompt = "Enter the ID or Name of the Movie you would like to Search.";
-        String movieName = getStringInput(scanner, searchPrompt);
-        if (isNumeric(movieName)){ //if the user uses only numbers
+        String movieName = HelperMethods.getStringInput(scanner, searchPrompt);
+        if (HelperMethods.isNumeric(movieName)){ //if the user uses only numbers
             removeMovieById(Integer.parseInt(movieName));
             System.out.println("The movie has been removed!");
             pressEnterToContinue(scanner);
@@ -201,9 +202,7 @@ public class InputView extends src.view.ConsoleView {
      * @param word String a string
      * @return returns a normalized string (lower case and spaces trimmed)
      */
-    public static String normalizeWord(String word){
-        return word.toLowerCase().trim();
-    }
+    
 
     /**
      * Duku - 17/03/2026 - T10
@@ -212,13 +211,7 @@ public class InputView extends src.view.ConsoleView {
      * @param input A String
      * @return a boolean that checks if the string only contains numbers
      */
-    public static boolean isNumeric(String input) {
-        // source:
-        // https://stackoverflow.com/questions/15111420/how-to-check-if-a-string-contains-only-digits-in-java
-        // https://stackoverflow.com/questions/10921058/regex-matching-numbers-and-decimals
-        String regex = "^[+-]?(\\d*|\\d{1,3}(,\\d{3})*)(\\.\\d+)?\\b$";
-        return input.matches(regex);
-    }
+    
 
     /** JJ - 2026/09/14 - T10
      * Takes a string in the form:
@@ -228,14 +221,7 @@ public class InputView extends src.view.ConsoleView {
      * @param commaValuesString String with elements separate with comma values
      * @return  String[] and array with the values separated
      */
-    public static String[] separateCommaValues (String commaValuesString){
-        if (commaValuesString.contains(",")){
-            return commaValuesString.split(",");
-
-        }else{
-            return new String[] {};
-        }
-    }
+    
     /**
      * CL-3/6/2026-T10
      * Prompts the user to search for a movie by its title
@@ -245,7 +231,7 @@ public class InputView extends src.view.ConsoleView {
      */
     private static String[] searchMovieByTitle(Scanner scanner) {
         final String searchPrompt = "Enter the TITLE of the Movie you would like to Search.";
-        String searchInput = getStringInput(scanner, searchPrompt);
+        String searchInput = HelperMethods.getStringInput(scanner, searchPrompt);
         return getMovieByTitle(searchInput);
     }
 
@@ -258,7 +244,7 @@ public class InputView extends src.view.ConsoleView {
      */
     private static String[] searchMovieByID(Scanner scanner) {
         final String searchPrompt = "Enter the ID of the Movie you would like to Search.";
-        int searchInput = getIntegerInput(scanner, searchPrompt);
+        int searchInput = HelperMethods.getIntegerInput(scanner, searchPrompt);
 
         return getMovieById(searchInput);
     }
@@ -283,7 +269,7 @@ public class InputView extends src.view.ConsoleView {
                 6. Overviews
                 7. Gross Earnings
                 """);
-        int searchInput = getIntegerInput(scanner, prompt);
+        int searchInput = HelperMethods.getIntegerInput(scanner, prompt);
         return getInformation(searchInput);
     }
     //***********************************************************************
@@ -476,10 +462,7 @@ public class InputView extends src.view.ConsoleView {
      * @param prompt the prompt that specifies the user which data to input
      * @return the normalized input of the user as a String
      */
-    public static String getStringInput (Scanner scanner, String prompt ){
-        System.out.println(prompt);
-        return (normalizeWord(scanner.nextLine()));
-    }
+    
 
     // Numeric Input
     /**
@@ -493,19 +476,7 @@ public class InputView extends src.view.ConsoleView {
      * @param prompt the prompt that specifies the user which numeric data to input
      * @return the numeric input of the user as a Double
      */
-    public static Double getNumericInput(Scanner scanner, String prompt) {
-        String numericInput;
-
-        do {
-            System.out.println(prompt);
-            numericInput = scanner.nextLine();
-            if (!isNumeric(numericInput)) {
-                System.out.println("Invalid input. Please enter a numeric value.");
-            }
-        } while (!isNumeric(numericInput));
-
-        return Double.parseDouble(numericInput);
-    }
+    
 
     // Integer Input
     // Can be used to find the ID Number of a movie
@@ -521,19 +492,7 @@ public class InputView extends src.view.ConsoleView {
      * @param prompt the prompt that specifies the user which numeric data to input
      * @return the numeric input of the user as an Integer
      */
-    public static Integer getIntegerInput(Scanner scanner, String prompt) {
-        String numericInput;
-
-        do {
-            System.out.println(prompt);
-            numericInput = scanner.nextLine();
-            if (!isNumeric(numericInput)) {
-                System.out.println("Invalid input. Please enter a numeric value.");
-            }
-        } while (!isNumeric(numericInput));
-
-        return Integer.parseInt(numericInput);
-    }
+    
 
     //Boolean Input
 
@@ -545,23 +504,7 @@ public class InputView extends src.view.ConsoleView {
      * @param prompt the prompt specifying if the input is yes or no
      * @return the boolean if the movie is rated PG-13 or not
      */
-    public static boolean getBooleanInput(Scanner scanner, String prompt) {
-        String input;
-
-
-        do {
-            System.out.println(prompt + " (0 = No, 1 = Yes)");
-            input = scanner.nextLine();
-
-            if (!input.equals("0") && !input.equals("1")) {
-                System.out.println("Invalid input. Please enter 0 or 1.");
-            }
-
-        } while (!input.equals("0") && !input.equals("1"));
-
-        return input.equals("1");
-
-    }
+    
 
     // Pressing enter to continue
 
@@ -593,42 +536,42 @@ public class InputView extends src.view.ConsoleView {
 
         //------- Question 1 --------------------
         final String q1Prompt = "Please input the name of the movie:";
-        String seriesTitle = getStringInput(scanner, q1Prompt);
+        String seriesTitle = HelperMethods.getStringInput(scanner, q1Prompt);
         movieEntriesMulti.add(seriesTitle);
 
         //------- Question 2 --------------------
         final String q2Prompt = "Please input the release year of the movie:";
-        Double releasedYear = getNumericInput(scanner, q2Prompt);
+        Double releasedYear = HelperMethods.getNumericInput(scanner, q2Prompt);
         movieEntriesMulti.add(String.valueOf(releasedYear));
 
         //------- Question 3 --------------------
         final String q3Prompt = "Is the movie rated PG-13?";
-        boolean isPG13 = getBooleanInput(scanner, q3Prompt);
+        boolean isPG13 = HelperMethods.getBooleanInput(scanner, q3Prompt);
         movieEntriesMulti.add(String.valueOf(isPG13));
 
         //------- Question 4 --------------------
         final String q4Prompt = "Please input the genre of the movie:";
-        String genre = getStringInput(scanner, q4Prompt);
+        String genre = HelperMethods.getStringInput(scanner, q4Prompt);
         movieEntriesMulti.add(genre);
 
         //------- Question 5 --------------------
         final String q5Prompt = "Please input the IMDb rating of the movie:";
-        Double rating = getNumericInput(scanner, q5Prompt);
+        Double rating = HelperMethods.getNumericInput(scanner, q5Prompt);
         movieEntriesMulti.add(String.valueOf(rating));
 
         //------- Question 6 --------------------
         final String q6Prompt = "Please input the description of the movie:";
-        String movieDesc = getStringInput(scanner, q6Prompt);
+        String movieDesc = HelperMethods.getStringInput(scanner, q6Prompt);
         movieEntriesMulti.add(movieDesc);
 
         //------- Question 7 --------------------
         final String q7Prompt = "Please input the name of the director:";
-        String director = getStringInput(scanner, q7Prompt);
+        String director = HelperMethods.getStringInput(scanner, q7Prompt);
         movieEntriesMulti.add(director);
 
         //------- Question 8 --------------------
         final String q8Prompt = "Please input the gross earnings of the movie:";
-        Double gross = getNumericInput(scanner, q8Prompt);
+        Double gross = HelperMethods.getNumericInput(scanner, q8Prompt);
         movieEntriesMulti.add(String.valueOf(gross));
 
         MovieController.addMovie(movieEntriesMulti);
@@ -667,7 +610,7 @@ public class InputView extends src.view.ConsoleView {
             validInput = true;
             separatedValuesList = null;
 
-            String inputString = getStringInput(scanner, prompt);
+            String inputString = HelperMethods.getStringInput(scanner, prompt);
 
             if (inputString.trim().isEmpty()) {
                 System.out.println("Invalid input: input cannot be empty. Please enter all 8 values.");
@@ -675,7 +618,7 @@ public class InputView extends src.view.ConsoleView {
                 continue;
             }
 
-            separatedValuesList = separateCommaValues(inputString);
+            separatedValuesList = HelperMethods.separateCommaValues(inputString);
 
             if (separatedValuesList.length != 8) {
                 System.out.println("Invalid input: you must enter exactly 8 comma-separated values.");
@@ -702,7 +645,7 @@ public class InputView extends src.view.ConsoleView {
                     case RELEASE_YEAR:
                     case IMDB_RATING:
                     case GROSS:
-                        if (!isNumeric(value)) {
+                        if (!HelperMethods.isNumeric(value)) {
                             System.out.println("Invalid input: numeric value expected at position " + (i + 1));
                             validInput = false;
                         }
