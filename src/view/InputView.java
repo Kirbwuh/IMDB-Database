@@ -2,6 +2,7 @@ package src.view;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import src.controller.MovieController;
 
 public class InputView extends src.view.ConsoleView {
 
@@ -47,26 +48,8 @@ public class InputView extends src.view.ConsoleView {
      * @param index Use the constants to index the information you want returned
      * @return ArrayList of specified values.
      */
-    public static int getInformation(int index) {
-        return index;
-    }
-
-    /**
-     * Calculates the average of all movies added to database.
-     * By: Duku Wani 2026/03/06 T10
-     * @return double from calculation.
-     */
-    public static String getRatingAverage (double Movie.imdbRating, int numOfMovies){
-        for (int i = 0; i < getInformation(4).size(); i++){
-            ratingTotal += Double.parseDouble(getInformation(4).get(i)); //Double.parseDouble() was recommended by IntelliJ and Looked up what it meant.
-        }
-        for (int i = 0; i <getInformation(1).size(); i++){
-            numOfMovies = getInformation(1).size();
-        }
-        double averageRating = ratingTotal/numOfMovies;
-        String formatedAverageRating = String.format("%.2f",averageRating);
-        return formatedAverageRating;
-
+    public static ArrayList<String> getInformation(int index) {
+        return new ArrayList<>();
     }
 
     /**
@@ -74,15 +57,7 @@ public class InputView extends src.view.ConsoleView {
      * Prints the highest IMDB Rating movie
      */
     public static void highestValue(){
-        ArrayList<String[]> highestList = new ArrayList<>(movies.values());
-
-
-        highestList.sort((m1,m2)-> {
-            double rating1 = Double.parseDouble((m1[IMDB_RATING]));
-            double rating2 = Double.parseDouble((m2[IMDB_RATING]));
-            return Double.compare(rating2,rating1);
-        });
-        System.out.println("The highest IMDB Rated Movie is: " + movieToString(highestList.get(0))) ;
+        // TODO: highestValue Function here
     }
 
     /**
@@ -90,16 +65,7 @@ public class InputView extends src.view.ConsoleView {
      * prints out the lowest IMDB RATING
      */
     public static void lowestValue(){
-        ArrayList<String[]> lowestList = new ArrayList<>(movies.values());
-
-
-        lowestList.sort((m1,m2)-> {
-            double rating1 = Double.parseDouble((m1[IMDB_RATING]));
-            double rating2 = Double.parseDouble((m2[IMDB_RATING]));
-            return Double.compare(rating1,rating2);
-        });
-        System.out.println("The lowest rated movie in your catalogue is: " + movieToString(lowestList.get(0))) ;
-
+        // TODO: lowestValue Function here
     }
 
     /**
@@ -108,20 +74,8 @@ public class InputView extends src.view.ConsoleView {
      * @return top5
      */
     public static ArrayList<String[]> getTop5(){
-
-        ArrayList<String[]> movieList = new ArrayList<>(movies.values());
-
-
-        movieList.sort((m1,m2)-> { // fetch the
-            double rating1 = Double.parseDouble((m1[IMDB_RATING]));
-            double rating2 = Double.parseDouble((m2[IMDB_RATING]));
-            return Double.compare(rating2,rating1);
-        });
-        ArrayList<String[]> top5 = new ArrayList<>();
-        for (int i = 0; i < 5 && i < movieList.size(); i++){
-            top5.add(movieList.get(i));
-        }
-        return top5;
+        // TODO: getTop5 Function here
+        return new ArrayList<>();
     }
 
     //***********************************************************************
@@ -135,47 +89,21 @@ public class InputView extends src.view.ConsoleView {
      *
      * @param scanner User's input for searching up the movie
      */
-    public static void updateMovie(Scanner scanner) {
+    public static String updateMovie(Scanner scanner) {
         final String searchPrompt = "Enter the ID or Name of the Movie you would like to Search.";
         String movieName = getStringInput(scanner, searchPrompt);
         if (isNumeric(movieName)){ //if the user uses only numbers
-            updateMovieByTitle(model.Movie);
+            System.out.println("Searching and updating movie by ID: " + movieName);
             System.out.println("The movie has been updated!");
             pressEnterToContinue(scanner);
         } else {
-            updateMovieById(model.Movie); //if the user uses only letters
+            System.out.println("Searching and updating movie by Title: " + movieName);
             System.out.println("The movie has been updated!");
             pressEnterToContinue(scanner);
         }
+        return movieName;
     }
 
-    /**
-     *Updates specified movie data by ID matching.
-     *
-     * @param id id (key) of movie
-     * @param index The index of the data you want to update based on constants.
-     * @param update The update/change you want to make
-     */
-    public static void updateMovieById(int id,int index,String update) {
-        String[] movie = movies.get(id);
-        if (movie != null) {
-            movie[index] = update;
-        }
-    }
-
-    /**
-     *Updates specified movie data by title matching.
-     *
-     * @param title title of movie
-     * @param index The index of the data you want to update based on constants.
-     * @param update the update/change you want to make.
-     */
-    public static void updateMovieByTitle(String title, int index, String update) {
-        /*
-        Psudeo code
-        Find movie name, find what the user specifically wants to change, and change movie information
-         */
-    }
 
     //***********************************************************************
     //------------------REMOVE DATA METHODS----------------------------------
@@ -191,11 +119,11 @@ public class InputView extends src.view.ConsoleView {
         final String searchPrompt = "Enter the ID or Name of the Movie you would like to Search.";
         String movieName = getStringInput(scanner, searchPrompt);
         if (isNumeric(movieName)){ //if the user uses only numbers
-            removeMovieById(model.Movie);
+            removeMovieById(Integer.parseInt(movieName));
             System.out.println("The movie has been removed!");
             pressEnterToContinue(scanner);
         } else {
-            removeMovieByTitle(model.Movie); //if the user uses only letters
+            removeMovieByTitle(movieName); //if the user uses only letters
             System.out.println("The movie has been removed!");
             pressEnterToContinue(scanner);
         }
@@ -703,6 +631,11 @@ public class InputView extends src.view.ConsoleView {
         Double gross = getNumericInput(scanner, q8Prompt);
         movieEntriesMulti.add(String.valueOf(gross));
 
+        MovieController.addMovie(movieEntriesMulti);
+        ArrayList<String> allAfter = MovieController.getAllMoviesAsStrings();
+        for (int i = 0; i < allAfter.size(); i++) {
+            System.out.println(allAfter.get(i));
+        }
         return movieEntriesMulti;
     }
 
@@ -719,10 +652,10 @@ public class InputView extends src.view.ConsoleView {
      * @param scanner scanner object from java.util.Scanner
      * @return HashMap<String,String> containing the validated movie data
      */
-    public static ArrayList<String[]> singlelineEntryProcess(Scanner scanner) {
+    public static ArrayList<String> singlelineEntryProcess(Scanner scanner) {
         String[] separatedValuesList = null;
         boolean validInput;
-        ArrayList<String[]> movieEntriesSingle = new ArrayList<>();
+        ArrayList<String> movieEntriesSingle = new ArrayList<>();
 
         final String prompt = """
             Please enter exactly 8 values separated by commas, in this order:
@@ -792,19 +725,25 @@ public class InputView extends src.view.ConsoleView {
         if (separatedValuesList == null || separatedValuesList.length != 8) {
             return new ArrayList<>();
         }else{
-            movieEntriesSingle.add(SERIES_TITLE, new String[]{separatedValuesList[0].trim()});
-            movieEntriesSingle.add(RELEASE_YEAR, new String[]{separatedValuesList[1].trim()});
-            movieEntriesSingle.add(CERTIFICATION, new String[]{String.valueOf(Boolean.parseBoolean(separatedValuesList[2].trim()))});
-            movieEntriesSingle.add(GENRE, new String[]{separatedValuesList[3].trim()});
-            movieEntriesSingle.add(IMDB_RATING, new String[]{separatedValuesList[4].trim()});
-            movieEntriesSingle.add(OVERVIEW, new String[]{separatedValuesList[5].trim()});
-            movieEntriesSingle.add(DIRECTOR, new String[]{separatedValuesList[6].trim()});
-            movieEntriesSingle.add(GROSS, new String[]{separatedValuesList[7].trim()});
+            movieEntriesSingle.add(SERIES_TITLE, separatedValuesList[0].trim());
+            movieEntriesSingle.add(RELEASE_YEAR, separatedValuesList[1].trim());
+            movieEntriesSingle.add(CERTIFICATION, String.valueOf(Boolean.parseBoolean(separatedValuesList[2].trim())));
+            movieEntriesSingle.add(GENRE, separatedValuesList[3].trim());
+            movieEntriesSingle.add(IMDB_RATING, separatedValuesList[4].trim());
+            movieEntriesSingle.add(OVERVIEW, separatedValuesList[5].trim());
+            movieEntriesSingle.add(DIRECTOR, separatedValuesList[6].trim());
+            movieEntriesSingle.add(GROSS, separatedValuesList[7].trim());
+
+           
+            MovieController.addMovie(movieEntriesSingle);
+            ArrayList<String> allAfter = MovieController.getAllMoviesAsStrings();
+            for (int i = 0; i < allAfter.size(); i++) {
+                System.out.println(allAfter.get(i));
+            }
 
             return movieEntriesSingle;
         }
 
 
     }
-
 }

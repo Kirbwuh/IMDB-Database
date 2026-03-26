@@ -19,6 +19,7 @@ public class  MovieController{
 
 
     private static Scanner scanner; //init Scanner
+    private static final MovieDatabase DB = new MovieDatabase();
 
 
     /**
@@ -27,27 +28,35 @@ public class  MovieController{
      * @param data -an ArrayList of Strings-
      * @return movie object
      */
-    private static Object stringToMovie(ArrayList<String> data){
-            Movie movie = new Movie( // create new movie object
-                    data.get(0),                         // title
-                    Integer.parseInt(data.get(1)),       // year
-                    Boolean.parseBoolean(data.get(2)),   // certification
-                    data.get(3),                         // genre
-                    Double.parseDouble(data.get(4)),     // IMDB RATING
-                    data.get(5),                         // description
-                    data.get(6),                         // director
-                    Long.parseLong(data.get(7)));        // gross profit
+        private static Movie stringToMovie(ArrayList<String> movieEntries){
+            Movie movie = new Movie(
+                movieEntries.get(0),                         // title
+                Integer.parseInt(movieEntries.get(1)),       // year
+                Boolean.parseBoolean(movieEntries.get(2)),   // certification
+                movieEntries.get(3),                         // genre
+                Double.parseDouble(movieEntries.get(4)),     // IMDB RATING
+                movieEntries.get(5),                         // description
+                movieEntries.get(6),                         // director
+                Long.parseLong(movieEntries.get(7)));        // gross profit
             return movie;
-    }
+        }
+
+        /**
+         * Public entry point for adding a movie from view data
+         * @param data list of string fields in expected order
+         */
+        public static void addMovie(ArrayList<String> movieEntries) {
+        Movie movie = stringToMovie(movieEntries);
+        DB.addMovie(movie);
+        }
 
     /**
      * Performs MovieDatabase addMovie
      * Arraf Hoque T10
      * @param movie
      */
-    private void handleAddMovie(Movie movie){
-        MovieDatabase MD = new MovieDatabase();
-        MD.addMovie(movie); // call addMovie in MD
+        private void handleAddMovie(Movie movie){
+        DB.addMovie(movie);
     }
 
     /**
@@ -57,12 +66,11 @@ public class  MovieController{
      * @param id
      * @param title
      */
-    private void handleRemoveMovie(int id, String title){
-        MovieDatabase MD = new MovieDatabase();
+        private void handleRemoveMovie(int id, String title){
         if (title == null){ //if there is no title, use the movie ID
-           MD.removeMovie(id);
+           DB.removeMovie(id);
         } else if (id == 0) { // if no int, pass the title use case
-            MD.removeMovie(title);
+            DB.removeMovie(title);
         }
         else{
             System.out.println("Please enter a valid movie ID or title."); // print if all else fails
@@ -76,12 +84,11 @@ public class  MovieController{
      * @param id
      * @param title
      */
-    private void handleGetMovie(int id, String title){
-        MovieDatabase MD = new MovieDatabase();
+        private void handleGetMovie(int id, String title){
         if (title == null){ //if there is no title, use the movie ID
-            System.out.println(MD.getMovie(id));
+            System.out.println(DB.getMovie(id));
         } else if (id == 0) {
-            System.out.println(MD.getMovie(title));// if no int, pass the title use case
+            System.out.println(DB.getMovie(title));// if no int, pass the title use case
         }
         else{
             System.out.println("Please enter a valid movie ID or title.");
@@ -95,12 +102,11 @@ public class  MovieController{
      * @param value
      * @param title
      */
-    private void handleUpdateMovie(int id, int field, String value, String title){
-        MovieDatabase MD = new MovieDatabase();
+        private void handleUpdateMovie(int id, int field, String value, String title){
         if (title == null){ //if there is no title, use the movie ID
-            MD.updateMovie(id, field, value);
+            DB.updateMovie(id, field, value);
         } else if (id == 0) {
-            MD.updateMovie(title, field, value);// if no int, pass the title use case
+            DB.updateMovie(title, field, value);// if no int, pass the title use case
         }
         else{
             System.out.println("Please enter a valid movie ID or title.");
@@ -111,9 +117,8 @@ public class  MovieController{
      * Prints all movies in the database
      * Arraf Hoque T10
      */
-    private void handlePrintAllMovie(){
-        MovieDatabase MD = new MovieDatabase();
-        System.out.println(MD.getAllMovies());
+        private void handlePrintAllMovie(){
+        System.out.println(DB.getAllMovies());
     }
 
     /**
@@ -143,6 +148,15 @@ public class  MovieController{
 //        MovieDatabase MD = new MovieDatabase();
 //        System.out.println(MD.getLowestRated());
 //    }
+
+    public static ArrayList<String> getAllMoviesAsStrings() {
+        Map<Integer, Movie> all = DB.getAllMovies();
+        ArrayList<String> out = new ArrayList<>();
+        for (Map.Entry<Integer, Movie> e : all.entrySet()) {
+            out.add(e.getKey() + ": " + e.getValue().toString());
+        }
+        return out;
+    }
 
 
 
