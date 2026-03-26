@@ -91,6 +91,11 @@ public class Movie extends src.model.RowEntry {
     // Methods
     // ******************************
 
+    @Override
+    public void equals() {
+
+    }
+
     /**
      * Returns a formatted string of all movie fields.
      * @return String formatted movie details
