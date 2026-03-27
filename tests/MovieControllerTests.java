@@ -62,6 +62,3 @@ public class MovieControllerTests {
       assertEquals(expected,actual,"Awesome");
    }
 }
-
-
-}
