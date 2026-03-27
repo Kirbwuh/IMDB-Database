@@ -19,7 +19,7 @@ import java.util.*;
 public class Controller {
 
 
-    private static Scanner scanner; //init Scanner
+    public static Scanner scanner; //init Scanner
     private static final MovieDatabase MDB = new MovieDatabase();
     private static final SeriesDatabase SBD = new SeriesDatabase();
 
@@ -77,7 +77,7 @@ public class Controller {
      * @param movieEntriesData -an ArrayList of Strings-
      * @return movie object
      */
-    private static Movie stringToMovie(ArrayList<String> movieEntriesData){
+    private static Movie stringToMovie(List<String> movieEntriesData){
         Movie movie = new Movie(
             movieEntriesData.get(0),                         // title
             Integer.parseInt(movieEntriesData.get(1)),       // year

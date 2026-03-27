@@ -18,7 +18,7 @@ import java.util.Scanner;
 //printRatings(List, double avg)
 //
 
-public class ConsoleView {
+public class MainMenus {
 
     /**
      * Prompts the user until a valid menu option is entered.
@@ -64,7 +64,6 @@ public class ConsoleView {
                         |   3    | Manage Database           | Add, update or remove movies   |
                         |   4    | Exit                      | Close the program              |
                         +--------+---------------------------+--------------------------------+""");
-
         return promptForChoice(scanner, "Please enter an option (1, 2, 3, 4):", "[1-4]",
                 "Invalid input. Please enter 1, 2, 3, or 4.");
     }
