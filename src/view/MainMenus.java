@@ -1,4 +1,4 @@
-package view;
+ package view;
 import java.util.Scanner;
 
 /**
@@ -135,11 +135,13 @@ public class MainMenus {
                         |   4    | Add series                | COMING SOON!                   |
                         |   5    | Update series             | COMING SOON!                   |
                         |   6    | Remove series             | COMING SOON!                   |
-                        |   7    | Back                      | Return to main menu            |
+                        |   7    | Save to CSV               | Write current DB to CSV file   |
+                        |   8    | Load from CSV             | Load movies from CSV file      |
+                        |   9    | Back                      | Return to main menu            |
                         +--------+---------------------------+--------------------------------+""");
 
-        return promptForChoice(scanner, "Please enter an option (1-7):", "([1-7])",
-                "Invalid input. Please enter a number between 1 and 7.");
+                return promptForChoice(scanner, "Please enter an option (1-9):", "([1-9])",
+                    "Invalid input. Please enter a number between 1 and 9.");
     }
     public int printAddMenu(Scanner scanner){
         System.out.println("\n==================== Add to Database ====================");

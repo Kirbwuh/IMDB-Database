@@ -145,7 +145,18 @@ public class Main {
 								HelperMethods.pressEnterToContinue(scanner);
 							}
 
-						} while (manageChoice != 7);
+							else if (manageChoice == 7) {
+								// Save current in-memory database to CSV
+								Controller.saveAllMoviesToCsv();
+								HelperMethods.pressEnterToContinue(scanner);
+
+							} else if (manageChoice == 8) {
+								// Load movies from CSV into memory
+								Controller.loadMoviesFromCsv();
+								HelperMethods.pressEnterToContinue(scanner);
+							}
+
+						} while (manageChoice != 9);
 
 					}
 
