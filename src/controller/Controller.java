@@ -2,26 +2,27 @@ package src.controller;
 
 import src.model.MovieDatabase;
 import src.model.Movie;
+import src.model.SeriesDatabase;
 import src.util.HelperMethods;
+import src.util.CsvFileHandler;
+import src.model.RowEntry;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
-
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 
 /**
  * Main Controller Method
  * Arraf Hoque T10
  */
-public class  MovieController{
+public class Controller {
 
 
     private static Scanner scanner; //init Scanner
-    private static final MovieDatabase DB = new MovieDatabase();
+    private static final MovieDatabase MDB = new MovieDatabase();
+    private static final SeriesDatabase SBD = new SeriesDatabase();
+
     private static boolean csvLoaded = false;
     private static final String CSV_PATH = "src/util/Movies.csv";
 
@@ -53,7 +54,7 @@ public class  MovieController{
 
                     // convert to movie object
                     Movie movie = stringToMovie(entries);
-                    DB.addMovie(movie);
+                    MDB.addMovie(movie);
                 }
             }
             csvLoaded = true;
@@ -64,6 +65,11 @@ public class  MovieController{
 
     }
 
+    private void handleLoadCSV(String filepath){
+        CsvFileHandler CSV = new CsvFileHandler(filepath);
+        CSV.loadCSV();
+    }
+
 
     /**
      * turns the string of attributes into a movie object
@@ -71,8 +77,21 @@ public class  MovieController{
      * @param movieEntriesData -an ArrayList of Strings-
      * @return movie object
      */
-        private static Movie stringToMovie(ArrayList<String> movieEntriesData){
-            Movie movie = new Movie(
+    private static Movie stringToMovie(ArrayList<String> movieEntriesData){
+        Movie movie = new Movie(
+            movieEntriesData.get(0),                         // title
+            Integer.parseInt(movieEntriesData.get(1)),       // year
+            Boolean.parseBoolean(movieEntriesData.get(2)),   // certification
+            movieEntriesData.get(3),                         // genre
+            Double.parseDouble(movieEntriesData.get(4)),     // IMDB RATING
+            movieEntriesData.get(5),                         // description
+            movieEntriesData.get(6),                         // director
+            Long.parseLong(movieEntriesData.get(7)));        // gross profit
+        return movie;
+    }
+
+    private static Movie stringToSeries(ArrayList<String> movieEntriesData){
+        Movie movie = new Movie(
                 movieEntriesData.get(0),                         // title
                 Integer.parseInt(movieEntriesData.get(1)),       // year
                 Boolean.parseBoolean(movieEntriesData.get(2)),   // certification
@@ -81,8 +100,8 @@ public class  MovieController{
                 movieEntriesData.get(5),                         // description
                 movieEntriesData.get(6),                         // director
                 Long.parseLong(movieEntriesData.get(7)));        // gross profit
-            return movie;
-        }
+        return movie;
+    }
 
     /**
      * Performs MovieDatabase addMovie
@@ -91,7 +110,7 @@ public class  MovieController{
      */
         public static void handleAddMovie(ArrayList<String> movieEntries) {
             Movie movie = stringToMovie(movieEntries);
-            DB.addMovie(movie);
+            MDB.addMovie(movie);
         }
 
 
@@ -106,9 +125,9 @@ public class  MovieController{
      */
         private void handleRemoveMovie(int id, String title){
         if (title == null){ //if there is no title, use the movie ID
-           DB.removeMovie(id);
+            MDB.removeMovie(id);
         } else if (id == 0) { // if no int, pass the title use case
-            DB.removeMovie(title);
+            MDB.removeMovie(title);
         }
         else{
             System.out.println("Please enter a valid movie ID or title."); // print if all else fails
@@ -124,9 +143,9 @@ public class  MovieController{
      */
         private void handleGetMovie(int id, String title){
         if (title == null){ //if there is no title, use the movie ID
-            System.out.println(DB.getMovie(id));
+            System.out.println(MDB.getMovie(id));
         } else if (id == 0) {
-            System.out.println(DB.getMovie(title));// if no int, pass the title use case
+            System.out.println(MDB.getMovie(title));// if no int, pass the title use case
         }
         else{
             System.out.println("Please enter a valid movie ID or title.");
@@ -142,9 +161,9 @@ public class  MovieController{
      */
         private void handleUpdateMovie(int id, int field, String value, String title){
         if (title == null){ //if there is no title, use the movie ID
-            DB.updateMovie(id, field, value);
+            MDB.updateMovie(id, field, value);
         } else if (id == 0) {
-            DB.updateMovie(title, field, value);// if no int, pass the title use case
+            MDB.updateMovie(title, field, value);// if no int, pass the title use case
         }
         else{
             System.out.println("Please enter a valid movie ID or title.");
@@ -156,7 +175,7 @@ public class  MovieController{
      * Arraf Hoque T10
      */
     public static ArrayList<String> handlePrintAllMovies() {
-        Map<Integer, Movie> all = DB.getAllMovies();
+        Map<Integer, Movie> all = MDB.getAllMovies();
         ArrayList<String> out = new ArrayList<>();
         for (Map.Entry<Integer, Movie> e : all.entrySet()) {
             out.add(e.getKey() + ": " + e.getValue().toString());
@@ -164,34 +183,59 @@ public class  MovieController{
         return out;
     }
 
-
     /**
      * prints the top 5 movies ranked
+     * Collection of Movies -> get from the list of movies two movies -> compared movie 1 to movie 2 -> sort the objects on imbdrating
      * Arraf Hoque T10
      */
+    public static ArrayList<Movie> getTop5(){
 
-//    public void handleTop5(){
-//        MovieDatabase MD = new MovieDatabase();
-//        System.out.println(MD.getTop5());
-//    }
+        ArrayList<Movie> movies = new ArrayList<>(MDB.getAllMovies().values());
+        movies.sort(Comparator.comparingDouble(Movie::getImdbRating).reversed());
+        ArrayList<Movie> top5 = new ArrayList<>();
+        for (int i = 0; i < 5 && i < movies.size(); i++){
+            top5.add(movies.get(i));
+        }
+        return top5;
+
+    }
 
     /**
      * gets the highest rated movie in the database
      * Arraf Hoque T10
      */
-//    public void handleHighestRating(){
-//        MovieDatabase MD = new MovieDatabase();
-//        System.out.println(MD.getHighestRated());
-//    }
+    public Movie handleHighestRating(){
+
+        Movie highestRated = null; // init highestRated
+
+        for(Map.Entry<Integer, Movie> entry: MDB.getAllEntries().entrySet()){ // for each entry in MDB
+            Movie value = entry.getValue(); //obtain entry
+            if (value.getImdbRating() >= highestRated.getImdbRating()){ // Compare ratings, if new value is higher
+                highestRated = value; // make it the new highest
+            }
+
+        }
+        return highestRated;
+
+    }
 
     /**
-     * gets lowest rated movie oin the database
+     * gets lowest rated movie in the database
      * Arraf Hoque T10
      */
-//    public void handleLowestRating(){
-//        MovieDatabase MD = new MovieDatabase();
-//        System.out.println(MD.getLowestRated());
-//    }
+    public Movie handleLowestRating(){
+        Movie lowestRated = null;
+
+        for(Map.Entry<Integer, Movie> entry: MDB.getAllEntries().entrySet()){
+            Movie value = entry.getValue();
+            int key = entry.getKey();
+            if (value.getImdbRating() <= lowestRated.getImdbRating()){
+                lowestRated = value;
+            }
+
+        }
+        return lowestRated;
+    }
 
 
 

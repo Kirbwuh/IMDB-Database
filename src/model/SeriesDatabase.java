@@ -4,10 +4,14 @@ import src.model.Series;
 import java.util.HashMap;
 
 /**
+ * CPSC 219 W26 Project
  * Stores and manages {@link Series} entries.
  *
  * <p>This class provides series-specific wrapper methods around the generic
  * functionality defined in {@link src,model.Database}.</p>
+ *
+ * @author Christopher Lassota
+ * @email chris.lassota1@ucalgary.ca
  */
 public class SeriesDatabase extends src.model.Database<Series> {
 

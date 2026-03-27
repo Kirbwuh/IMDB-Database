@@ -1,8 +1,18 @@
-package src.model;
+package Model;
 import java.util.HashMap;
 import java.util.Map;
 import src.model.RowEntry;
 
+/**
+ * CPSC 219 W26 Project
+ * <p>
+ * Database
+ * <p>
+ * Abstract parent database class to MovieDatabase and SeriesDatabase
+ *
+ * @author Christopher Lassota
+ * @email chris.lassota1@ucalgary.ca
+ */
 
 public abstract class Database<Entry extends RowEntry> {
     private final Class<Entry> entry;  // Java Generic. abstract object to be series or movie
