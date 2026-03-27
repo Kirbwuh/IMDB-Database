@@ -1,11 +1,10 @@
-package src.controller;
+package controller;
 
 import src.model.MovieDatabase;
 import src.model.Movie;
 import src.model.SeriesDatabase;
 import src.util.HelperMethods;
 import src.util.CsvFileHandler;
-import src.model.RowEntry;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
