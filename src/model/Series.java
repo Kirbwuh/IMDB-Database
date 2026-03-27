@@ -99,12 +99,13 @@ public class Series extends RowEntry {
      * @return true if two entries are the same, false otherwise.
      */
     @Override
-    public boolean equals(Movie entry) {
-        if (entry.toCSVStringRow().contains(entry.toCSVStringRow())) {
-            return true;
-        } else {
-            return false;
-        }
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Series other = (Series) obj;
+        return getYear() == other.getYear()
+                && Objects.equals(getTitle(), other.getTitle())
+                && Objects.equals(creator, other.creator);
     }
 
     /**
@@ -112,8 +113,8 @@ public class Series extends RowEntry {
      * @return An integer hash made from the director and title of an entry.
      */
     @Override
-    public int hashcode() {
-        return Objects.hash(getCreator(), getTitle());
+    public int hashCode() {
+        return Objects.hash(getTitle(), creator, getYear());
     }
 
     /**
