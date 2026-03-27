@@ -141,9 +141,10 @@ public class Controller {
      * @param id
      * @param title
      */
-        private void handleGetMovie(int id, String title){
+        public static void handleGetMovie(int id, String title){
         if (title == null){ //if there is no title, use the movie ID
             System.out.println(MDB.getMovie(id));
+
         } else if (id == 0) {
             System.out.println(MDB.getMovie(title));// if no int, pass the title use case
         }
