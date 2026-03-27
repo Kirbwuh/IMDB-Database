@@ -30,12 +30,11 @@ public class Controller {
             System.out.println("Loading movies from csv");
             if (Files.exists(Paths.get(CSV_PATH))) {
                 List<String> lines = Files.readAllLines(Paths.get(CSV_PATH));
-                System.out.println("step 1");
+
                 for (String line : lines) {
                     if (line == null || line.trim().isEmpty())
                         continue; // skip blank lines
-                    System.out.println("step 2");
-                    System.out.println(line);
+
                     String[] parts = HelperMethods.separateCommaValues(line);
                     if (parts.length < 8)
                         continue; // skip less than 8 elements
@@ -47,11 +46,11 @@ public class Controller {
                         value = value.trim();
                         entries.add(value);
                     }
-                    System.out.println("step 3");
+
                     // convert to movie object
                     Movie movie = stringToMovie(entries);
                     MDB.addMovie(movie);
-                    System.out.println("step 4");
+
                 }
             }
             csvLoaded = true;

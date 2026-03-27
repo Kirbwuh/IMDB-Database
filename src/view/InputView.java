@@ -7,8 +7,23 @@ import java.util.Arrays;
 import java.util.Scanner;
 import util.HelperMethods;
 
+
 public class InputView extends MainMenus {
 
+    public int promptForChoice(Scanner scanner, String prompt, String validPattern, String errorMessage) {
+        String choice;
+
+        do {
+            System.out.println(prompt);
+            choice = scanner.nextLine().trim();
+
+            if (!choice.matches(validPattern)) {
+                System.out.println(errorMessage);
+            }
+        } while (!choice.matches(validPattern));
+
+        return Integer.parseInt(choice);
+    }
     //***********************************************************************
     //---------------- Helper Methods ---------------------------------------
     //***********************************************************************
