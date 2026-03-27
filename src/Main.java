@@ -1,6 +1,8 @@
 package src;
 
 import java.util.Scanner;
+
+import src.controller.Controller;
 import src.view.ConsoleView;
 import src.view.InputView;
 
@@ -13,7 +15,7 @@ public class Main {
 		if (args.length > 0) {
 			if ("--load".equals(args[0])) {
 				try {
-					src.controller.MovieController.loadMoviesFromCsv();
+					Controller.loadMoviesFromCsv();
 				} catch (Exception e) {
             		System.out.println("Error loading CSV");
 				}
