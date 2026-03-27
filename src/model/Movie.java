@@ -19,7 +19,7 @@ public class Movie extends RowEntry {
 
     private boolean certification;
     private String director;
-    private long gross;2
+    private long gross;
 
     // ******************************
     // Constructors
