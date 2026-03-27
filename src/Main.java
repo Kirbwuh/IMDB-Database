@@ -42,8 +42,7 @@ public class Main {
 
 						if (searchDatabaseChoice == 1) {
 
-							String title = InputView.getStringInput(scanner, "Enter the title of the movie you want.");
-							Controller.handleGetMovie(title);
+							Controller.handleGetMovie(InputView.getStringInput(scanner, "Enter the title of the movie you want."));
 							HelperMethods.pressEnterToContinue(scanner);
 
 						} else if (searchDatabaseChoice == 2) {
@@ -60,13 +59,13 @@ public class Main {
 						highlightsChoice = mainMenus.printDatabaseHighlightsMenu(scanner);
 
 							if (highlightsChoice == 1) {
-								System.out.println(Controller.getTop5());
+								System.out.println(Controller.getTop5()); // do top5
 								HelperMethods.pressEnterToContinue(scanner);
 
 
 							} else if (highlightsChoice == 2) {
 								String highestRated = Controller.handleHighestRating().toString();
-								System.out.println(highestRated);
+								System.out.println(highestRated); // highestratedstuff
 								HelperMethods.pressEnterToContinue(scanner);
 
 
@@ -101,22 +100,22 @@ public class Main {
 
 								do {
 
-									if (entryChoice == 1) {
+									if (entryChoice == 1) { // perform inputviewMultiline
 										ArrayList<String> target = InputView.multilineEntryProcess(scanner);
 										Controller.handleAddMovie(target);
 										HelperMethods.pressEnterToContinue(scanner);
 										entryChoice = 3;
 
-									} else if (entryChoice == 2) {
+									} else if (entryChoice == 2) { // perform inputviewSingleLine
 										ArrayList<String> target = InputView.singlelineEntryProcess(scanner);
 										Controller.handleAddMovie(target);
 										HelperMethods.pressEnterToContinue(scanner);
-										entryChoice = 3;
+										entryChoice = 3;//break loop
 									}
 
-								} while (entryChoice != 3);
+								} while (entryChoice != 3); //exit
 
-							} else if (manageChoice == 2) {
+							} else if (manageChoice == 2) {// perform controller.handleUpdateMovie
 
 								String title = HelperMethods.getStringInput(scanner, "Enter the title of the movie you want.");
 								int field = HelperMethods.getIntegerInput(scanner,"Enter the field you want to change in the movie.");

@@ -187,13 +187,11 @@ public class Controller {
      * @param title
      */
         public static void handleGetMovie(String title){
-        if (title == null){ //if there is no title, use the movie ID
-            System.out.println("Please enter a valid movie title.");
-        } else{
-
+        if (title != null){ //if there is no title, use the movie ID
             Movie target =  MDB.getMovie(title);
             System.out.println(target.toString());
-
+        } else{
+            System.out.println("Please enter a valid movie title.");
         }
     }
 
