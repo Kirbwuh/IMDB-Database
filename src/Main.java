@@ -1,13 +1,18 @@
 import java.util.Scanner;
 
 import controller.Controller;
-import view.ConsoleView;
 import view.InputView;
+import view.MainMenus;
+
+import static controller.Controller.scanner;
+
 
 public class Main {
+	private static final MainMenus MM = new MainMenus();
+
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
-		ConsoleView consoleView = new ConsoleView();
+		MainMenus mainMenus = new MainMenus();
 		InputView inputView = new InputView(scanner);
 		Controller controller = new Controller();
 		int firstMenu, mainMenuChoice = 0, searchDatabaseChoice, highlightsChoice, manageChoice;
@@ -25,11 +30,11 @@ public class Main {
 //		System.out.println(Controller.handlePrintAllMovies());
 
 		do {
-				mainMenuChoice = consoleView.printMainMenu(scanner);
+				mainMenuChoice = mainMenus.printMainMenu(scanner);
 
 					if (mainMenuChoice == 1) {
 
-						searchDatabaseChoice = consoleView.printSearchDatabaseMenu(scanner);
+						searchDatabaseChoice = mainMenus.printSearchDatabaseMenu(scanner);
 
 						if (searchDatabaseChoice == 1) {
 							// now input view stuff
@@ -40,7 +45,7 @@ public class Main {
 
 						do {
 
-						highlightsChoice = consoleView.printDatabaseHighlightsMenu(scanner);
+						highlightsChoice = mainMenus.printDatabaseHighlightsMenu(scanner);
 
 							if (highlightsChoice == 1) {
 								Controller.getTop5();
@@ -61,7 +66,7 @@ public class Main {
 
 
 					}  else if (mainMenuChoice == 3) {
-						manageChoice = consoleView.printManageDatabaseMenu(scanner);
+						manageChoice = mainMenus.printManageDatabaseMenu(scanner);
 
 						if (manageChoice == 1) {
 

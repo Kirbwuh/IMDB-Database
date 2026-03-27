@@ -22,6 +22,8 @@ public class HelperMethods {
         }
     }
 
+
+
     /** Duku - 17/03/2026 - T10
      * Normalizes a word by converting it to lower case and trimming spaces
      * @param word String a string

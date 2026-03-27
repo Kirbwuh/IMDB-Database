@@ -18,7 +18,7 @@ import java.util.*;
 public class Controller {
 
 
-    private static Scanner scanner; //init Scanner
+    public static Scanner scanner; //init Scanner
     private static final MovieDatabase MDB = new MovieDatabase();
     private static final SeriesDatabase SBD = new SeriesDatabase();
 
