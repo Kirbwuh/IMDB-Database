@@ -30,8 +30,19 @@ public class CsvFileHandler {
      */
     public void saveToCSV(Movie movie) {
         try {
+            FileReader read = new FileReader(filepath);
             FileWriter save = new FileWriter(filepath);
-            save.append(movie.toCSVStringRow());
+            List<String> lines = read.readAllLines();
+            // Will only add movie entries if they do not already exist in the file.
+            // Deletes and rewrites entry if it already exists.
+            for (String line : lines) {
+                if (!line.contains(movie.toCSVStringRow())) {
+                    save.append(movie.toCSVStringRow());
+                } else if (line.contains(movie.toCSVStringRow())) {
+                    save.write("");
+                    save.write(movie.toCSVStringRow());
+                }
+            }
             save.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -45,8 +56,19 @@ public class CsvFileHandler {
      */
     public void saveToCSV(Series series) {
         try {
+            FileReader read = new FileReader(filepath);
             FileWriter save = new FileWriter(filepath);
-            save.append(series.toCSVStringRow());
+            List<String> lines = read.readAllLines();
+            // Will only add series entries if they do not already exist in the file.
+            // Deletes and rewrites entry if it already exists.
+            for (String line : lines) {
+                if (!line.contains(series.toCSVStringRow())) {
+                    save.append(series.toCSVStringRow());
+                } else if (line.contains(series.toCSVStringRow())) {
+                    save.write("");
+                    save.write(series.toCSVStringRow());
+                }
+            }
             save.close();
         } catch (IOException e) {
             e.printStackTrace();
