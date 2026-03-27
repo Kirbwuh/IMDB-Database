@@ -1,5 +1,8 @@
 package util;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class HelperMethods {
@@ -137,5 +140,37 @@ public class HelperMethods {
         // source: https://stackoverflow.com/questions/26184409/java-console-prompt-for-enter-input-before-moving-on
         System.out.println("\nPress Enter to continue...");
         scanner.nextLine();
+    }
+
+   
+
+/**
+     * Safely parses a long from a string like "$2,932,193.0", "£1,000", "€500".
+     * Based on:
+     *  - https://mkyong.com/java/convert-string-with-commas-to-long-java/
+     *  - https://www.baeldung.com/java-currency-symbols-match
+     * Returns 0 on null, blank, or unparseable input.
+     */
+    public static long parseLongSafe(String input) {
+        if (input == null || input.isBlank()) return 0L;
+
+        String s = input.trim();
+
+        // Try currency-aware parsing first (handles $, £, €, commas, decimals)
+        
+        for (Locale locale : new Locale[]{Locale.US, Locale.UK, Locale.GERMANY}) {
+            try {
+                Number number = NumberFormat.getCurrencyInstance(locale).parse(s);
+                return number.longValue();
+            } catch (ParseException ignored) {}
+        }
+
+        // Fallback
+        try {
+            NumberFormat format = NumberFormat.getInstance(Locale.US);
+            return format.parse(s).longValue();
+        } catch (ParseException e) {
+            return 0L;
+        }
     }
 }

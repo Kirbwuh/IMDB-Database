@@ -75,7 +75,7 @@ public class Controller {
                 Double.parseDouble(movieEntriesData.get(4)),     // IMDB RATING
                 movieEntriesData.get(5),                         // description
                 movieEntriesData.get(6),                         // director
-                Long.parseLong(movieEntriesData.get(7)));        // gross profit
+                util.HelperMethods.parseLongSafe(movieEntriesData.get(7)));
 
         CsvFileHandler movieSaver = new CsvFileHandler(CSV_PATH);
         movieSaver.saveToCSV(movie);
@@ -88,6 +88,11 @@ public class Controller {
      * @return movie object
      */
     public static Movie stringToMovie(List<String> movieEntriesData){
+        if (movieEntriesData == null || movieEntriesData.size() < 8) {
+            System.out.println("Insufficient data to create a Movie. Expected 8 fields.");
+            return null;
+        }
+
         Movie movie = new Movie(
             movieEntriesData.get(0),                         // title
             Integer.parseInt(movieEntriesData.get(1)),       // year
@@ -96,7 +101,8 @@ public class Controller {
             Double.parseDouble(movieEntriesData.get(4)),     // IMDB RATING
             movieEntriesData.get(5),                         // description
             movieEntriesData.get(6),                         // director
-            Long.parseLong(movieEntriesData.get(7)));        // gross profit
+            util.HelperMethods.parseLongSafe(movieEntriesData.get(7)));        // gross profit
+
         return movie;
     }
 
@@ -109,7 +115,7 @@ public class Controller {
                 Double.parseDouble(movieEntriesData.get(4)),     // IMDB RATING
                 movieEntriesData.get(5),                         // description
                 movieEntriesData.get(6),                         // director
-                Long.parseLong(movieEntriesData.get(7)));        // gross profit
+                util.HelperMethods.parseLongSafe(movieEntriesData.get(7)));        // gross profit
         return movie;
     }
 
@@ -119,9 +125,13 @@ public class Controller {
      * @param movieEntries
      */
         public static void handleAddMovie(ArrayList<String> movieEntries) {
-            Movie movie = stringToMovie(movieEntries);
-            fileHandler.saveToCSV(movie);
-            MDB.addMovie(movie);
+                Movie movie = stringToMovie(movieEntries);
+                if (movie == null) {
+                    System.out.println("Movie not added: invalid or incomplete input.");
+                    return;
+                }
+                fileHandler.saveToCSV(movie);
+                MDB.addMovie(movie);
         }
 
 
@@ -201,6 +211,29 @@ public class Controller {
             out.add(e.getKey() + ": " + e.getValue().toString());
         }
         return out;
+    }
+
+    /**
+     * Writes all movies currently in the in-memory database to the CSV file,
+     * overwriting any existing contents.
+     */
+    public static void saveAllMoviesToCsv() {
+        // If CSV hasn't been loaded into memory yet, load existing CSV first
+        if (!csvLoaded) {
+            loadMoviesFromCsv();
+        }
+
+        try {
+            var movies = MDB.getAllMovies();
+            ArrayList<String> lines = new ArrayList<>();
+            for (Movie m : movies.values()) {
+                lines.add(m.toCSVStringRow());
+            }
+            java.nio.file.Files.write(java.nio.file.Paths.get(CSV_PATH), lines);
+            System.out.println("Movies saved to CSV.");
+        } catch (Exception e) {
+            System.out.println("Error saving CSV");
+        }
     }
 
     /**
