@@ -8,15 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class MovieDatabaseTest {
 
-//
-//        public src.model.Movie getMovie(int id) {
-//            return getEntry(id);
-//        }
-//
-//        public src.model.Movie getMovie(String title) {
-//            return getEntry(title);
-//        }
-//
 //        public HashMap<Integer, src.model.Movie> getAllMovies() {
 //            return getAllEntries();
 //        }
@@ -72,17 +63,6 @@ public class MovieDatabaseTest {
     }
 
     @Test
-    void test_addMovie_empty() {
-        MovieDatabase database = new MovieDatabase();
-
-        assertDoesNotThrow(() -> {
-            database.getMovie(1);
-            database.getMovie("Missing Title");
-        });
-        assertTrue(database.getAllMovies().isEmpty());
-    }
-
-    @Test
     void test_getMovie_success() {
         MovieDatabase database = new MovieDatabase();
         Movie movie = new Movie("Inception", 2010, false, "Action", 8.8, "Dream heist", "Nolan", 836);
@@ -105,6 +85,35 @@ public class MovieDatabaseTest {
         assertAll("non-existent getMovie lookups should return null",
                 () -> assertNull(database.getMovie(2)),
                 () -> assertNull(database.getMovie("Interstellar"))
+        );
+    }
+
+    @Test
+    void test_getAllMovies_success() {
+        MovieDatabase database = new MovieDatabase();
+        Movie firstMovie = new Movie("Inception", 2010, false, "Action", 8.8, "Dream heist", "Nolan", 836);
+        Movie secondMovie = new Movie("Tenet", 2020, false, "Action", 7.3, "Time inversion", "Nolan", 363);
+
+        database.addMovie(firstMovie);
+        database.addMovie(secondMovie);
+
+        assertAll("getAllMovies should return every stored movie",
+                () -> assertEquals(2, database.getAllMovies().size()),
+                () -> assertSame(firstMovie, database.getAllMovies().get(1)),
+                () -> assertSame(secondMovie, database.getAllMovies().get(2))
+        );
+    }
+
+    @Test
+    void test_getAllMovies_fail() {
+        MovieDatabase database = new MovieDatabase();
+        Movie movie = new Movie("Inception", 2010, false, "Action", 8.8, "Dream heist", "Nolan", 836);
+
+        database.addMovie(movie);
+
+        assertAll("getAllMovies should not contain missing entries",
+                () -> assertNotEquals(2, database.getAllMovies().size()),
+                () -> assertNull(database.getAllMovies().get(2))
         );
     }
 }
