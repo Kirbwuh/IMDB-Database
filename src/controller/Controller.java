@@ -23,15 +23,39 @@ public class Controller {
     private static final SeriesDatabase SBD = new SeriesDatabase();
 
     private static boolean csvLoaded = false;
-    private static final String MOVIE_CSV_PATH = "src/util/Movies.csv";
+    private static final String CSV_PATH = "src/util/Movies.csv";
 
-    /** JJ - 2026/09/14 - T10
-     *  HL - 25/03/2026 - T10
-     * Loads movies from the CSV file located at `MOVIE_CSV_PATH`
-     */
-    public static void loadMoviesFromCsv(){
-        CsvFileHandler movieLoader = new CsvFileHandler(MOVIE_CSV_PATH);
-        movieLoader.loadCSV();
+    public static void loadMoviesFromCsv(){// Load the CSV file once at startup // at least 8 elements.
+        try {
+            if (Files.exists(Paths.get(CSV_PATH))) {
+                List<String> lines = Files.readAllLines(Paths.get(CSV_PATH));
+                for (String line : lines) {
+                    if (line == null || line.trim().isEmpty())
+                        continue; // skip blank lines
+
+                    String[] parts = HelperMethods.separateCommaValues(line);
+                    if (parts.length < 8)
+                        continue; // skip less than 8 elements
+
+                    ArrayList<String> entries = new ArrayList<>();
+                    // copy up to t8 elements
+                    for (int i = 0; i < parts.length && i < 8; i++) {
+                        String value = parts[i];
+                        value = value.trim();
+                        entries.add(value);
+                    }
+
+                    // convert to movie object
+                    Movie movie = stringToMovie(entries);
+                    MDB.addMovie(movie);
+                }
+            }
+            csvLoaded = true;
+        } catch (Exception e) {
+
+            System.out.println("Error loading CSV");
+        }
+
     }
 
     /**
@@ -50,7 +74,7 @@ public class Controller {
                 movieEntriesData.get(6),                         // director
                 Long.parseLong(movieEntriesData.get(7)));        // gross profit
 
-        CsvFileHandler movieSaver = new CsvFileHandler(MOVIE_CSV_PATH);
+        CsvFileHandler movieSaver = new CsvFileHandler(CSV_PATH);
         movieSaver.saveToCSV(movie);
     }
 
@@ -172,7 +196,6 @@ public class Controller {
      * Arraf Hoque T10
      */
     public static ArrayList<Movie> getTop5(){
-
         ArrayList<Movie> movies = new ArrayList<>(MDB.getAllMovies().values());
         movies.sort(Comparator.comparingDouble(Movie::getImdbRating).reversed());
         ArrayList<Movie> top5 = new ArrayList<>();
@@ -188,15 +211,12 @@ public class Controller {
      * Arraf Hoque T10
      */
     public static Movie handleHighestRating(){
+        Movie highestRated = null;
 
-        Movie highestRated = null; // init highestRated
-
-        for(Map.Entry<Integer, Movie> entry: MDB.getAllEntries().entrySet()){ // for each entry in MDB
-            Movie value = entry.getValue(); //obtain entry
-            if (value.getImdbRating() >= highestRated.getImdbRating()){ // Compare ratings, if new value is higher
-                highestRated = value; // make it the new highest
+        for (Movie value : MDB.getAllMovies().values()) {
+            if (highestRated == null || value.getImdbRating() > highestRated.getImdbRating()) {
+                highestRated = value;
             }
-
         }
         return highestRated;
     }
@@ -208,13 +228,10 @@ public class Controller {
     public static Movie handleLowestRating(){
         Movie lowestRated = null;
 
-        for(Map.Entry<Integer, Movie> entry: MDB.getAllEntries().entrySet()){
-            Movie value = entry.getValue();
-            int key = entry.getKey();
-            if (value.getImdbRating() <= lowestRated.getImdbRating()){
+        for (Movie value : MDB.getAllMovies().values()) {
+            if (lowestRated == null || value.getImdbRating() < lowestRated.getImdbRating()) {
                 lowestRated = value;
             }
-
         }
         return lowestRated;
     }

@@ -22,6 +22,8 @@ public class Main {
 			}
 		}
 
+//		System.out.println(Controller.handlePrintAllMovies());
+
 		do {
 				mainMenuChoice = consoleView.printMainMenu(scanner);
 

@@ -61,4 +61,46 @@ public class MovieControllerTests {
       // Verify it was added
       assertEquals(expected,actual,"Awesome");
    }
+
+   @Test
+   public void testHandleHighestRating() {
+      ArrayList<String> movieData = new ArrayList<>();
+      movieData.add("Highest Rating Test");
+      movieData.add("2026");
+      movieData.add("false");
+      movieData.add("action");
+      movieData.add("10.0");
+      movieData.add("Highest rated movie for controller test.");
+      movieData.add("tester");
+      movieData.add("100");
+
+      Controller.handleAddMovie(movieData);
+
+      Movie highestRated = Controller.handleHighestRating();
+
+      assertNotNull(highestRated);
+      assertEquals("Highest Rating Test", highestRated.getTitle());
+      assertEquals(10.0, highestRated.getImdbRating());
+   }
+
+   @Test
+   public void testHandleLowestRating() {
+      ArrayList<String> movieData = new ArrayList<>();
+      movieData.add("Lowest Rating Test");
+      movieData.add("2026");
+      movieData.add("false");
+      movieData.add("action");
+      movieData.add("0.0");
+      movieData.add("Lowest rated movie for controller test.");
+      movieData.add("tester");
+      movieData.add("100");
+
+      Controller.handleAddMovie(movieData);
+
+      Movie lowestRated = Controller.handleLowestRating();
+
+      assertNotNull(lowestRated);
+      assertEquals("Lowest Rating Test", lowestRated.getTitle());
+      assertEquals(0.0, lowestRated.getImdbRating());
+   }
 }
