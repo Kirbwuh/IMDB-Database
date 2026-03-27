@@ -4,10 +4,15 @@ import controller.Controller;
 import view.ConsoleView;
 import view.InputView;
 
+import static src.controller.Controller.scanner;
+
+
 public class Main {
+	private static final MainMenus MM = new MainMenus();
+
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
-		ConsoleView consoleView = new ConsoleView();
+		MainMenus mainMenus = new MainMenus();
 		InputView inputView = new InputView(scanner);
 		Controller controller = new Controller();
 		int firstMenu, mainMenuChoice = 0, searchDatabaseChoice, highlightsChoice, manageChoice;
