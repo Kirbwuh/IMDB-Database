@@ -1,6 +1,8 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import controller.Controller;
+import util.HelperMethods;
 import view.InputView;
 import view.MainMenus;
 
@@ -15,7 +17,7 @@ public class Main {
 		MainMenus mainMenus = new MainMenus();
 		InputView inputView = new InputView(scanner);
 		Controller controller = new Controller();
-		int firstMenu, mainMenuChoice = 0, searchDatabaseChoice, highlightsChoice, manageChoice;
+		int firstMenu, mainMenuChoice = 0, searchDatabaseChoice, highlightsChoice, manageChoice, entryChoice;
 
 		if (args.length > 0) {
 			if ("--load".equals(args[0])) {
@@ -40,10 +42,13 @@ public class Main {
 
 							String title = InputView.getStringInput(scanner, "Enter the title of the movie you want.");
 							Controller.handleGetMovie(title);
+							HelperMethods.pressEnterToContinue(scanner);
 
 						} else if (searchDatabaseChoice == 2) {
 
 							System.out.println(Controller.handlePrintAllMovies());
+							HelperMethods.pressEnterToContinue(scanner);
+
 						}
 
 					} else if (mainMenuChoice == 2) {
@@ -54,17 +59,25 @@ public class Main {
 
 							if (highlightsChoice == 1) {
 								System.out.println(Controller.getTop5());
+								HelperMethods.pressEnterToContinue(scanner);
+
 
 							} else if (highlightsChoice == 2) {
 								String highestRated = Controller.handleHighestRating().toString();
 								System.out.println(highestRated);
+								HelperMethods.pressEnterToContinue(scanner);
+
 
 							} else if (highlightsChoice == 3) {
 								String lowestRated = Controller.handleLowestRating().toString();
 								System.out.println(lowestRated);
+								HelperMethods.pressEnterToContinue(scanner);
+
 
 							} else if (highlightsChoice == 4 || highlightsChoice == 5 || highlightsChoice == 6) {
 								System.out.println("Series Database coming soon!");
+								HelperMethods.pressEnterToContinue(scanner);
+
 							}
 
 						} while (highlightsChoice != 7);
@@ -81,14 +94,38 @@ public class Main {
 
 							if (manageChoice == 1) {
 
+								entryChoice = mainMenus.printAddMenu(scanner);
+
+								do {
+
+									if (entryChoice == 1) {
+										ArrayList<String> target = InputView.multilineEntryProcess(scanner);
+										Controller.handleAddMovie(target);
+										HelperMethods.pressEnterToContinue(scanner);
+										entryChoice = 3;
+
+									} else if (entryChoice == 2) {
+										ArrayList<String> target = InputView.singlelineEntryProcess(scanner);
+										Controller.handleAddMovie(target);
+										HelperMethods.pressEnterToContinue(scanner);
+										entryChoice = 3;
+									}
+
+								} while (entryChoice != 3);
+
 							} else if (manageChoice == 2) {
+
+								String title = HelperMethods.getStringInput(scanner, "Enter the title of the movie you want.");
+								int field = HelperMethods.getIntegerInput(scanner,"Enter the field you want to change in the movie.");
+								String value = HelperMethods.getStringInput(scanner, "Enter the value you want to insert");
+								Controller.handleUpdateMovie(field,value,title); // id field targetvalue title
+								HelperMethods.pressEnterToContinue(scanner);
 
 							} else if (manageChoice == 3) {
 
 							}
+
 						} while (manageChoice != 7);
-
-
 
 					}
 

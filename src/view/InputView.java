@@ -3,6 +3,7 @@ package view;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import util.HelperMethods;
 
@@ -229,7 +230,7 @@ public class InputView extends MainMenus {
      * @param scanner scanner object from java.util.Scanner
      * @return HashMap<String,String> containing the validated movie data
      */
-    public static String[] singlelineEntryProcess(Scanner scanner) {
+    public static ArrayList<String> singlelineEntryProcess(Scanner scanner) {
 
 
         final String prompt = """
@@ -238,9 +239,7 @@ public class InputView extends MainMenus {
             Example: The Matrix,1999,true,Action/Sci-Fi,8.7,A hacker discovers reality,The Wachowskis,463517383""";
         String singleLineEntry = getStringInput(scanner, prompt);
         String[] stripedLineEntry = HelperMethods.separateCommaValues(singleLineEntry);
-        return stripedLineEntry;
-
-
-
+        ArrayList<String> entries = new ArrayList<>(Arrays.asList(stripedLineEntry));
+        return entries;
     }
 }

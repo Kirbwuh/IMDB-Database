@@ -121,8 +121,6 @@ public class Controller {
         }
 
 
-
-
     /**
      *  Performs MovieDatabase removeMovie
      *  Prints if there is an error with input
@@ -145,7 +143,6 @@ public class Controller {
      * Performs getMovie
      * Prints error message if it fails
      * Arraf Hoque T10
-     * @param id
      * @param title
      */
         public static void handleGetMovie(String title){
@@ -159,19 +156,15 @@ public class Controller {
 
     /**
      * handles the updatemovie method from MovieDatabase
-     * @param id
      * @param field
      * @param value
      * @param title
      */
-        public void handleUpdateMovie(int id, int field, String value, String title){
-        if (title == null){ //if there is no title, use the movie ID
-            MDB.updateMovie(id, field, value);
-        } else if (id == 0) {
-            MDB.updateMovie(title, field, value);// if no int, pass the title use case
-        }
-        else{
-            System.out.println("Please enter a valid movie ID or title.");
+        public static void handleUpdateMovie(int field, String value, String title){
+        if (title != null){ //if there is no title, use the movie ID
+            MDB.updateMovie(title, field, value);
+        } else {
+            System.out.println("Please enter a valid movie title.");
         }
     }
 
