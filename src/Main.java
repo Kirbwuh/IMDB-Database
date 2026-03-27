@@ -37,8 +37,10 @@ public class Main {
 						searchDatabaseChoice = mainMenus.printSearchDatabaseMenu(scanner);
 
 						if (searchDatabaseChoice == 1) {
-							// now input view stuff
-							//
+
+							String title = InputView.getStringInput(scanner, "Enter the title of the movie you want.");
+							Controller.handleGetMovie(title);
+
 						}
 
 					} else if (mainMenuChoice == 2) {
@@ -48,7 +50,7 @@ public class Main {
 						highlightsChoice = mainMenus.printDatabaseHighlightsMenu(scanner);
 
 							if (highlightsChoice == 1) {
-								Controller.getTop5();
+								System.out.println(Controller.getTop5());
 
 							} else if (highlightsChoice == 2) {
 								String highestRated = Controller.handleHighestRating().toString();

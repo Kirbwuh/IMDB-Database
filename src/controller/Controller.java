@@ -84,7 +84,7 @@ public class Controller {
      * @param movieEntriesData -an ArrayList of Strings-
      * @return movie object
      */
-    private static Movie stringToMovie(List<String> movieEntriesData){
+    public static Movie stringToMovie(List<String> movieEntriesData){
         Movie movie = new Movie(
             movieEntriesData.get(0),                         // title
             Integer.parseInt(movieEntriesData.get(1)),       // year
@@ -97,7 +97,7 @@ public class Controller {
         return movie;
     }
 
-    private static Movie stringToSeries(List<String> movieEntriesData){
+    public static Movie stringToSeries(List<String> movieEntriesData){
         Movie movie = new Movie(
                 movieEntriesData.get(0),                         // title
                 Integer.parseInt(movieEntriesData.get(1)),       // year
@@ -130,7 +130,7 @@ public class Controller {
      * @param id
      * @param title
      */
-        private void handleRemoveMovie(int id, String title){
+        public static void handleRemoveMovie(int id, String title){
         if (title == null){ //if there is no title, use the movie ID
             MDB.removeMovie(id);
         } else if (id == 0) { // if no int, pass the title use case
@@ -148,14 +148,12 @@ public class Controller {
      * @param id
      * @param title
      */
-        private void handleGetMovie(int id, String title){
-        if (title == null){ //if there is no title, use the movie ID
-            System.out.println(MDB.getMovie(id));
-        } else if (id == 0) {
-            System.out.println(MDB.getMovie(title));// if no int, pass the title use case
-        }
-        else{
-            System.out.println("Please enter a valid movie ID or title.");
+        public static void handleGetMovie(String title){
+        if (title != null){ //if there is no title, use the movie ID
+            Movie target =  MDB.getMovie(title);
+            System.out.println(target.toString());
+        } else{
+            System.out.println("Please enter a valid movie title.");
         }
     }
 
@@ -166,7 +164,7 @@ public class Controller {
      * @param value
      * @param title
      */
-        private void handleUpdateMovie(int id, int field, String value, String title){
+        public void handleUpdateMovie(int id, int field, String value, String title){
         if (title == null){ //if there is no title, use the movie ID
             MDB.updateMovie(id, field, value);
         } else if (id == 0) {
