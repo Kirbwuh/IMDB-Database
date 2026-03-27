@@ -8,9 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class MovieDatabaseTest {
 
-//        public void addMovie(src.model.Movie movie) {
-//            addEntry(movie);
-//        }
 //
 //        public src.model.Movie getMovie(int id) {
 //            return getEntry(id);
@@ -75,13 +72,39 @@ public class MovieDatabaseTest {
     }
 
     @Test
-    void test_removeMovie_empty() {
+    void test_addMovie_empty() {
         MovieDatabase database = new MovieDatabase();
 
         assertDoesNotThrow(() -> {
-            database.removeMovie(1);
-            database.removeMovie("Missing Title");
+            database.getMovie(1);
+            database.getMovie("Missing Title");
         });
         assertTrue(database.getAllMovies().isEmpty());
+    }
+
+    @Test
+    void test_getMovie_success() {
+        MovieDatabase database = new MovieDatabase();
+        Movie movie = new Movie("Inception", 2010, false, "Action", 8.8, "Dream heist", "Nolan", 836);
+
+        database.addMovie(movie);
+
+        assertAll("existing movie should be retrievable",
+                () -> assertSame(movie, database.getMovie(1)),
+                () -> assertSame(movie, database.getMovie("Inception"))
+        );
+    }
+
+    @Test
+    void test_getMovie_fail() {
+        MovieDatabase database = new MovieDatabase();
+        Movie movie = new Movie("Tenet", 2020, false, "Action", 7.3, "Time inversion", "Nolan", 363);
+
+        database.addMovie(movie);
+
+        assertAll("non-existent getMovie lookups should return null",
+                () -> assertNull(database.getMovie(2)),
+                () -> assertNull(database.getMovie("Interstellar"))
+        );
     }
 }
