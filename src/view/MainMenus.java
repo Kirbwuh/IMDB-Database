@@ -141,5 +141,18 @@ public class MainMenus {
         return promptForChoice(scanner, "Please enter an option (1-7):", "([1-7])",
                 "Invalid input. Please enter a number between 1 and 7.");
     }
+    public int printAddMenu(Scanner scanner){
+        System.out.println("\n==================== Add to Database ====================");
+        System.out.println("""
+                        +--------+---------------------------+--------------------------------+
+                        | Option | Action                    | Description                    |
+                        +--------+---------------------------+--------------------------------+
+                        |   1    | Multi-Line Entry          | Choose an add method           |
+                        |   2    | Single-Line Entry         | Modify an existing movie       |
+                        |   3    | Back                      | Return to main menu            |
+                        +--------+---------------------------+--------------------------------+""");
+        return promptForChoice(scanner, "Please enter an option (1-3):", "([1-3])",
+                "Invalid input. Please enter a number between 1 and 3.");
+    }
 
 }
