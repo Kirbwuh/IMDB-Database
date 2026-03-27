@@ -85,7 +85,7 @@ public class ConsoleView {
                         |   2    | Print all movies          | See all movies                 |
                         |   3    | Search Series             | Search for a series            |
                         |   4    | Print all series          | See all series                 |
-                        |   5    | Exit                      |                                |
+                        |   5    | Back                      | Return to main menu            |
                         +--------+---------------------------+--------------------------------+""");
 
         return promptForChoice(scanner, "Please enter an option (1-5):", "[1-5]",
@@ -104,15 +104,17 @@ public class ConsoleView {
                         +--------+---------------------------+--------------------------------+
                         | Option | Action                    | Description                    |
                         +--------+---------------------------+--------------------------------+
-                        |   1    | Top 5                     | Show top 5 highest rated movies|
+                        |   1    | Top 5 Movies              | Show top 5 highest rated movies|
                         |   2    | Highest Rated Movie       | Show highest rated movie       |
                         |   3    | Lowest Rated Movie        | Show lowest rated movie        |
-                        |   4    | Reviews                   | See movie reviews              |
-                        |   5    | Exit                      |                                |
+                        |   4    | Top 5 Series              | Show top 5 highest rated series|
+                        |   5    | Highest Rated Series      | Show highest rated series      |
+                        |   6    | Lowest Rated Series       | Show lowest rated series       |
+                        |   7    | Back                      | Return to main menu            |
                         +--------+---------------------------+--------------------------------+""");
 
-        return promptForChoice(scanner, "Please enter an option (1-5):", "[1-5]",
-                "Invalid input. Please enter a number between 1 and 5.");
+        return promptForChoice(scanner, "Please enter an option (1-7):", "[1-7]",
+                "Invalid input. Please enter a number between 1 and 7.");
     }
 
 
@@ -131,25 +133,14 @@ public class ConsoleView {
                         |   1    | Add movie                 | Choose an add method           |
                         |   2    | Update movie              | Modify an existing movie       |
                         |   3    | Remove movie              | Delete a movie from database   |
-                        |   4    | Back                      | Return to main menu            |
+                        |   4    | Add movie                 | Choose an add method           |
+                        |   5    | Update movie              | Modify an existing movie       |
+                        |   6    | Remove movie              | Delete a movie from database   |
+                        |   7    | Back                      | Return to main menu            |
                         +--------+---------------------------+--------------------------------+""");
 
-        return promptForChoice(scanner, "Please enter an option (1-4):", "([1-4])",
-                "Invalid input. Please enter a number between 1 and 4.");
+        return promptForChoice(scanner, "Please enter an option (1-7):", "([1-7])",
+                "Invalid input. Please enter a number between 1 and 7.");
     }
 
-//    public int printAddMovieMenu(Scanner scanner) {
-//        System.out.println("\n==================== Add Movie ====================");
-//        System.out.println("""
-//        +--------+---------------------------+--------------------------------+
-//        | Option | Action                    | Description                    |
-//        +--------+---------------------------+--------------------------------+
-//        |   1    | Add movie (step by step)  | Answer one value at a time     |
-//        |   2    | Add movie (single line)   | Enter all 8 values with commas |
-//        |   3    | Back                      | Return to database menu        |
-//        +--------+---------------------------+--------------------------------+""");
-//
-//        return promptForChoice(scanner, "Please enter an option (1-3):", "[1-3]",
-//                "Invalid input. Please enter a number between 1 and 3.");
-//    }
 }
