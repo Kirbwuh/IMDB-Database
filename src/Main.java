@@ -41,6 +41,9 @@ public class Main {
 							String title = InputView.getStringInput(scanner, "Enter the title of the movie you want.");
 							Controller.handleGetMovie(title);
 
+						} else if (searchDatabaseChoice == 2) {
+
+							System.out.println(Controller.handlePrintAllMovies());
 						}
 
 					} else if (mainMenuChoice == 2) {
@@ -70,9 +73,22 @@ public class Main {
 					}  else if (mainMenuChoice == 3) {
 						manageChoice = mainMenus.printManageDatabaseMenu(scanner);
 
-						if (manageChoice == 1) {
+//                        |   1    | Add movie                 | Choose an add method           |
+//                        |   2    | Update movie              | Modify an existing movie       |
+//                        |   3    | Remove movie              | Delete a movie from database   |
 
-						}
+						do {
+
+							if (manageChoice == 1) {
+
+							} else if (manageChoice == 2) {
+
+							} else if (manageChoice == 3) {
+
+							}
+						} while (manageChoice != 7);
+
+
 
 					}
 
