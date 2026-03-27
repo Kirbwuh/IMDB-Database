@@ -1,7 +1,5 @@
 package model;
 
-import src.model.Movie;
-
 import java.util.HashMap;
 
 /**

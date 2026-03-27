@@ -1,10 +1,10 @@
 package controller;
 
 import model.MovieDatabase;
-import src.model.Movie;
 import model.SeriesDatabase;
-import src.util.HelperMethods;
-import src.util.CsvFileHandler;
+import model.Movie;
+import util.HelperMethods;
+import util.CsvFileHandler;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;

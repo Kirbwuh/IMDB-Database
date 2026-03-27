@@ -3,7 +3,7 @@ package view;
 import java.util.ArrayList;
 import java.util.Scanner;
 import controller.Controller;
-import src.util.HelperMethods;
+import util.HelperMethods;
 
 public class InputView extends ConsoleView {
 

@@ -1,7 +1,7 @@
 package controller;
 
 import org.junit.jupiter.api.Test;
-import src.model.Movie;
+import model.Movie;
 
 import java.util.ArrayList;
 

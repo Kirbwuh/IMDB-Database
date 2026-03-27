@@ -1,5 +1,4 @@
 package model;
-import src.model.Series;
 
 import java.util.HashMap;
 

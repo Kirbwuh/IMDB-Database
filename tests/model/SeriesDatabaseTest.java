@@ -1,8 +1,6 @@
 package model;
 
 import org.junit.jupiter.api.Test;
-import src.model.Series;
-import src.model.SeriesDatabase;
 
 import static org.junit.jupiter.api.Assertions.*;
 

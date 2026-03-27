@@ -1,7 +1,7 @@
-package src.util;
+package util;
 
-import src.model.Movie;
-import src.model.Series;
+import model.Movie;
+import model.Series;
 
 import java.io.FileReader;
 import java.io.FileWriter;
