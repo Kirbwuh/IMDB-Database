@@ -1,11 +1,11 @@
-package src.view;
+package view;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import src.controller.Controller;
+import controller.Controller;
 import src.util.HelperMethods;
 
-public class InputView extends src.view.ConsoleView {
+public class InputView extends ConsoleView {
 
     private static final int SERIES_TITLE = 0;
     private static final int RELEASE_YEAR = 1;

@@ -1,4 +1,4 @@
-package src.view;
+package view;
 import java.util.Scanner;
 
 /**
@@ -83,8 +83,8 @@ public class ConsoleView {
                         +--------+---------------------------+--------------------------------+
                         |   1    | Search movie              | Search for a movie             |
                         |   2    | Print all movies          | See all movies                 |
-                        |   3    | Search Series             | Search for a series            |
-                        |   4    | Print all series          | See all series                 |
+                        |   3    | Search Series             | COMING SOON!                   |
+                        |   4    | Print all series          | COMING SOON!                   |
                         |   5    | Back                      | Return to main menu            |
                         +--------+---------------------------+--------------------------------+""");
 
@@ -107,9 +107,9 @@ public class ConsoleView {
                         |   1    | Top 5 Movies              | Show top 5 highest rated movies|
                         |   2    | Highest Rated Movie       | Show highest rated movie       |
                         |   3    | Lowest Rated Movie        | Show lowest rated movie        |
-                        |   4    | Top 5 Series              | Show top 5 highest rated series|
-                        |   5    | Highest Rated Series      | Show highest rated series      |
-                        |   6    | Lowest Rated Series       | Show lowest rated series       |
+                        |   4    | Top 5 Series              | COMING SOON!                   |
+                        |   5    | Highest Rated Series      | COMING SOON!                   |
+                        |   6    | Lowest Rated Series       | COMING SOON!                   |
                         |   7    | Back                      | Return to main menu            |
                         +--------+---------------------------+--------------------------------+""");
 
@@ -133,9 +133,9 @@ public class ConsoleView {
                         |   1    | Add movie                 | Choose an add method           |
                         |   2    | Update movie              | Modify an existing movie       |
                         |   3    | Remove movie              | Delete a movie from database   |
-                        |   4    | Add movie                 | Choose an add method           |
-                        |   5    | Update movie              | Modify an existing movie       |
-                        |   6    | Remove movie              | Delete a movie from database   |
+                        |   4    | Add series                | COMING SOON!                   |
+                        |   5    | Update series             | COMING SOON!                   |
+                        |   6    | Remove series             | COMING SOON!                   |
                         |   7    | Back                      | Return to main menu            |
                         +--------+---------------------------+--------------------------------+""");
 

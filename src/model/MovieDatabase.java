@@ -1,4 +1,5 @@
-package src.model;
+package model;
+
 import src.model.Movie;
 
 import java.util.HashMap;
@@ -8,12 +9,12 @@ import java.util.HashMap;
  * Stores and manages {@link Movie} entries.
  *
  * <p>This class provides movie-specific wrapper methods around the generic
- * functionality defined in {@link Model.Database}.</p>
+ * functionality defined in {@link model.Database}.</p>
  *
  * @author Christopher Lassota
  * @email chris.lassota1@ucalgary.ca
  */
-public class MovieDatabase extends src.model.Database<Movie> {
+public class MovieDatabase extends Database<Movie> {
 
     /**
      * Creates an empty movie database.

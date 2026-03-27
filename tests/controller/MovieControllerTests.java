@@ -1,8 +1,8 @@
-package tests;
+package controller;
 
 import org.junit.jupiter.api.Test;
 import src.model.Movie;
-import src.controller.Controller;
+
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
