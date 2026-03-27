@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import controller.Controller;
+import model.Movie;
+import util.CsvFileHandler;
 import util.HelperMethods;
 import view.InputView;
 import view.MainMenus;
@@ -84,13 +86,14 @@ public class Main {
 
 
 					}  else if (mainMenuChoice == 3) {
-						manageChoice = mainMenus.printManageDatabaseMenu(scanner);
 
 //                        |   1    | Add movie                 | Choose an add method           |
 //                        |   2    | Update movie              | Modify an existing movie       |
 //                        |   3    | Remove movie              | Delete a movie from database   |
 
 						do {
+
+						manageChoice = mainMenus.printManageDatabaseMenu(scanner);
 
 							if (manageChoice == 1) {
 
@@ -122,7 +125,24 @@ public class Main {
 								HelperMethods.pressEnterToContinue(scanner);
 
 							} else if (manageChoice == 3) {
+								String removeTarget = HelperMethods.getStringInput(
+										scanner,
+										"Enter the movie ID or title you want to remove."
+								);
 
+								boolean removed;
+								// Numeric input is treated as the database key; anything else is an
+								// exact title lookup so the same prompt supports both remove paths.
+								if (HelperMethods.isNumeric(removeTarget)) {
+									removed = Controller.handleRemoveMovie(Integer.parseInt(removeTarget), null);
+								} else {
+									removed = Controller.handleRemoveMovie(0, removeTarget);
+								}
+
+								if (removed) {
+									System.out.println("Movie removed successfully.");
+								}
+								HelperMethods.pressEnterToContinue(scanner);
 							}
 
 						} while (manageChoice != 7);

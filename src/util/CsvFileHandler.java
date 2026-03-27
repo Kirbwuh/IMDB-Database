@@ -3,10 +3,11 @@ package util;
 import model.Movie;
 import model.Series;
 
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 
 /**
  * Handles saving and loading of comma separated value files. Extends from Movie.java to use the toCSVStringRow method.
@@ -30,20 +31,7 @@ public class CsvFileHandler {
      */
     public void saveToCSV(Movie movie) {
         try {
-            FileReader read = new FileReader(filepath);
-            FileWriter save = new FileWriter(filepath);
-            List<String> lines = read.readAllLines();
-            // Will only add movie entries if they do not already exist in the file.
-            // Deletes and rewrites entry if it already exists.
-            for (String line : lines) {
-                if (!line.contains(movie.toCSVStringRow())) {
-                    save.append(movie.toCSVStringRow());
-                } else if (line.contains(movie.toCSVStringRow())) {
-                    save.write("");
-                    save.write(movie.toCSVStringRow());
-                }
-            }
-            save.close();
+            appendRow(movie.toCSVStringRow());
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("The file is not in the same directory (either doesn't exist or was moved.)");
@@ -56,24 +44,64 @@ public class CsvFileHandler {
      */
     public void saveToCSV(Series series) {
         try {
-            FileReader read = new FileReader(filepath);
-            FileWriter save = new FileWriter(filepath);
-            List<String> lines = read.readAllLines();
-            // Will only add series entries if they do not already exist in the file.
-            // Deletes and rewrites entry if it already exists.
-            for (String line : lines) {
-                if (!line.contains(series.toCSVStringRow())) {
-                    save.append(series.toCSVStringRow());
-                } else if (line.contains(series.toCSVStringRow())) {
-                    save.write("");
-                    save.write(series.toCSVStringRow());
-                }
-            }
-            save.close();
+            appendRow(series.toCSVStringRow());
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("The file is not in the same directory (either doesn't exist or was moved.)");
         }
+    }
+
+    public void removeFromCSV(Movie movie) {
+        try {
+            removeRow(movie.toCSVStringRow());
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("The file is not in the same directory (either doesn't exist or was moved.)");
+        }
+    }
+
+    private void appendRow(String row) throws IOException {
+        Path path = Path.of(filepath);
+        if (Files.exists(path) && Files.size(path) > 0) {
+            String prefix = endsWithNewline(path) ? "" : System.lineSeparator();
+            Files.writeString(path, prefix + row, StandardOpenOption.APPEND);
+        } else {
+            Files.writeString(path, row,
+                    StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+        }
+    }
+
+    private boolean endsWithNewline(Path path) throws IOException {
+        byte[] contents = Files.readAllBytes(path);
+        if (contents.length == 0) {
+            return false;
+        }
+
+        byte lastByte = contents[contents.length - 1];
+        return lastByte == '\n' || lastByte == '\r';
+    }
+
+    private void removeRow(String row) throws IOException {
+        Path path = Path.of(filepath);
+        if (!Files.exists(path)) {
+            return;
+        }
+
+        var lines = Files.readAllLines(path);
+        var updatedLines = new ArrayList<String>();
+        boolean removed = false;
+
+        for (String line : lines) {
+            // Remove only the first exact row match so one delete action does not wipe
+            // every duplicate-looking line in the CSV.
+            if (!removed && line.equals(row)) {
+                removed = true;
+                continue;
+            }
+            updatedLines.add(line);
+        }
+
+        Files.write(path, updatedLines, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
     }
 
     /**
@@ -81,8 +109,8 @@ public class CsvFileHandler {
      */
     public void loadCSV() {
         try {
-            FileReader load = new FileReader(filepath);
-            List<String> lines = load.readAllLines();
+            Path path = Path.of(filepath);
+            var lines = Files.readAllLines(path);
             for (String line : lines) {
                 if (line == null || line.trim().isEmpty())
                     continue; // skip blank lines
@@ -91,7 +119,6 @@ public class CsvFileHandler {
                 if (parts.length < 8)
                     continue; // skip less than 8 elements
             }
-            load.close();
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("The file is not in the same directory (either doesn't exist or was moved.");

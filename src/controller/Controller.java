@@ -21,18 +21,21 @@ public class Controller {
     public static Scanner scanner; //init Scanner
     private static final MovieDatabase MDB = new MovieDatabase();
     private static final SeriesDatabase SBD = new SeriesDatabase();
-
+    private static final CsvFileHandler fileHandler = new CsvFileHandler("src/util/Movies.csv");
     private static boolean csvLoaded = false;
     private static final String CSV_PATH = "src/util/Movies.csv";
 
     public static void loadMoviesFromCsv(){// Load the CSV file once at startup // at least 8 elements.
         try {
+            System.out.println("Loading movies from csv");
             if (Files.exists(Paths.get(CSV_PATH))) {
                 List<String> lines = Files.readAllLines(Paths.get(CSV_PATH));
+                System.out.println("step 1");
                 for (String line : lines) {
                     if (line == null || line.trim().isEmpty())
                         continue; // skip blank lines
-
+                    System.out.println("step 2");
+                    System.out.println(line);
                     String[] parts = HelperMethods.separateCommaValues(line);
                     if (parts.length < 8)
                         continue; // skip less than 8 elements
@@ -44,10 +47,11 @@ public class Controller {
                         value = value.trim();
                         entries.add(value);
                     }
-
+                    System.out.println("step 3");
                     // convert to movie object
                     Movie movie = stringToMovie(entries);
                     MDB.addMovie(movie);
+                    System.out.println("step 4");
                 }
             }
             csvLoaded = true;
@@ -117,6 +121,7 @@ public class Controller {
      */
         public static void handleAddMovie(ArrayList<String> movieEntries) {
             Movie movie = stringToMovie(movieEntries);
+            fileHandler.saveToCSV(movie);
             MDB.addMovie(movie);
         }
 
@@ -128,15 +133,33 @@ public class Controller {
      * @param id
      * @param title
      */
-        public static void handleRemoveMovie(int id, String title){
-        if (title == null){ //if there is no title, use the movie ID
-            MDB.removeMovie(id);
-        } else if (id == 0) { // if no int, pass the title use case
-            MDB.removeMovie(title);
-        }
-        else{
+        public static boolean handleRemoveMovie(int id, String title){
+        Movie target = null;
+
+        if (title == null || title.isBlank()) {
+            target = MDB.getMovie(id);
+            if (target != null) {
+                // Remove from disk before deleting from memory so we still have the original
+                // object available to rebuild the exact CSV row that was written earlier.
+                fileHandler.removeFromCSV(target);
+                MDB.removeMovie(id);
+                return true;
+            }
+        } else if (id == 0) {
+            target = MDB.getMovie(title);
+            if (target != null) {
+                // Title-based removal follows the same pattern as ID removal for CSV sync.
+                fileHandler.removeFromCSV(target);
+                MDB.removeMovie(title);
+                return true;
+            }
+        } else {
             System.out.println("Please enter a valid movie ID or title."); // print if all else fails
+            return false;
         }
+
+        System.out.println("Movie not found.");
+        return false;
     }
 
     /**

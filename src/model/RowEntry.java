@@ -154,8 +154,8 @@ public abstract class RowEntry {
      */
     @Override
     public String toString() {
-        return " ID: "             + currentEntryId
-                + "\n Title: "     + title
+        return
+                " Title: "     + title
                 + "\n Year: "      + year
                 + "\n Genre: "     + genre
                 + "\n IMDB Rating: "+ imdbRating
@@ -169,7 +169,7 @@ public abstract class RowEntry {
      * @return String CSV representation of common fields
      */
     protected String commonCSVFields() {
-        return currentEntryId + "," + title + "," + year + ","
+        return title + "," + year + ","
                 + genre + "," + imdbRating + "," + description;
     }
 

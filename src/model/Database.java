@@ -1,5 +1,6 @@
 package model;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -142,11 +143,16 @@ public abstract class Database<Entry extends RowEntry> {
      * @param title the title of the entry to remove
      */
     public void removeEntry(String title) {
-        for (Map.Entry<Integer, Entry> entry : database.entrySet()) {
-            int id = entry.getKey();
+        // Use the map's iterator so removal happens through the iterator itself.
+        // Removing from the HashMap inside a foreach loop can throw ConcurrentModificationException.
+        Iterator<Map.Entry<Integer, Entry>> iterator = database.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<Integer, Entry> entry = iterator.next();
             Entry value = entry.getValue();
-            if (value.getTitle().equals(title)) {
-                database.remove(id);
+            if (value != null && value.getTitle().equals(title)) {
+                // Stop after the first exact title match to mirror getEntry(title).
+                iterator.remove();
+                return;
             }
         }
     }
