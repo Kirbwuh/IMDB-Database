@@ -1,4 +1,4 @@
-package src.model;
+package model;
 
 import java.util.Objects;
 
@@ -9,7 +9,7 @@ import java.util.Objects;
  * Series adds: numberOfSeasons, numberOfEpisodes, and creator.
  * @author J.J. Rondon 23/03/2026 T10
  */
-public class Series extends src.model.RowEntry {
+public class Series extends RowEntry {
 
     // --------ATTRIBUTES-----------
     // ******************************

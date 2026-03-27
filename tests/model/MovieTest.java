@@ -1,7 +1,6 @@
 package model;
 
 import org.junit.jupiter.api.Test;
-import src.model.Movie;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MovieTest {

@@ -1,8 +1,6 @@
 package model;
 
 import org.junit.jupiter.api.Test;
-import src.model.Movie;
-import src.model.MovieDatabase;
 
 import static org.junit.jupiter.api.Assertions.*;
 

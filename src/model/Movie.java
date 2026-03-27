@@ -1,4 +1,4 @@
-package src.model;
+package model;
 
 import java.util.Objects;
 
@@ -10,7 +10,7 @@ import java.util.Objects;
  * @author J.J. Rondon 16/03/2026 T10
  * @coauthor Haitam Lembaid 23/03/2026 T10
  */
-public class Movie extends src.model.RowEntry {
+public class Movie extends RowEntry {
 
     // --------ATTRIBUTES-----------
     // ******************************

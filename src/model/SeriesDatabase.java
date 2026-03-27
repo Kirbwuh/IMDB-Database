@@ -1,5 +1,4 @@
-package src.model;
-import src.model.Series;
+package model;
 
 import java.util.HashMap;
 
@@ -13,7 +12,7 @@ import java.util.HashMap;
  * @author Christopher Lassota
  * @email chris.lassota1@ucalgary.ca
  */
-public class SeriesDatabase extends src.model.Database<Series> {
+public class SeriesDatabase extends Database<Series> {
 
     /**
      * Creates an empty series database.

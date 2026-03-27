@@ -1,11 +1,10 @@
-package src.controller;
+package controller;
 
-import src.model.MovieDatabase;
-import src.model.Movie;
-import src.model.SeriesDatabase;
-import src.util.HelperMethods;
-import src.util.CsvFileHandler;
-import src.model.RowEntry;
+import model.MovieDatabase;
+import model.SeriesDatabase;
+import model.Movie;
+import util.HelperMethods;
+import util.CsvFileHandler;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -188,7 +187,7 @@ public class Controller {
      * gets the highest rated movie in the database
      * Arraf Hoque T10
      */
-    public Movie handleHighestRating(){
+    public static Movie handleHighestRating(){
 
         Movie highestRated = null; // init highestRated
 
@@ -200,14 +199,13 @@ public class Controller {
 
         }
         return highestRated;
-
     }
 
     /**
      * gets lowest rated movie in the database
      * Arraf Hoque T10
      */
-    public Movie handleLowestRating(){
+    public static Movie handleLowestRating(){
         Movie lowestRated = null;
 
         for(Map.Entry<Integer, Movie> entry: MDB.getAllEntries().entrySet()){
