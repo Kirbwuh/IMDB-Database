@@ -7,12 +7,7 @@ import src.model.MovieDatabase;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MovieDatabaseTest {
-//    public class MovieDatabase extends src.model.Database<src.model.Movie> {
-//
-//        public MovieDatabase() {
-//            super(src.model.Movie.class);
-//        }
-//
+
 //        public void addMovie(src.model.Movie movie) {
 //            addEntry(movie);
 //        }
@@ -36,11 +31,22 @@ public class MovieDatabaseTest {
 //                public void removeMovie(int id) {
 //                    removeEntry(id);
 //                }
-//\
+//
 //                public void removeMovie(String title) {
 //                    removeEntry(title);
 //                }
-/
+
+    @Test
+    void test_MovieDatabaseConstructor() {
+        MovieDatabase database = new MovieDatabase();
+
+        assertAll("new movie database should start empty",
+                () -> assertTrue(database.getAllMovies().isEmpty()),
+                () -> assertNull(database.getMovie(1)),
+                () -> assertNull(database.getMovie("Any Title"))
+        );
+    }
+
     @Test
     void test_addMovie_success() {
         MovieDatabase database = new MovieDatabase();
