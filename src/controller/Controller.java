@@ -130,6 +130,15 @@ public class Controller {
                     System.out.println("Movie not added: invalid or incomplete input.");
                     return;
                 }
+
+                // Check for duplicates using Movie.equals()
+                for (Movie existing : MDB.getAllMovies().values()) {
+                    if (movie.equals(existing)) {
+                        System.out.println("Movie not added: a matching movie already exists.");
+                        return;
+                    }
+                }
+
                 fileHandler.saveToCSV(movie);
                 MDB.addMovie(movie);
         }

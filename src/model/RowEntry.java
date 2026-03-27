@@ -143,9 +143,17 @@ public abstract class RowEntry {
     // Methods
     // ******************************
 
-    public abstract boolean equals(Movie other);
+    /**
+     * Subclasses must implement equals
+     */
+    @Override
+    public abstract boolean equals(Object other);
 
-    public abstract int hashcode();
+    /**
+     * Subclasses must implement in inherited
+     */
+    @Override
+    public abstract int hashCode();
 
     /**
      * Returns a formatted string of the common fields.
