@@ -35,7 +35,7 @@ CRUD stands for Create, Read, Update, and Delete. These are the four basic opera
   - Box office gross (revenue)
 
 **Read (Retrieve)**
-- View a specific movie by entering its ID number
+- view a specific movie by entering its ID number
 - Display all movies in the database at once
 - Access individual movie details whenever needed
 
@@ -52,14 +52,14 @@ CRUD stands for Create, Read, Update, and Delete. These are the four basic opera
 ### 2. Summary Functions - Data Analysis
 
 - **Calculate Average Rating** - Computes the average IMDb rating across all movies in the database
-- **View Top 5 Movies** - Displays the top 5 highest-rated movies from the database, sorted by rating
-- **View Statistics** - Display information about the collection of movies
+- **view Top 5 Movies** - Displays the top 5 highest-rated movies from the database, sorted by rating
+- **view Statistics** - Display information about the collection of movies
 
 ## How to Use It
 
 The program uses a menu-driven interface where users navigate through options to perform different operations. When the program starts, users are presented with a main menu to either access the database or exit the application.
 
-### src.Main Menu Flow
+### Main Menu Flow
 
 1. Select "Database" to access movie management options
 2. Choose from the available CRUD operations or summary functions
@@ -69,7 +69,7 @@ The program uses a menu-driven interface where users navigate through options to
 ### CRUD Operation Examples
 
 - **Adding a movie**: Select "Add Movie" from the menu, choose entry type, and answer the prompts for each field
-- **Finding a movie**: Select "View Movie" and enter the movie ID
+- **Finding a movie**: Select "view Movie" and enter the movie ID
 - **Modifying data**: Select "Update Movie", specify the ID and field to change, then enter the new value
 - **Removing a movie**: Select "Delete Movie" and provide the movie ID for removal
 
@@ -111,14 +111,14 @@ Each movie stored in the HashMap uses this structure, allowing easy access to sp
 
 ## Testing
 
-The project includes comprehensive unit tests for validating different components:
+The project includes comprehensive unit controller for validating different components:
 
 - **DataMethodsCPSC219W26ProjectTest.java** - Tests the CRUD operations and database management methods
 - **InputMethodsCPSC219W26ProjectTest.java** - Tests input validation and data handling
 - **HelperMethodsCPSC219W26ProjectTest.java** - Tests supporting utility functions
 - **getRatingAverageTest.java** - Tests the rating calculation functionality
 
-These tests ensure that all major functions work correctly and handle edge cases properly.
+These controller ensure that all major functions work correctly and handle edge cases properly.
 
 
 ## How to Run

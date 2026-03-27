@@ -1,4 +1,4 @@
-package src.model;
+package model;
 
 /**
  * Abstract base class for all database entries.

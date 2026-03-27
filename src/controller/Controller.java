@@ -1,10 +1,10 @@
 package controller;
 
-import src.model.MovieDatabase;
-import src.model.Movie;
-import src.model.SeriesDatabase;
-import src.util.HelperMethods;
-import src.util.CsvFileHandler;
+import model.MovieDatabase;
+import model.SeriesDatabase;
+import model.Movie;
+import util.HelperMethods;
+import util.CsvFileHandler;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -23,52 +23,36 @@ public class Controller {
     private static final SeriesDatabase SBD = new SeriesDatabase();
 
     private static boolean csvLoaded = false;
-    private static final String CSV_PATH = "src/util/Movies.csv";
+    private static final String MOVIE_CSV_PATH = "src/util/Movies.csv";
 
     /** JJ - 2026/09/14 - T10
-     * Loads movies from the CSV file located at `CSV_PATH` into MOvie Database
-     
+     *  HL - 25/03/2026 - T10
+     * Loads movies from the CSV file located at `MOVIE_CSV_PATH`
      */
     public static void loadMoviesFromCsv(){
-        // Load the CSV file once at startup 
-        // at least 8 elements.
-        try {
-            if (Files.exists(Paths.get(CSV_PATH))) {
-                List<String> lines = Files.readAllLines(Paths.get(CSV_PATH));
-                for (String line : lines) {
-                    if (line == null || line.trim().isEmpty())
-                        continue; // skip blank lines
-
-                    String[] parts = HelperMethods.separateCommaValues(line);
-                    if (parts.length < 8)
-                        continue; // skip less than 8 elements
-
-                    ArrayList<String> entries = new ArrayList<>();
-                    // copy up to t8 elements
-                    for (int i = 0; i < parts.length && i < 8; i++) {
-                        String value = parts[i];
-                        value = value.trim();
-                        entries.add(value);
-                    }
-
-                    // convert to movie object
-                    Movie movie = stringToMovie(entries);
-                    MDB.addMovie(movie);
-                }
-            }
-            csvLoaded = true;
-        } catch (Exception e) {
-           
-            System.out.println("Error loading CSV");
-        }
-
+        CsvFileHandler movieLoader = new CsvFileHandler(MOVIE_CSV_PATH);
+        movieLoader.loadCSV();
     }
 
-    private void handleLoadCSV(String filepath){
-        CsvFileHandler CSV = new CsvFileHandler(filepath);
-        CSV.loadCSV();
-    }
+    /**
+     * HL - 25/03/2026 - T10
+     * Saves movies to CSV file at 'MOVIE_CSV_PATH'
+     * @param movieEntriesData
+     */
+    public static void saveMoviesToCSV(List<String> movieEntriesData) {
+        Movie movie = new Movie(
+                movieEntriesData.get(0),                         // title
+                Integer.parseInt(movieEntriesData.get(1)),       // year
+                Boolean.parseBoolean(movieEntriesData.get(2)),   // certification
+                movieEntriesData.get(3),                         // genre
+                Double.parseDouble(movieEntriesData.get(4)),     // IMDB RATING
+                movieEntriesData.get(5),                         // description
+                movieEntriesData.get(6),                         // director
+                Long.parseLong(movieEntriesData.get(7)));        // gross profit
 
+        CsvFileHandler movieSaver = new CsvFileHandler(MOVIE_CSV_PATH);
+        movieSaver.saveToCSV(movie);
+    }
 
     /**
      * turns the string of attributes into a movie object
@@ -89,7 +73,7 @@ public class Controller {
         return movie;
     }
 
-    private static Movie stringToSeries(ArrayList<String> movieEntriesData){
+    private static Movie stringToSeries(List<String> movieEntriesData){
         Movie movie = new Movie(
                 movieEntriesData.get(0),                         // title
                 Integer.parseInt(movieEntriesData.get(1)),       // year
@@ -203,7 +187,7 @@ public class Controller {
      * gets the highest rated movie in the database
      * Arraf Hoque T10
      */
-    public Movie handleHighestRating(){
+    public static Movie handleHighestRating(){
 
         Movie highestRated = null; // init highestRated
 
@@ -215,14 +199,13 @@ public class Controller {
 
         }
         return highestRated;
-
     }
 
     /**
      * gets lowest rated movie in the database
      * Arraf Hoque T10
      */
-    public Movie handleLowestRating(){
+    public static Movie handleLowestRating(){
         Movie lowestRated = null;
 
         for(Map.Entry<Integer, Movie> entry: MDB.getAllEntries().entrySet()){
@@ -235,11 +218,4 @@ public class Controller {
         }
         return lowestRated;
     }
-
-
-
-
-
-
-
 }
