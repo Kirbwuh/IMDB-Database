@@ -4,10 +4,14 @@ import src.model.Movie;
 import java.util.HashMap;
 
 /**
+ * CPSC 219 W26 Project
  * Stores and manages {@link Movie} entries.
  *
  * <p>This class provides movie-specific wrapper methods around the generic
  * functionality defined in {@link Model.Database}.</p>
+ *
+ * @author Christopher Lassota
+ * @email chris.lassota1@ucalgary.ca
  */
 public class MovieDatabase extends src.model.Database<Movie> {
 

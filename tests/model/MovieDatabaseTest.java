@@ -6,15 +6,17 @@ import src.model.MovieDatabase;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * CPSC 219 W26 Project
+ * <p>
+ * MovieDatabaseTest
+ * <p>
+ * Test class for all movieDatabase methods
+ *
+ * @author Christopher Lassota
+ * @email chris.lassota1@ucalgary.ca
+ */
 public class MovieDatabaseTest {
-//
-//                public void removeMovie(int id) {
-//                    removeEntry(id);
-//                }
-//
-//                public void removeMovie(String title) {
-//                    removeEntry(title);
-//                }
 
     @Test
     void test_MovieDatabaseConstructor() {
@@ -92,7 +94,7 @@ public class MovieDatabaseTest {
     }
 
     @Test
-    void test_getMovie_invalidIdEdgeCases() {
+    void test_getMovie_invalidId() {
         MovieDatabase database = new MovieDatabase();
         Movie movie = new Movie("Tenet", 2020, false, "Action", 7.3, "Time inversion", "Nolan", 363);
 
@@ -106,7 +108,7 @@ public class MovieDatabaseTest {
     }
 
     @Test
-    void test_getMovie_titleEdgeCases() {
+    void test_getMovie_title() {
         MovieDatabase database = new MovieDatabase();
         Movie movie = new Movie("Inception", 2010, false, "Action", 8.8, "Dream heist", "Nolan", 836);
 
