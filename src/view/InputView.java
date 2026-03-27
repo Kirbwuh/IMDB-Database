@@ -4,9 +4,9 @@ package view;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import src.util.HelperMethods;
+import util.HelperMethods;
 
-public class InputView extends src.view.MainMenus {
+public class InputView extends MainMenus {
 
     //***********************************************************************
     //---------------- Helper Methods ---------------------------------------

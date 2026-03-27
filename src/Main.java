@@ -1,10 +1,10 @@
 import java.util.Scanner;
 
 import controller.Controller;
-import view.ConsoleView;
 import view.InputView;
+import view.MainMenus;
 
-import static src.controller.Controller.scanner;
+import static controller.Controller.scanner;
 
 
 public class Main {
@@ -28,11 +28,11 @@ public class Main {
 		}
 
 		do {
-				mainMenuChoice = consoleView.printMainMenu(scanner);
+				mainMenuChoice = mainMenus.printMainMenu(scanner);
 
 					if (mainMenuChoice == 1) {
 
-						searchDatabaseChoice = consoleView.printSearchDatabaseMenu(scanner);
+						searchDatabaseChoice = mainMenus.printSearchDatabaseMenu(scanner);
 
 						if (searchDatabaseChoice == 1) {
 							// now input view stuff
@@ -43,7 +43,7 @@ public class Main {
 
 						do {
 
-						highlightsChoice = consoleView.printDatabaseHighlightsMenu(scanner);
+						highlightsChoice = mainMenus.printDatabaseHighlightsMenu(scanner);
 
 							if (highlightsChoice == 1) {
 								Controller.getTop5();
@@ -64,7 +64,7 @@ public class Main {
 
 
 					}  else if (mainMenuChoice == 3) {
-						manageChoice = consoleView.printManageDatabaseMenu(scanner);
+						manageChoice = mainMenus.printManageDatabaseMenu(scanner);
 
 						if (manageChoice == 1) {
 
