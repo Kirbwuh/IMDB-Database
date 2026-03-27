@@ -1,4 +1,5 @@
-package src;
+package view;
+package controller;
 
 import java.util.Scanner;
 
