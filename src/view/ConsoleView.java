@@ -18,7 +18,6 @@ import java.util.Scanner;
 //printRatings(List, double avg)
 //
 
-
 public class ConsoleView {
 
     /**
@@ -52,15 +51,15 @@ public class ConsoleView {
      * @return the selected main menu option
      */
     public int printMainMenu(Scanner scanner) {
-        System.out.println("********************* IMDb Movie Database - CPSC219 W26  *********************");
-        System.out.println("Track and store your favourite movies with ratings, directors, genres and more.");
+        System.out.println("*************************** IMDb Movie Database - CPSC219 W26  ***************************");
+        System.out.println("Track and store your favourite movies and series with ratings, directors, genres and more.");
         System.out.println();
 
         System.out.println("""
                         +--------+---------------------------+--------------------------------+
                         | Option | Action                    | Description                    |
                         +--------+---------------------------+--------------------------------+
-                        |   1    | Search Database           | See all movies or search       |
+                        |   1    | Search Database           | Search for movies or series    |
                         |   2    | Database Highlights       | Top 5's, highest rated, etc..  |
                         |   3    | Manage Database           | Add, update or remove movies   |
                         |   4    | Exit                      | Close the program              |
@@ -82,13 +81,15 @@ public class ConsoleView {
                         +--------+---------------------------+--------------------------------+
                         | Option | Action                    | Description                    |
                         +--------+---------------------------+--------------------------------+
-                        |   1    | Search movie by ID        | Search for a movie             |
-                        |   2    | Print all movies          | Find a movie using its ID      |
-                        |   3    | Exit                      | Find a movie using its ID      |
+                        |   1    | Search movie              | Search for a movie             |
+                        |   2    | Print all movies          | See all movies                 |
+                        |   3    | Search Series             | Search for a series            |
+                        |   4    | Print all series          | See all series                 |
+                        |   5    | Exit                      |                                |
                         +--------+---------------------------+--------------------------------+""");
 
-        return promptForChoice(scanner, "Please enter an option (1, 2 or 3 ):", "[1-3]",
-                "Invalid input. Please enter 1, 2 or 3.");
+        return promptForChoice(scanner, "Please enter an option (1-5):", "[1-5]",
+                "Invalid input. Please enter a number between 1 and 5.");
     }
 
     /**
@@ -103,11 +104,11 @@ public class ConsoleView {
                         +--------+---------------------------+--------------------------------+
                         | Option | Action                    | Description                    |
                         +--------+---------------------------+--------------------------------+
-                        |   1    | Top 5                     | Search for a movie             |
-                        |   2    | Highest Rated Movie       | Search for a movie             |
-                        |   3    | Lowest Rated Movie        | Search for a movie             |
-                        |   4    | Reviews                   | Search for a movie             |
-                        |   5    | Exit                      | Find a movie using its ID      |
+                        |   1    | Top 5                     | Show top 5 highest rated movies|
+                        |   2    | Highest Rated Movie       | Show highest rated movie       |
+                        |   3    | Lowest Rated Movie        | Show lowest rated movie        |
+                        |   4    | Reviews                   | See movie reviews              |
+                        |   5    | Exit                      |                                |
                         +--------+---------------------------+--------------------------------+""");
 
         return promptForChoice(scanner, "Please enter an option (1-5):", "[1-5]",
