@@ -182,6 +182,9 @@ public class Controller {
         }
         return out;
     }
+    public static void clearDatabase() {
+        MDB.getAllMovies().clear();
+    }
 
     /**
      * prints the top 5 movies ranked
@@ -206,11 +209,12 @@ public class Controller {
      */
     public Movie handleHighestRating(){
 
-        Movie highestRated = null; // init highestRated
+        Movie highestRated = null;
+        // init highestRated
 
-        for(Map.Entry<Integer, Movie> entry: MDB.getAllEntries().entrySet()){ // for each entry in MDB
+        for(Map.Entry<Integer, Movie> entry: MDB.getAllMovies().entrySet()){ // for each entry in MDB
             Movie value = entry.getValue(); //obtain entry
-            if (value.getImdbRating() >= highestRated.getImdbRating()){ // Compare ratings, if new value is higher
+            if (highestRated == null || value.getImdbRating() >= highestRated.getImdbRating()){ // Compare ratings, if new value is higher
                 highestRated = value; // make it the new highest
             }
 
@@ -226,13 +230,11 @@ public class Controller {
     public Movie handleLowestRating(){
         Movie lowestRated = null;
 
-        for(Map.Entry<Integer, Movie> entry: MDB.getAllEntries().entrySet()){
+        for(Map.Entry<Integer, Movie> entry: MDB.getAllMovies().entrySet()){
             Movie value = entry.getValue();
-            int key = entry.getKey();
-            if (value.getImdbRating() <= lowestRated.getImdbRating()){
+            if (lowestRated == null || value.getImdbRating() <= lowestRated.getImdbRating()){
                 lowestRated = value;
             }
-
         }
         return lowestRated;
     }

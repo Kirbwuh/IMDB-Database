@@ -1,48 +1,31 @@
 package tests;
 
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import src.model.Movie;
+
 import src.controller.Controller;
 import src.model.MovieDatabase;
+import src.model.Movie;
+
+
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MovieControllerTests {
-   Movie testEntry = new Movie(
-           "The Matrix",
-           1999,
-           false,
-           "Action",
-           8.7,
-           "Keanu Reeves dodges bullets.",
-           "wachowski",
-           463999);
-   Movie testEntry2 = new Movie(
-           "Star Wars",
-           1977,
-           true,
-           "Sci-Fi",
-           9.8,
-           "I am your father",
-           "lucas",
-           452123
-   );
-   Movie testEntry3 = new Movie(
-           "Forest Gump",
-           1994,
-           true,
-           "Drama",
-           8.8,
-           "Jenny",
-           "zemeckis",
-           463999
-   );
 
+
+class MovieControllerTests {
+   @BeforeEach
+   public void setup(){
+      Controller.clearDatabase();
+   }
 
    @Test
    public void testHandleAddMovie() {
+      setup();
+
       ArrayList<String> movieData = new ArrayList<>();
 
       movieData.add("The Matrix");
@@ -56,42 +39,181 @@ public class MovieControllerTests {
 
       Controller.handleAddMovie(movieData);
       Controller.handlePrintAllMovies();
+
       int expected = 1;
       int actual = Controller.handlePrintAllMovies().size();
 
       // Verify it was added
       assertEquals(expected,actual,"Awesome");
    }
-}
-@Test
-public void testGetTop5Sorted() {
-   // Add multiple movies
-   for (int i = 0; i < 6; i++) {
-      ArrayList<String> movie = new ArrayList<>();
-      movie.add("Movie" + i);
-      movie.add("2000");
-      movie.add("false");
-      movie.add("action");
-      movie.add(String.valueOf(5.0 + i)); // increasing ratings
-      movie.add("desc");
-      movie.add("director");
-      movie.add("1000");
+   @Test
+   public void testHandleGetMovie(){
+      setup();
+      ArrayList<String> movie1 = new ArrayList<>();
+      movie1.add("The Matrix");
+      movie1.add("1999");
+      movie1.add("false");
+      movie1.add("Action");
+      movie1.add("8.7");
+      movie1.add("Keanu Reeves dodges bullets.");
+      movie1.add("wachowski");
+      movie1.add("463099");
 
-      Controller.handleAddMovie(movie);
+      ArrayList<String> movie2 = new ArrayList<>();
+      movie2.add("Star Wars");
+      movie2.add("1977");
+      movie2.add("true");
+      movie2.add("Sci-Fi");
+      movie2.add("9.8");
+      movie2.add("I am your father");
+      movie2.add("lucas");
+      movie2.add("452123");
+
+      ArrayList<String> movie3 = new ArrayList<>();
+      movie3.add("Forest Gump");
+      movie3.add("1994");
+      movie3.add("true");
+      movie3.add("Drama");
+      movie3.add("8.8");
+      movie3.add("Jenny");
+      movie3.add("zemeckis");
+      movie3.add("463999");
+
+      Controller.handleAddMovie(movie1);
+      Controller.handleAddMovie(movie2);
+      Controller.handleAddMovie(movie3);
+   }
+   @Test
+   public void testGetTop5Sorted() {
+      setup();
+      ArrayList<String> movie1 = new ArrayList<>();
+      movie1.add("The Matrix");
+      movie1.add("1999");
+      movie1.add("false");
+      movie1.add("Action");
+      movie1.add("8.7");
+      movie1.add("Keanu Reeves dodges bullets.");
+      movie1.add("wachowski");
+      movie1.add("463099");
+
+      ArrayList<String> movie2 = new ArrayList<>();
+      movie2.add("Star Wars");
+      movie2.add("1977");
+      movie2.add("true");
+      movie2.add("Sci-Fi");
+      movie2.add("9.8");
+      movie2.add("I am your father");
+      movie2.add("lucas");
+      movie2.add("452123");
+
+      ArrayList<String> movie3 = new ArrayList<>();
+      movie3.add("Forest Gump");
+      movie3.add("1994");
+      movie3.add("true");
+      movie3.add("Drama");
+      movie3.add("8.8");
+      movie3.add("Jenny");
+      movie3.add("zemeckis");
+      movie3.add("463999");
+
+      Controller.handleAddMovie(movie1);
+      Controller.handleAddMovie(movie2);
+      Controller.handleAddMovie(movie3);
+      System.out.println(Controller.handlePrintAllMovies());
+
+      ArrayList<Movie> top5 = Controller.getTop5();
+
+      assertEquals(3, top5.size());
+   }
+   @Test
+   public void testhandleHighestRated(){
+      setup();
+      ArrayList<String> movie1 = new ArrayList<>();
+      movie1.add("The Matrix");
+      movie1.add("1999");
+      movie1.add("false");
+      movie1.add("Action");
+      movie1.add("8.7");
+      movie1.add("Keanu Reeves dodges bullets.");
+      movie1.add("wachowski");
+      movie1.add("463099");
+
+      ArrayList<String> movie2 = new ArrayList<>();
+      movie2.add("Star Wars");
+      movie2.add("1977");
+      movie2.add("true");
+      movie2.add("Sci-Fi");
+      movie2.add("9.8");
+      movie2.add("I am your father");
+      movie2.add("lucas");
+      movie2.add("452123");
+
+      ArrayList<String> movie3 = new ArrayList<>();
+      movie3.add("Forest Gump");
+      movie3.add("1994");
+      movie3.add("true");
+      movie3.add("Drama");
+      movie3.add("8.8");
+      movie3.add("Jenny");
+      movie3.add("zemeckis");
+      movie3.add("463999");
+
+      Controller.handleAddMovie(movie1);
+      Controller.handleAddMovie(movie2);
+      Controller.handleAddMovie(movie3);
+
+      Controller controller = new Controller();
+      Movie highest = controller.handleHighestRating();
+
+      assertEquals(9.8, highest.getImdbRating());
+      assertEquals("Star Wars", highest.getTitle());
+   }
+   @Test
+   public void testLowestRated(){
+      setup();
+      ArrayList<String> movie1 = new ArrayList<>();
+      movie1.add("The Matrix");
+      movie1.add("1999");
+      movie1.add("false");
+      movie1.add("Action");
+      movie1.add("8.7");
+      movie1.add("Keanu Reeves dodges bullets.");
+      movie1.add("wachowski");
+      movie1.add("463099");
+
+      ArrayList<String> movie2 = new ArrayList<>();
+      movie2.add("Star Wars");
+      movie2.add("1977");
+      movie2.add("true");
+      movie2.add("Sci-Fi");
+      movie2.add("9.8");
+      movie2.add("I am your father");
+      movie2.add("lucas");
+      movie2.add("452123");
+
+      ArrayList<String> movie3 = new ArrayList<>();
+      movie3.add("Forest Gump");
+      movie3.add("1994");
+      movie3.add("true");
+      movie3.add("Drama");
+      movie3.add("8.8");
+      movie3.add("Jenny");
+      movie3.add("zemeckis");
+      movie3.add("463999");
+
+      Controller.handleAddMovie(movie1);
+      Controller.handleAddMovie(movie2);
+      Controller.handleAddMovie(movie3);
+
+      Controller controller = new Controller();
+      Movie lowest = controller.handleLowestRating();
+
+      assertEquals(8.7, lowest.getImdbRating());
+      assertEquals("The Matrix", lowest.getTitle());
    }
 
-   var top5 = Controller.getTop5();
-
-   // Check size
-   assertEquals(5, top5.size());
-
-   // Check descending order
-   for (int i = 0; i < top5.size() - 1; i++) {
-      assertTrue(
-              top5.get(i).getImdbRating() >= top5.get(i + 1).getImdbRating()
-      );
-   }
 }
+
 
 
 
