@@ -18,14 +18,14 @@ import java.util.*;
 public class Controller {
 
 
-    public static Scanner scanner; //init Scanner
-    private static final MovieDatabase MDB = new MovieDatabase();
-    private static final SeriesDatabase SBD = new SeriesDatabase();
-    private static final CsvFileHandler fileHandler = new CsvFileHandler("src/main/resources/util/Movies.csv");
-    private static boolean csvLoaded = false;
+    public Scanner scanner; //init Scanner
+    private final MovieDatabase MDB = new MovieDatabase();
+    private final SeriesDatabase SBD = new SeriesDatabase();
+    private final CsvFileHandler fileHandler = new CsvFileHandler("src/main/resources/util/Movies.csv");
+    private boolean csvLoaded = false;
     private static final String CSV_PATH = "src/util/Movies.csv";
 
-    public static void loadMoviesFromCsv(){// Load the CSV file once at startup // at least 8 elements.
+    public void loadMoviesFromCsv(){// Load the CSV file once at startup // at least 8 elements.
         try {
             System.out.println("Loading movies from csv");
             if (Files.exists(Paths.get(CSV_PATH))) {
@@ -66,7 +66,7 @@ public class Controller {
      * Saves movies to CSV file at 'MOVIE_CSV_PATH'
      * @param movieEntriesData
      */
-    public static void saveMoviesToCSV(List<String> movieEntriesData) {
+    public void saveMoviesToCSV(List<String> movieEntriesData) {
         Movie movie = new Movie(
                 movieEntriesData.get(0),                         // title
                 Integer.parseInt(movieEntriesData.get(1)),       // year
@@ -87,7 +87,7 @@ public class Controller {
      * @param movieEntriesData -an ArrayList of Strings-
      * @return movie object
      */
-    public static Movie stringToMovie(List<String> movieEntriesData){
+    public Movie stringToMovie(List<String> movieEntriesData){
         if (movieEntriesData == null || movieEntriesData.size() < 8) {
             System.out.println("Insufficient data to create a Movie. Expected 8 fields.");
             return null;
@@ -106,7 +106,7 @@ public class Controller {
         return movie;
     }
 
-    public static Movie stringToSeries(List<String> movieEntriesData){
+    public Movie stringToSeries(List<String> movieEntriesData){
         Movie movie = new Movie(
                 movieEntriesData.get(0),                         // title
                 Integer.parseInt(movieEntriesData.get(1)),       // year
@@ -124,7 +124,7 @@ public class Controller {
      * Arraf Hoque T10
      * @param movieEntries
      */
-        public static void handleAddMovie(ArrayList<String> movieEntries) {
+        public void handleAddMovie(ArrayList<String> movieEntries) {
                 Movie movie = stringToMovie(movieEntries);
                 if (movie == null) {
                     System.out.println("Movie not added: invalid or incomplete input.");
@@ -151,7 +151,7 @@ public class Controller {
      * @param id
      * @param title
      */
-        public static boolean handleRemoveMovie(int id, String title){
+        public boolean handleRemoveMovie(int id, String title){
         Movie target = null;
 
         if (title == null || title.isBlank()) {
@@ -186,7 +186,7 @@ public class Controller {
      * Arraf Hoque T10
      * @param title
      */
-        public static void handleGetMovie(String title){
+        public void handleGetMovie(String title){
         if (title != null){ //if there is no title, use the movie ID
             Movie target =  MDB.getMovie(title);
             System.out.println(target.toString());
@@ -201,7 +201,7 @@ public class Controller {
      * @param value
      * @param title
      */
-        public static void handleUpdateMovie(int field, String value, String title){
+        public void handleUpdateMovie(int field, String value, String title){
         if (title != null){ //if there is no title, use the movie ID
             MDB.updateMovie(title, field, value);
         } else {
@@ -213,7 +213,7 @@ public class Controller {
      * Prints all movies in the database
      * Arraf Hoque T10
      */
-    public static ArrayList<String> handlePrintAllMovies() {
+    public ArrayList<String> handlePrintAllMovies() {
         Map<Integer, Movie> all = MDB.getAllMovies();
         ArrayList<String> out = new ArrayList<>();
         for (Map.Entry<Integer, Movie> e : all.entrySet()) {
@@ -226,7 +226,7 @@ public class Controller {
      * Writes all movies currently in the in-memory database to the CSV file,
      * overwriting any existing contents.
      */
-    public static void saveAllMoviesToCsv() {
+    public void saveAllMoviesToCsv() {
         // If CSV hasn't been loaded into memory yet, load existing CSV first
         if (!csvLoaded) {
             loadMoviesFromCsv();
@@ -250,7 +250,7 @@ public class Controller {
      * Collection of Movies -> get from the list of movies two movies -> compared movie 1 to movie 2 -> sort the objects on imbdrating
      * Arraf Hoque T10
      */
-    public static ArrayList<Movie> getTop5(){
+    public ArrayList<Movie> getTop5(){
         ArrayList<Movie> movies = new ArrayList<>(MDB.getAllMovies().values());
         movies.sort(Comparator.comparingDouble(Movie::getImdbRating).reversed());
         ArrayList<Movie> top5 = new ArrayList<>();
@@ -265,7 +265,7 @@ public class Controller {
      * gets the highest rated movie in the database
      * Arraf Hoque T10
      */
-    public static Movie handleHighestRating(){
+    public Movie handleHighestRating(){
         Movie highestRated = null;
 
         for (Movie value : MDB.getAllMovies().values()) {
@@ -280,7 +280,7 @@ public class Controller {
      * gets lowest rated movie in the database
      * Arraf Hoque T10
      */
-    public static Movie handleLowestRating(){
+    public Movie handleLowestRating(){
         Movie lowestRated = null;
 
         for (Movie value : MDB.getAllMovies().values()) {
