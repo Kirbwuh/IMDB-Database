@@ -21,7 +21,7 @@ public class Controller {
     public static Scanner scanner; //init Scanner
     private static final MovieDatabase MDB = new MovieDatabase();
     private static final SeriesDatabase SBD = new SeriesDatabase();
-    private static final CsvFileHandler fileHandler = new CsvFileHandler("src/util/Movies.csv");
+    private static final CsvFileHandler fileHandler = new CsvFileHandler("src/main/resources/util/Movies.csv");
     private static boolean csvLoaded = false;
     private static final String CSV_PATH = "src/util/Movies.csv";
 
