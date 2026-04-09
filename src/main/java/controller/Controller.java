@@ -23,7 +23,7 @@ public class Controller {
     private final SeriesDatabase SBD = new SeriesDatabase();
     private final CsvFileHandler fileHandler = new CsvFileHandler("src/main/resources/util/Movies.csv");
     private boolean csvLoaded = false;
-    private static final String CSV_PATH = "src/util/Movies.csv";
+    private static final String CSV_PATH = "src/main/resources/util/Movies.csv";
 
     public void loadMoviesFromCsv(){// Load the CSV file once at startup // at least 8 elements.
         try {
@@ -220,6 +220,10 @@ public class Controller {
             out.add(e.getKey() + ": " + e.getValue().toString());
         }
         return out;
+    }
+
+    public Collection<Movie> getAllMovies() {
+        return MDB.getAllMovies().values();
     }
 
     /**
