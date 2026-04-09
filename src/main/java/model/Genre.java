@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Locale;
+
 public enum Genre {
     Action,
     Horror,
@@ -14,24 +16,21 @@ public enum Genre {
      * Duku - 20/03/2026 - T10
      * Factory method to convert a String into a Genre enum.
      * @param movieText The raw string (from the csv file or wherever we're keeping the movies at)
-     * @return The matching Genre constant, or Action as a fallback.
+     * @return The matching Genre constant.
      */
     public static Genre fromString(String movieText) {
-        // Only need to handle null since inputs will be normalized
-        if (movieText == null) return Action;
+        if (movieText == null || movieText.trim().isEmpty()) {
+            throw new IllegalArgumentException("Genre must be one of the enum options.");
+        }
 
-        return switch (movieText) {
-            case "action" -> Action;
-            case "horror" -> Horror;
-            case "comedy" -> Comedy;
-            case "romance" -> Romance;
-            case "fantasy" -> Fantasy;
-            case "mystery" -> Mystery;
-            case "animation" -> Animation;
-            case "drama" -> Drama;
-            //if nothing is inputted Action is default genre
-            default -> Action;
-        };
+        String normalized = movieText.trim();
+        for (Genre genre : Genre.values()) {
+            if (genre.name().equalsIgnoreCase(normalized)) {
+                return genre;
+            }
+        }
+
+        throw new IllegalArgumentException("Invalid genre: " + movieText);
     }
     @Override
     public String toString() { return name().charAt(0) + name().substring(1).toLowerCase();}

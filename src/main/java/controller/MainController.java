@@ -12,7 +12,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import model.Genre;
 import model.Movie;
+
+import java.util.ArrayList;
 
 public class MainController {
 
@@ -109,6 +112,17 @@ public class MainController {
         description.setCellValueFactory(data ->
             new ReadOnlyStringWrapper(data.getValue().getDescription()));
 
+        ArrayList<String> genreOptions = new ArrayList<>();
+        genreOptions.add("All");
+        for (Genre genre : Genre.values()) {
+            genreOptions.add(genre.toString());
+        }
+        genreComboBox.setItems(FXCollections.observableArrayList(genreOptions));
+        genreComboBox.getSelectionModel().select("All");
+        genreComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldGenre, newGenre) -> {
+            applyGenreFilter();
+        });
+
         moviesTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldMovie, newMovie) -> {
             updateInfoFromSelectedMovie();
         });
@@ -120,6 +134,26 @@ public class MainController {
     private void refreshMoviesTable() {
         ObservableList<Movie> data = FXCollections.observableArrayList(controller.getAllMovies());
         moviesTableView.setItems(data);
+    }
+
+    private void applyGenreFilter() {
+        String selectedGenre = genreComboBox.getSelectionModel().getSelectedItem();
+        // If dropdown options is all returns all movies
+        if (selectedGenre == null || selectedGenre.equalsIgnoreCase("All")) {
+            refreshMoviesTable();
+            return;
+        }
+        // filters movies from array with enum
+        // source
+        // https://stackoverflow.com/questions/76174874/filter-list-by-enum
+        ArrayList<Movie> filtered = new ArrayList<>();
+        for (Movie movie : controller.getAllMovies()) {
+            if (movie.getGenre().equals(selectedGenre)) {
+                filtered.add(movie);
+            }
+        }
+
+        moviesTableView.setItems(FXCollections.observableArrayList(filtered));
     }
 
     private Movie getSelectedMovie() {
@@ -159,7 +193,7 @@ public class MainController {
     @FXML
     void handleLoadCSV(ActionEvent event) {
         controller.loadMoviesFromCsv();
-        refreshMoviesTable();
+        applyGenreFilter();
     }
 
     @FXML
