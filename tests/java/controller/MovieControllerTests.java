@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MovieControllerTests {
+   private final Controller controller = new Controller();
+
    Movie testEntry = new Movie(
            "The Matrix",
            1999,
@@ -53,10 +55,10 @@ public class MovieControllerTests {
       movieData.add("wachowski");
       movieData.add("4372894");
 
-      Controller.handleAddMovie(movieData);
-      Controller.handlePrintAllMovies();
+      controller.handleAddMovie(movieData);
+      controller.handlePrintAllMovies();
       int expected = 1;
-      int actual = Controller.handlePrintAllMovies().size();
+      int actual = controller.handlePrintAllMovies().size();
 
       // Verify it was added
       assertEquals(expected,actual,"Awesome");
@@ -74,9 +76,9 @@ public class MovieControllerTests {
       movieData.add("tester");
       movieData.add("100");
 
-      Controller.handleAddMovie(movieData);
+      controller.handleAddMovie(movieData);
 
-      Movie highestRated = Controller.handleHighestRating();
+      Movie highestRated = controller.handleHighestRating();
 
       assertNotNull(highestRated);
       assertEquals("Highest Rating Test", highestRated.getTitle());
@@ -95,9 +97,9 @@ public class MovieControllerTests {
       movieData.add("tester");
       movieData.add("100");
 
-      Controller.handleAddMovie(movieData);
+      controller.handleAddMovie(movieData);
 
-      Movie lowestRated = Controller.handleLowestRating();
+      Movie lowestRated = controller.handleLowestRating();
 
       assertNotNull(lowestRated);
       assertEquals("Lowest Rating Test", lowestRated.getTitle());
