@@ -52,7 +52,12 @@ public class CsvFileHandler {
      */
     public void saveToCSV(Series series) {
         try {
-            appendRow(series.toCSVStringRow());
+            FileReader fileReader = new FileReader(filepath);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String lines = bufferedReader.readLine();
+            if (lines != series.toCSVStringRow()) {
+                appendRow(series.toCSVStringRow());
+            }
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("The file is not in the same directory (either doesn't exist or was moved.)");
