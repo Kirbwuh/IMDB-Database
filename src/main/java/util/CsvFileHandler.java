@@ -3,11 +3,14 @@ package util;
 import model.Movie;
 import model.Series;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Handles saving and loading of comma separated value files. Extends from Movie.java to use the toCSVStringRow method.
@@ -31,7 +34,12 @@ public class CsvFileHandler {
      */
     public void saveToCSV(Movie movie) {
         try {
-            appendRow(movie.toCSVStringRow());
+            FileReader fileReader = new FileReader(filepath);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String lines = bufferedReader.readLine();
+            if (lines != movie.toCSVStringRow()) {
+                appendRow(movie.toCSVStringRow());
+            }
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("The file is not in the same directory (either doesn't exist or was moved.)");
