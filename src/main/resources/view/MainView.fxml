@@ -40,11 +40,7 @@
                   <HBox spacing="5.0">
                 <TextField fx:id="searchField" prefHeight="24.0" prefWidth="545.0" promptText="Enter the movie title you are looking for" HBox.hgrow="ALWAYS" />
                 <Button fx:id="searchBtn" onAction="#handleSearch" prefHeight="25.0" prefWidth="73.0" text="Search" />
-            <ButtonBar prefHeight="0.0" prefWidth="85.0">
-              <buttons>
-                <Button minWidth="32.0" mnemonicParsing="false" prefHeight="25.0" text="Button" onAction="#handleAboutPage" />
-              </buttons>
-            </ButtonBar>
+                <Button fx:id="helpBtn" onAction="#handleAboutPage" prefHeight="25.0" prefWidth="73.0" text="Help" />
             </HBox>
 
             <HBox alignment="CENTER_LEFT" spacing="5.0">

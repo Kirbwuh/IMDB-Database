@@ -108,6 +108,9 @@ public class MainController {
     private Button top5Btn;
 
     @FXML
+    private Button helpBtn;
+
+    @FXML
     private TableColumn<Movie, Integer> yearCol;
 
     @FXML
@@ -224,9 +227,18 @@ public class MainController {
     @FXML
     void handleAboutPage(ActionEvent event){
         try {
-            FXMLLoader loader = new FXMLLoader((Objects.requireNonNull(getClass().getResource("/view/AboutPage.fxml"))));
+            FXMLLoader loader = new FXMLLoader((Objects.requireNonNull(getClass().getResource("/view/aboutPage.fxml"))));
             Parent aboutPageBox = loader.load();
-        }catch (IOException e) {
+
+            // Alert popup with choices
+            Alert alert = new Alert(Alert.AlertType.NONE);
+            alert.setTitle("about page");
+            alert.getDialogPane().setContent(aboutPageBox);
+            alert.getDialogPane().getButtonTypes().addAll(ButtonType.CLOSE);
+            alert.showAndWait();
+        }
+
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
