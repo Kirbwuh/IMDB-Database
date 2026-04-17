@@ -21,7 +21,6 @@ public class Controller {
     public Scanner scanner; //init Scanner
     private final MovieDatabase MDB = new MovieDatabase();
     private final SeriesDatabase SBD = new SeriesDatabase();
-    private final CsvFileHandler fileHandler = new CsvFileHandler("src/main/resources/util/Movies.csv");
     private boolean csvLoaded = false;
     private static final String CSV_PATH = "src/main/resources/util/Movies.csv";
 
@@ -139,7 +138,6 @@ public class Controller {
                     }
                 }
 
-                fileHandler.saveToCSV(movie);
                 MDB.addMovie(movie);
         }
 
@@ -157,17 +155,12 @@ public class Controller {
         if (title == null || title.isBlank()) {
             target = MDB.getMovie(id);
             if (target != null) {
-                // Remove from disk before deleting from memory so we still have the original
-                // object available to rebuild the exact CSV row that was written earlier.
-                fileHandler.removeFromCSV(target);
                 MDB.removeMovie(id);
                 return true;
             }
         } else if (id == 0) {
             target = MDB.getMovie(title);
             if (target != null) {
-                // Title-based removal follows the same pattern as ID removal for CSV sync.
-                fileHandler.removeFromCSV(target);
                 MDB.removeMovie(title);
                 return true;
             }

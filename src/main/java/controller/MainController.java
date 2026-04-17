@@ -8,10 +8,7 @@ import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import model.Genre;
 import model.Movie;
 
@@ -431,12 +428,54 @@ public class MainController {
             directorField.setText(movie.getDirector());
             grossField.setText(String.valueOf(movie.getGross()));
 
-            // Open as a simple window (no alert popup)
-            Stage editStage = new Stage();
-            editStage.setTitle("Edit Movie");
-            editStage.initModality(Modality.APPLICATION_MODAL);
-            editStage.setScene(new Scene(editMovieBox));
-            editStage.showAndWait();
+            Alert alert = new Alert(Alert.AlertType.NONE);
+            alert.setTitle("Edit Movie");
+            alert.getDialogPane().setContent(editMovieBox);
+            alert.getDialogPane().getButtonTypes().addAll(ButtonType.APPLY, ButtonType.CLOSE);
+
+            String oldMovieTitle = movie.getTitle();
+            Button applyButton = (Button) alert.getDialogPane().lookupButton(ButtonType.APPLY);
+            applyButton.addEventFilter(ActionEvent.ACTION, applyEvent -> {
+                ArrayList<String> movieEntries = buildValidatedMovieEntries(
+                        titleField,
+                        yearField,
+                        certificationField,
+                        editMovieGenreBox,
+                        ratingField,
+                        descriptionField,
+                        directorField,
+                        grossField
+                );
+
+                if (movieEntries == null) {
+                    applyEvent.consume();
+                    return;
+                }
+
+                controller.handleUpdateMovie(2, movieEntries.get(1), oldMovieTitle);
+                controller.handleUpdateMovie(3, movieEntries.get(3), oldMovieTitle);
+                controller.handleUpdateMovie(4, movieEntries.get(4), oldMovieTitle);
+                controller.handleUpdateMovie(5, movieEntries.get(5), oldMovieTitle);
+                controller.handleUpdateMovie(6, movieEntries.get(6), oldMovieTitle);
+                controller.handleUpdateMovie(7, movieEntries.get(7), oldMovieTitle);
+                controller.handleUpdateMovie(1, movieEntries.get(0), oldMovieTitle);
+
+                movie.setCertification(Boolean.parseBoolean(movieEntries.get(2)));
+
+                refreshMoviesTable();
+                applyGenreFilter();
+                moviesTableView.refresh();
+
+                for (Movie item : moviesTableView.getItems()) {
+                    if (item.getTitle().equals(movieEntries.get(0))) {
+                        moviesTableView.getSelectionModel().select(item);
+                        break;
+                    }
+                }
+                updateInfoFromSelectedMovie();
+            });
+
+            alert.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
