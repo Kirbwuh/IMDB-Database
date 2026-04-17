@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+
+    <Label alignment="CENTER" style="-fx-font-weight: bold; -fx-font-size: 13px; -fx-text-fill: #222222;" text="IMDB DATABASE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0">
+        <font><Font size="13.0" /></font>
+    </Label>
+
+    <HBox layoutX="5.0" layoutY="10.0" prefHeight="780.0" prefWidth="1265.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+
+        <VBox minWidth="180.0" prefWidth="220.0" spacing="6.0" style="-fx-border-color: #aaaaaa; -fx-border-width: 1; -fx-background-color: #ffffff; -fx-padding: 8;">
+
+            <Label alignment="CENTER" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-font-size: 13px;" text="Database Highlights" />
+
+            <TableView fx:id="highlightsTableView" prefHeight="557.0" prefWidth="202.0" style="-fx-border-color: #cccccc;" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="hlMovieCol" prefWidth="145.0" text="MOVIE" />
+                    <TableColumn fx:id="hlRatingCol" prefWidth="55.0" text="IMDB ★" />
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                </columnResizePolicy>
+            </TableView>
+
+            <Button fx:id="addMovieCenterBtn" maxWidth="Infinity" onAction="#handleAddMovie" text="Add Movie" />
+            <Button fx:id="top5Btn" maxWidth="Infinity" onAction="#handleTop5" text="Top 5 Movies" />
+            <Button fx:id="highestRatedBtn" maxWidth="Infinity" onAction="#handleHighestRated" text="Highest Rated Movie" />
+            <Button fx:id="lowestRatedBtn" maxWidth="Infinity" onAction="#handleLowestRated" text="Lowest Rated Movie" />
+            <Button fx:id="saveCSVBtn" maxWidth="Infinity" onAction="#handleSaveCSV" text="Save to CSV" />
+            <Button fx:id="loadCSVBtn" maxWidth="Infinity" onAction="#handleLoadCSV" text="Load from CSV" />
+        </VBox>
+
+        <VBox spacing="6.0" style="-fx-border-color: #aaaaaa; -fx-border-width: 1; -fx-background-color: #ffffff; -fx-padding: 8;" HBox.hgrow="ALWAYS">
+
+            <HBox spacing="5.0">
+                <TextField fx:id="searchField" prefHeight="24.0" prefWidth="545.0" promptText="Enter the movie title you are looking for" HBox.hgrow="ALWAYS" />
+                <Button fx:id="searchBtn" onAction="#handleSearch" text="Search" />
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" spacing="5.0">
+                <ComboBox fx:id="genreComboBox" maxWidth="Infinity" prefHeight="24.0" prefWidth="355.0" promptText="select a genre" HBox.hgrow="ALWAYS" />
+            </HBox>
+
+            <TableView fx:id="moviesTableView" style="-fx-border-color: #cccccc;" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="titleCol" prefWidth="145.0" text="TITLE" />
+                    <TableColumn fx:id="yearCol" prefWidth="77.0" text="YEAR" />
+                    <TableColumn fx:id="genreCol" prefWidth="90.0" text="GENRE" />
+                    <TableColumn fx:id="ratingCol" prefWidth="110.0" text="IMDB RATING" />
+                    <TableColumn fx:id="description" prefWidth="193.0" text="Description" />
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                </columnResizePolicy>
+            </TableView>
+        </VBox>
+
+        <VBox minWidth="200.0" prefWidth="240.0" spacing="6.0" style="-fx-border-color: #aaaaaa; -fx-border-width: 1; -fx-background-color: #ffffff; -fx-padding: 8;">
+
+            <Label alignment="CENTER" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-font-size: 13px;" text="Info" />
+
+            <Label maxWidth="Infinity" style="-fx-border-color: #cccccc; -fx-border-width: 0 0 1 0;" />
+
+            <Label style="-fx-font-weight: bold; -fx-font-size: 10px; -fx-text-fill: #666666;" text="TITLE" />
+            <Label fx:id="infoTitleLabel" maxWidth="Infinity" style="-fx-font-size: 12px; -fx-font-weight: bold;" text="—" wrapText="true" />
+
+            <Label style="-fx-font-weight: bold; -fx-font-size: 10px; -fx-text-fill: #666666;" text="YEAR" />
+            <Label fx:id="infoYearLabel" style="-fx-font-size: 12px;" text="—" />
+
+            <Label style="-fx-font-weight: bold; -fx-font-size: 10px; -fx-text-fill: #666666;" text="GENRE" />
+            <Label fx:id="infoGenreLabel" maxWidth="Infinity" style="-fx-font-size: 12px;" text="—" wrapText="true" />
+
+            <Label style="-fx-font-weight: bold; -fx-font-size: 10px; -fx-text-fill: #666666;" text="IMDB RATING" />
+            <Label fx:id="infoRatingLabel" style="-fx-font-size: 12px;" text="—" />
+
+            <Label style="-fx-font-weight: bold; -fx-font-size: 10px; -fx-text-fill: #666666;" text="DIRECTOR" />
+            <Label fx:id="infoDirectorLabel" maxWidth="Infinity" style="-fx-font-size: 12px;" text="—" wrapText="true" />
+
+            <Label style="-fx-font-weight: bold; -fx-font-size: 10px; -fx-text-fill: #666666;" text="CERTIFICATION" />
+            <Label fx:id="infoCertLabel" style="-fx-font-size: 12px;" text="—" />
+
+            <Label style="-fx-font-weight: bold; -fx-font-size: 10px; -fx-text-fill: #666666;" text="GROSS EARNINGS" />
+            <Label fx:id="infoGrossLabel" style="-fx-font-size: 12px;" text="—" />
+
+            <Label style="-fx-font-weight: bold; -fx-font-size: 10px; -fx-text-fill: #666666;" text="DESCRIPTION" />
+            <Label fx:id="infoDescLabel" maxWidth="Infinity" style="-fx-font-size: 11px; -fx-text-fill: #333333;" text="—" wrapText="true" VBox.vgrow="ALWAYS" />
+
+            <Label maxWidth="Infinity" style="-fx-border-color: #cccccc; -fx-border-width: 0 0 1 0;" />
+            <Button fx:id="editMovieBtn" maxWidth="Infinity" onAction="#handleEditMovie" text="Edit" />
+            <Button fx:id="removeMovieBtn" maxWidth="Infinity" onAction="#handleRemoveMovie" text="Remove" />
+        </VBox>
+
+    </HBox>
+</AnchorPane>
