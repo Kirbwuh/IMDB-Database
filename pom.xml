@@ -15,9 +15,9 @@
         <junit.version>5.12.1</junit.version>
 
         <!-- Java + JavaFX versions -->
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <javafx.version>21.0.6</javafx.version>
+        <maven.compiler.source>25</maven.compiler.source>
+        <maven.compiler.target>25</maven.compiler.target>
+        <javafx.version>25.0.2</javafx.version>
         <javafx.platform>linux</javafx.platform>
     </properties>
 
@@ -73,6 +73,12 @@
                 <version>0.0.8</version>
                 <configuration>
                     <mainClass>main.java.Main</mainClass>
+                    <launcher>app</launcher>
+                    <jlinkZipName>app</jlinkZipName>
+                    <jlinkImageName>app</jlinkImageName>
+                    <noManPages>true</noManPages>
+                    <stripDebug>true</stripDebug>
+                    <noHeaderFiles>true</noHeaderFiles>
                 </configuration>
             </plugin>
 

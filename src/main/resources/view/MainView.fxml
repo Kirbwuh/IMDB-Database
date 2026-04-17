@@ -41,6 +41,7 @@
             <Button fx:id="top5Btn" maxWidth="Infinity" onAction="#handleTop5" text="Top 5 Movies" />
             <Button fx:id="highestRatedBtn" maxWidth="Infinity" onAction="#handleHighestRated" text="Highest Rated Movie" />
             <Button fx:id="lowestRatedBtn" maxWidth="Infinity" onAction="#handleLowestRated" text="Lowest Rated Movie" />
+            <Button fx:id="averageBtn" maxWidth="Infinity" onAction="#handleAverage" text="Average Rating" />
             <Button fx:id="saveCSVBtn" maxWidth="Infinity" onAction="#handleSaveCSV" text="Save to CSV" />
             <Button fx:id="loadCSVBtn" maxWidth="Infinity" onAction="#handleLoadCSV" text="Load from CSV" />
         </VBox>
