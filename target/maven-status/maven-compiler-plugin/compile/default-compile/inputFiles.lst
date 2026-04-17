@@ -1,0 +1,12 @@
+/home/delsune/IdeaProjects/demo-1/src/main/java/Main.java
+/home/delsune/IdeaProjects/demo-1/src/main/java/controller/Controller.java
+/home/delsune/IdeaProjects/demo-1/src/main/java/controller/MainController.java
+/home/delsune/IdeaProjects/demo-1/src/main/java/model/Database.java
+/home/delsune/IdeaProjects/demo-1/src/main/java/model/Genre.java
+/home/delsune/IdeaProjects/demo-1/src/main/java/model/Movie.java
+/home/delsune/IdeaProjects/demo-1/src/main/java/model/MovieDatabase.java
+/home/delsune/IdeaProjects/demo-1/src/main/java/model/RowEntry.java
+/home/delsune/IdeaProjects/demo-1/src/main/java/model/Series.java
+/home/delsune/IdeaProjects/demo-1/src/main/java/model/SeriesDatabase.java
+/home/delsune/IdeaProjects/demo-1/src/main/java/util/CsvFileHandler.java
+/home/delsune/IdeaProjects/demo-1/src/main/java/util/HelperMethods.java

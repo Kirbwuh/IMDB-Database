@@ -1,0 +1,12 @@
+util/CsvFileHandler.class
+Main.class
+model/RowEntry.class
+model/Database.class
+model/Series.class
+model/SeriesDatabase.class
+util/HelperMethods.class
+model/Movie.class
+model/Genre.class
+model/MovieDatabase.class
+controller/MainController.class
+controller/Controller.class
