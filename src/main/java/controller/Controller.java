@@ -186,12 +186,16 @@ public class Controller {
      * Arraf Hoque T10
      * @param title
      */
-        public void handleGetMovie(String title){
+        public Movie handleGetMovie(String title){
         if (title != null){ //if there is no title, use the movie ID
             Movie target =  MDB.getMovie(title);
-            System.out.println(target.toString());
+            if (target != null) {
+                System.out.println(target.toString());
+            }
+            return target;
         } else{
             System.out.println("Please enter a valid movie title.");
+            return null;
         }
     }
 

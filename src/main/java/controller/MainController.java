@@ -8,9 +8,13 @@ import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import model.Genre;
 import model.Movie;
+import util.CsvFileHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,6 +36,15 @@ public class MainController {
 
     @FXML
     private TableColumn<Movie, String> genreCol;
+
+    @FXML
+    private TableColumn<Movie, String> hlMovieCol;
+
+    @FXML
+    private TableColumn<Movie, Double> hlRatingCol;
+
+    @FXML
+    private TableView<Movie> highlightsTableView;
 
     @FXML
     private ComboBox<String> genreComboBox;
@@ -111,6 +124,10 @@ public class MainController {
             new ReadOnlyObjectWrapper<>(data.getValue().getImdbRating()));
         description.setCellValueFactory(data ->
             new ReadOnlyStringWrapper(data.getValue().getDescription()));
+        hlMovieCol.setCellValueFactory(data ->
+            new ReadOnlyStringWrapper(data.getValue().getTitle()));
+        hlRatingCol.setCellValueFactory(data ->
+            new ReadOnlyObjectWrapper<>(data.getValue().getImdbRating()));
 
         ArrayList<String> genreOptions = new ArrayList<>();
         genreOptions.add("All");
@@ -129,6 +146,11 @@ public class MainController {
 
         controller.loadMoviesFromCsv();
         refreshMoviesTable();
+        setHighlights(new ArrayList<>());
+    }
+
+    private void setHighlights(List<Movie> movies) {
+        highlightsTableView.setItems(FXCollections.observableArrayList(movies));
     }
 
     private void refreshMoviesTable() {
@@ -349,17 +371,72 @@ public class MainController {
             return;
         }
 
+        try {
+            // Loading the edit movie dialog
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/view/editMovieDialog.fxml")));
+            Parent editMovieBox = loader.load();
+
+            // Getting each field input
+            TextField titleField = (TextField) loader.getNamespace().get("titleField");
+            TextField yearField = (TextField) loader.getNamespace().get("yearField");
+            TextField certificationField = (TextField) loader.getNamespace().get("certificationField");
+            TextField ratingField = (TextField) loader.getNamespace().get("ratingField");
+            ComboBox<String> editMovieGenreBox = (ComboBox<String>) loader.getNamespace().get("genreField");
+            TextField descriptionField = (TextField) loader.getNamespace().get("descriptionField");
+            TextField directorField = (TextField) loader.getNamespace().get("directorField");
+            TextField grossField = (TextField) loader.getNamespace().get("grossField");
+
+            // Genre values in combobox
+            ArrayList<String> editMovieGenreOptions = new ArrayList<>();
+            for (Genre genre : Genre.values()) {
+                editMovieGenreOptions.add(genre.toString());
+            }
+
+            editMovieGenreBox.setItems(FXCollections.observableArrayList(editMovieGenreOptions));
+            editMovieGenreBox.setPromptText("Genre");
+
+            // Pre-fill selected movie values
+            titleField.setText(movie.getTitle());
+            yearField.setText(String.valueOf(movie.getYear()));
+            certificationField.setText(String.valueOf(movie.isCertification()));
+            editMovieGenreBox.getSelectionModel().select(movie.getGenre());
+            ratingField.setText(String.valueOf(movie.getImdbRating()));
+            descriptionField.setText(movie.getDescription());
+            directorField.setText(movie.getDirector());
+            grossField.setText(String.valueOf(movie.getGross()));
+
+            // Open as a simple window (no alert popup)
+            Stage editStage = new Stage();
+            editStage.setTitle("Edit Movie");
+            editStage.initModality(Modality.APPLICATION_MODAL);
+            editStage.setScene(new Scene(editMovieBox));
+            editStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @FXML
     void handleLoadCSV(ActionEvent event) {
-        controller.loadMoviesFromCsv();
+        CsvFileHandler movies = new CsvFileHandler("src/main/resources/util/Movies.csv");
+        movies.loadCSV();
         applyGenreFilter();
     }
 
     @FXML
     void handleLowestRated(ActionEvent event) {
+        Movie lowestRatedMovie = controller.handleLowestRating();
+        if (lowestRatedMovie == null) {
+            moviesTableView.setItems(FXCollections.observableArrayList());
+            setHighlights(new ArrayList<>());
+            return;
+        }
 
+        moviesTableView.setItems(FXCollections.observableArrayList(lowestRatedMovie));
+        setHighlights(FXCollections.observableArrayList(lowestRatedMovie));
+        moviesTableView.getSelectionModel().selectFirst();
+        updateInfoFromSelectedMovie();
     }
 
     @FXML
@@ -368,6 +445,22 @@ public class MainController {
         if (movie == null) {
             return;
         }
+
+        boolean removed = controller.handleRemoveMovie(0, movie.getTitle());
+        if (!removed) {
+            return;
+        }
+
+        applyGenreFilter();
+        moviesTableView.getSelectionModel().clearSelection();
+        infoTitleLabel.setText("—");
+        infoYearLabel.setText("—");
+        infoGenreLabel.setText("—");
+        infoRatingLabel.setText("—");
+        infoDirectorLabel.setText("—");
+        infoCertLabel.setText("—");
+        infoGrossLabel.setText("—");
+        infoDescLabel.setText("—");
 
     }
 
@@ -379,17 +472,49 @@ public class MainController {
 
     @FXML
     void handleSearch(ActionEvent event) {
+        String rawQuery = searchField.getText();
+        String query = rawQuery == null ? "" : rawQuery.trim();
 
+        if (query.isEmpty()) {
+            applyGenreFilter();
+            return;
+        }
+
+        Movie foundMovie = controller.handleGetMovie(query);
+        if (foundMovie == null) {
+            moviesTableView.setItems(FXCollections.observableArrayList());
+            return;
+        }
+
+        moviesTableView.setItems(FXCollections.observableArrayList(foundMovie));
+        moviesTableView.getSelectionModel().selectFirst();
+        updateInfoFromSelectedMovie();
     }
 
     @FXML
     void handleTop5(ActionEvent event) {
-
+        ArrayList<Movie> topMovies = controller.getTop5();
+        moviesTableView.setItems(FXCollections.observableArrayList(topMovies));
+        setHighlights(topMovies);
+        if (!topMovies.isEmpty()) {
+            moviesTableView.getSelectionModel().selectFirst();
+            updateInfoFromSelectedMovie();
+        }
     }
 
     @FXML
     void handleHighestRated(ActionEvent event) {
+        Movie highestRatedMovie = controller.handleHighestRating();
+        if (highestRatedMovie == null) {
+            moviesTableView.setItems(FXCollections.observableArrayList());
+            setHighlights(new ArrayList<>());
+            return;
+        }
 
+        moviesTableView.setItems(FXCollections.observableArrayList(highestRatedMovie));
+        setHighlights(FXCollections.observableArrayList(highestRatedMovie));
+        moviesTableView.getSelectionModel().selectFirst();
+        updateInfoFromSelectedMovie();
     }
 
 }

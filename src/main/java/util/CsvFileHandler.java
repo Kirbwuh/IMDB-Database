@@ -3,11 +3,12 @@ package util;
 import model.Movie;
 import model.Series;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Handles saving and loading of comma separated value files. Extends from Movie.java to use the toCSVStringRow method.
@@ -31,7 +32,13 @@ public class CsvFileHandler {
      */
     public void saveToCSV(Movie movie) {
         try {
-            appendRow(movie.toCSVStringRow());
+            FileWriter fileWriter = new FileWriter(filepath);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            bufferedWriter.write("");
+            bufferedWriter.write(movie.toCSVStringRow());
+
+            bufferedWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("The file is not in the same directory (either doesn't exist or was moved.)");
@@ -44,7 +51,13 @@ public class CsvFileHandler {
      */
     public void saveToCSV(Series series) {
         try {
-            appendRow(series.toCSVStringRow());
+            FileWriter fileWriter = new FileWriter(filepath);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            bufferedWriter.write("");
+            bufferedWriter.write(series.toCSVStringRow());
+
+            bufferedWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("The file is not in the same directory (either doesn't exist or was moved.)");
@@ -58,27 +71,6 @@ public class CsvFileHandler {
             e.printStackTrace();
             System.out.println("The file is not in the same directory (either doesn't exist or was moved.)");
         }
-    }
-
-    private void appendRow(String row) throws IOException {
-        Path path = Path.of(filepath);
-        if (Files.exists(path) && Files.size(path) > 0) {
-            String prefix = endsWithNewline(path) ? "" : System.lineSeparator();
-            Files.writeString(path, prefix + row, StandardOpenOption.APPEND);
-        } else {
-            Files.writeString(path, row,
-                    StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-        }
-    }
-
-    private boolean endsWithNewline(Path path) throws IOException {
-        byte[] contents = Files.readAllBytes(path);
-        if (contents.length == 0) {
-            return false;
-        }
-
-        byte lastByte = contents[contents.length - 1];
-        return lastByte == '\n' || lastByte == '\r';
     }
 
     private void removeRow(String row) throws IOException {
