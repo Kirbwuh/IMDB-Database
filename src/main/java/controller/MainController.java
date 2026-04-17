@@ -361,7 +361,15 @@ public class MainController {
 
     @FXML
     void handleLowestRated(ActionEvent event) {
+        Movie lowestRatedMovie = controller.handleLowestRating();
+        if (lowestRatedMovie == null) {
+            moviesTableView.setItems(FXCollections.observableArrayList());
+            return;
+        }
 
+        moviesTableView.setItems(FXCollections.observableArrayList(lowestRatedMovie));
+        moviesTableView.getSelectionModel().selectFirst();
+        updateInfoFromSelectedMovie();
     }
 
     @FXML
@@ -418,12 +426,25 @@ public class MainController {
 
     @FXML
     void handleTop5(ActionEvent event) {
-
+        ArrayList<Movie> topMovies = controller.getTop5();
+        moviesTableView.setItems(FXCollections.observableArrayList(topMovies));
+        if (!topMovies.isEmpty()) {
+            moviesTableView.getSelectionModel().selectFirst();
+            updateInfoFromSelectedMovie();
+        }
     }
 
     @FXML
     void handleHighestRated(ActionEvent event) {
+        Movie highestRatedMovie = controller.handleHighestRating();
+        if (highestRatedMovie == null) {
+            moviesTableView.setItems(FXCollections.observableArrayList());
+            return;
+        }
 
+        moviesTableView.setItems(FXCollections.observableArrayList(highestRatedMovie));
+        moviesTableView.getSelectionModel().selectFirst();
+        updateInfoFromSelectedMovie();
     }
 
 }
