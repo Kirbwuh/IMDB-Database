@@ -21,13 +21,13 @@ public class Controller {
     public Scanner scanner; //init Scanner
     private final MovieDatabase MDB = new MovieDatabase();
     private final SeriesDatabase SBD = new SeriesDatabase();
-    private final CsvFileHandler fileHandler = new CsvFileHandler("src/main/resources/util/Movies.csv");
     private boolean csvLoaded = false;
     private static final String CSV_PATH = "src/main/resources/util/Movies.csv";
 
     public void loadMoviesFromCsv(){// Load the CSV file once at startup // at least 8 elements.
         try {
             System.out.println("Loading movies from csv");
+            MDB.getAllMovies().clear();
             if (Files.exists(Paths.get(CSV_PATH))) {
                 List<String> lines = Files.readAllLines(Paths.get(CSV_PATH));
 
@@ -139,7 +139,6 @@ public class Controller {
                     }
                 }
 
-                fileHandler.saveToCSV(movie);
                 MDB.addMovie(movie);
         }
 
@@ -157,17 +156,12 @@ public class Controller {
         if (title == null || title.isBlank()) {
             target = MDB.getMovie(id);
             if (target != null) {
-                // Remove from disk before deleting from memory so we still have the original
-                // object available to rebuild the exact CSV row that was written earlier.
-                fileHandler.removeFromCSV(target);
                 MDB.removeMovie(id);
                 return true;
             }
         } else if (id == 0) {
             target = MDB.getMovie(title);
             if (target != null) {
-                // Title-based removal follows the same pattern as ID removal for CSV sync.
-                fileHandler.removeFromCSV(target);
                 MDB.removeMovie(title);
                 return true;
             }
@@ -186,12 +180,16 @@ public class Controller {
      * Arraf Hoque T10
      * @param title
      */
-        public void handleGetMovie(String title){
+        public Movie handleGetMovie(String title){
         if (title != null){ //if there is no title, use the movie ID
             Movie target =  MDB.getMovie(title);
-            System.out.println(target.toString());
+            if (target != null) {
+                System.out.println(target.toString());
+            }
+            return target;
         } else{
             System.out.println("Please enter a valid movie title.");
+            return null;
         }
     }
 
@@ -293,5 +291,18 @@ public class Controller {
             }
         }
         return lowestRated;
+    }
+
+    public double handleAverageRating() {
+        Collection<Movie> movies = MDB.getAllMovies().values();
+        if (movies.isEmpty()) {
+            return 0.0;
+        }
+
+        double total = 0.0;
+        for (Movie movie : movies) {
+            total += movie.getImdbRating();
+        }
+        return total / movies.size();
     }
 }
