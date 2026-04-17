@@ -371,6 +371,22 @@ public class MainController {
             return;
         }
 
+        boolean removed = controller.handleRemoveMovie(0, movie.getTitle());
+        if (!removed) {
+            return;
+        }
+
+        applyGenreFilter();
+        moviesTableView.getSelectionModel().clearSelection();
+        infoTitleLabel.setText("—");
+        infoYearLabel.setText("—");
+        infoGenreLabel.setText("—");
+        infoRatingLabel.setText("—");
+        infoDirectorLabel.setText("—");
+        infoCertLabel.setText("—");
+        infoGrossLabel.setText("—");
+        infoDescLabel.setText("—");
+
     }
 
     @FXML
