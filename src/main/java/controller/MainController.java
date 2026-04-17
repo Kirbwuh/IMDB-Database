@@ -23,6 +23,13 @@ import java.util.Objects;
 
 public class MainController {
 
+    private enum DisplayMode {
+        MOVIES,
+        SERIES
+    }
+
+    private DisplayMode currentMode = DisplayMode.MOVIES;
+
     private final Controller controller = new Controller();
 
     @FXML

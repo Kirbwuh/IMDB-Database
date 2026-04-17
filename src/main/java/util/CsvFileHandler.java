@@ -73,6 +73,11 @@ public class CsvFileHandler {
         }
     }
 
+    /**
+     * Removes a series row from the CSV file.
+     * @param series the series to remove
+     * 04/17/2026 Christopher Lassota T10
+     */
     public void removeFromCSV(Series series) {
         try {
             removeRow(series.toCSVStringRow());
