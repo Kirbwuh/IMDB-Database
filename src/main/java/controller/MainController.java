@@ -91,15 +91,6 @@ public class MainController {
     private Label infoYearLabel;
 
     @FXML
-    private Label infoNumberOfSeasons;
-
-    @FXML
-    private Label infoNumberOfEpisodes;
-
-    @FXML
-    private Label infoCreator;
-
-    @FXML
     private Button loadCSVBtn;
 
     @FXML
@@ -663,5 +654,19 @@ public class MainController {
             setSeriesHighlights(FXCollections.observableArrayList(averageRow));
         }
 
+    }
+
+    @FXML
+    void handleShowMovies(ActionEvent event) {
+        currentMode = DisplayMode.MOVIES;
+        controller.loadMoviesFromCsv();
+        refreshTable();
+    }
+
+    @FXML
+    void handleShowSeries(ActionEvent event) {
+        currentMode = DisplayMode.SERIES;
+        controller.loadSeriesFromCsv();
+        refreshTable();
     }
 }
