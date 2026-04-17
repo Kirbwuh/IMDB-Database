@@ -27,6 +27,7 @@ public class Controller {
     public void loadMoviesFromCsv(){// Load the CSV file once at startup // at least 8 elements.
         try {
             System.out.println("Loading movies from csv");
+            MDB.getAllMovies().clear();
             if (Files.exists(Paths.get(CSV_PATH))) {
                 List<String> lines = Files.readAllLines(Paths.get(CSV_PATH));
 
