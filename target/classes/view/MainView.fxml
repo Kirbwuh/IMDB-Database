@@ -87,13 +87,13 @@
             <Label style="-fx-font-weight: bold; -fx-font-size: 10px; -fx-text-fill: #666666;" text="IMDB RATING" />
             <Label fx:id="infoRatingLabel" style="-fx-font-size: 12px;" text="—" />
 
-            <Label style="-fx-font-weight: bold; -fx-font-size: 10px; -fx-text-fill: #666666;" text="DIRECTOR" />
+            <Label fx:id="infoCreatorDirector" style="-fx-font-weight: bold; -fx-font-size: 10px; -fx-text-fill: #666666;" text="DIRECTOR" />
             <Label fx:id="infoDirectorLabel" maxWidth="Infinity" style="-fx-font-size: 12px;" text="—" wrapText="true" />
 
-            <Label style="-fx-font-weight: bold; -fx-font-size: 10px; -fx-text-fill: #666666;" text="CERTIFICATION" />
+            <Label fx:id="infoSeasonsCertifications" style="-fx-font-weight: bold; -fx-font-size: 10px; -fx-text-fill: #666666;" text="CERTIFICATION" />
             <Label fx:id="infoCertLabel" style="-fx-font-size: 12px;" text="—" />
 
-            <Label style="-fx-font-weight: bold; -fx-font-size: 10px; -fx-text-fill: #666666;" text="GROSS EARNINGS" />
+            <Label fx:id="infoEpisodesGross" style="-fx-font-weight: bold; -fx-font-size: 10px; -fx-text-fill: #666666;" text="GROSS EARNINGS" />
             <Label fx:id="infoGrossLabel" style="-fx-font-size: 12px;" text="—" />
 
             <Label style="-fx-font-weight: bold; -fx-font-size: 10px; -fx-text-fill: #666666;" text="DESCRIPTION" />
