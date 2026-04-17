@@ -11,19 +11,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
 
     <Label alignment="CENTER" style="-fx-font-weight: bold; -fx-font-size: 13px; -fx-text-fill: #222222;" text="IMDB DATABASE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0">
         <font><Font size="13.0" /></font>
     </Label>
 
-    <HBox spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="35.0">
+    <HBox layoutX="5.0" layoutY="10.0" prefHeight="780.0" prefWidth="1265.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
 
         <VBox minWidth="180.0" prefWidth="220.0" spacing="6.0" style="-fx-border-color: #aaaaaa; -fx-border-width: 1; -fx-background-color: #ffffff; -fx-padding: 8;">
 
             <Label alignment="CENTER" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-font-size: 13px;" text="Database Highlights" />
 
-            <TableView fx:id="highlightsTableView" style="-fx-border-color: #cccccc;" VBox.vgrow="ALWAYS">
+            <TableView fx:id="highlightsTableView" prefHeight="557.0" prefWidth="202.0" style="-fx-border-color: #cccccc;" VBox.vgrow="ALWAYS">
                 <columns>
                     <TableColumn fx:id="hlMovieCol" prefWidth="145.0" text="MOVIE" />
                     <TableColumn fx:id="hlRatingCol" prefWidth="55.0" text="IMDB ★" />
@@ -33,6 +33,7 @@
                 </columnResizePolicy>
             </TableView>
 
+            <Button fx:id="addMovieCenterBtn" maxWidth="Infinity" onAction="#handleAddMovie" text="Add Movie" />
             <Button fx:id="top5Btn" maxWidth="Infinity" onAction="#handleTop5" text="Top 5 Movies" />
             <Button fx:id="highestRatedBtn" maxWidth="Infinity" onAction="#handleHighestRated" text="Highest Rated Movie" />
             <Button fx:id="lowestRatedBtn" maxWidth="Infinity" onAction="#handleLowestRated" text="Lowest Rated Movie" />
@@ -63,8 +64,6 @@
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                 </columnResizePolicy>
             </TableView>
-
-            <Button fx:id="addMovieCenterBtn" maxWidth="Infinity" onAction="#handleAddMovie" text="Add Movie" />
         </VBox>
 
         <VBox minWidth="200.0" prefWidth="240.0" spacing="6.0" style="-fx-border-color: #aaaaaa; -fx-border-width: 1; -fx-background-color: #ffffff; -fx-padding: 8;">
