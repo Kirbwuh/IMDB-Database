@@ -23,6 +23,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * JavaFX controller for the main movie and series screen.
+ * Handles table setup, filtering, dialog actions, and display mode switching.
+ */
 public class MainController {
 
     private enum DisplayMode {
@@ -140,9 +144,13 @@ public class MainController {
     @FXML
     private TableColumn<RowEntry, Integer> yearCol;
 
+    /**
+     * Initializes the main view after FXML fields have been injected.
+     * Sets up table columns, genre filtering, and selection listeners.
+     */
     @FXML
     public void initialize() {
-        // get info from table object
+        // Connect each table column to the corresponding RowEntry property.
         // source
         // https://stackoverflow.com/questions/23378725/javafx-tableview-do-i-have-to-wrap-my-fields-in-simpleobject-integer-stringpr/23379448#23379448
         titleCol.setCellValueFactory(data ->
@@ -160,6 +168,7 @@ public class MainController {
         hlRatingCol.setCellValueFactory(data ->
             new ReadOnlyObjectWrapper<>(data.getValue().getImdbRating()));
 
+        // Build the genre drop-down from the enum so it stays in sync with supported genres.
         ArrayList<String> genreOptions = new ArrayList<>();
         genreOptions.add("All");
         for (Genre genre : Genre.values()) {
@@ -167,10 +176,13 @@ public class MainController {
         }
         genreComboBox.setItems(FXCollections.observableArrayList(genreOptions));
         genreComboBox.getSelectionModel().select("All");
+
+        // Re-filter table rows whenever the user changes the genre.
         genreComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldGenre, newGenre) -> {
             applyGenreFilter();
         });
 
+        // Keep the details panel synchronized with the selected table row.
         tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldMovie, newMovie) -> {
             updateInfoFromSelected();
         });
@@ -178,10 +190,18 @@ public class MainController {
         // Startup data loading is handled by initializeStartupData().
     }
 
+    /**
+     * Controls whether CSV data should be loaded when startup initialization runs.
+     *
+     * @param loadCsvOnStartup true to load CSV data during startup, false otherwise
+     */
     public void setLoadCsvOnStartup(boolean loadCsvOnStartup) {
         this.loadCsvOnStartup = loadCsvOnStartup;
     }
 
+    /**
+     * Loads initial data if requested and refreshes the main table and highlights area.
+     */
     public void initializeStartupData() {
         if (loadCsvOnStartup) {
             controller.loadMoviesFromCsv();
@@ -190,24 +210,49 @@ public class MainController {
         setMovieHighlights(new ArrayList<>());
     }
 
+    /**
+     * Displays the provided movies in the highlights table.
+     *
+     * @param movies movies to display in the highlights table
+     */
     private void setMovieHighlights(List<Movie> movies) {
         highlightsTableView.setItems(FXCollections.observableArrayList(movies));
     }
 
+    /**
+     * Displays the provided series entries in the highlights table.
+     *
+     * @param series series entries to display in the highlights table
+     */
     private void setSeriesHighlights(List<Series> series) {
         highlightsTableView.setItems(FXCollections.observableArrayList(series));
     }
 
+    /**
+     * Creates a display-only movie row for the average rating result.
+     *
+     * @param average average movie rating
+     * @return movie row containing the rounded average rating
+     */
     private Movie buildAverageMovieHighlightRow(double average) {
         double roundedAverage = Math.round(average * 100.0) / 100.0;
         return new Movie("Average Rating", 0, false, "Action", roundedAverage, "Average movie rating", "", 0);
     }
 
+    /**
+     * Creates a display-only series row for the average rating result.
+     *
+     * @param average average series rating
+     * @return series row containing the rounded average rating
+     */
     private Series buildAverageSeriesHighlightRow(double average) {
         double roundedAverage = Math.round(average * 100.0) / 100.0;
         return new Series("Average Rating", 0, "Action", roundedAverage, "Average series rating", 0, 0, "");
     }
 
+    /**
+     * Refreshes the main table using the active display mode.
+     */
     private void refreshTable() {
         if (currentMode == DisplayMode.MOVIES) {
             tableView.setItems(FXCollections.observableArrayList(controller.getAllMovies()));
@@ -216,14 +261,18 @@ public class MainController {
         }
     }
 
+    /**
+     * Applies the selected genre filter to the current movie or series list.
+     */
     private void applyGenreFilter() {
         String selectedGenre = genreComboBox.getSelectionModel().getSelectedItem();
-        // If dropdown options is all returns all movies
+        // "All" means the full current list should be shown without filtering.
         if (selectedGenre == null || selectedGenre.equalsIgnoreCase("All")) {
             refreshTable();
             return;
         }
-        // filters entries from array with enum
+
+        // Filter entries from the active list by the selected enum display text.
         // source
         // https://stackoverflow.com/questions/76174874/filter-list-by-enum
         ArrayList<RowEntry> filtered = new ArrayList<>();
@@ -244,10 +293,18 @@ public class MainController {
         tableView.setItems(FXCollections.observableArrayList(filtered));
     }
 
+    /**
+     * Gets the currently selected movie or series row from the main table.
+     *
+     * @return selected row entry, or null when nothing is selected
+     */
     private RowEntry getSelected() {
         return tableView.getSelectionModel().getSelectedItem();
     }
 
+    /**
+     * Copies the selected row's values into the details labels.
+     */
     private void updateInfoFromSelected() {
         RowEntry entry = getSelected();
         if (entry == null) {
@@ -271,6 +328,11 @@ public class MainController {
         }
     }
 
+    /**
+     * Opens the about page dialog.
+     *
+     * @param event JavaFX action event from the help/about control
+     */
     @FXML
     void handleAboutPage(ActionEvent event){
         try {
@@ -290,6 +352,12 @@ public class MainController {
         }
     }
 
+    /**
+     * Opens the add dialog for the active mode.
+     * In movie mode this creates a movie, while series mode delegates to {@link #handleAddSeries(ActionEvent)}.
+     *
+     * @param event JavaFX action event from the add button
+     */
     @FXML
     void handleAddMovie(ActionEvent event) {
         if (currentMode == DisplayMode.SERIES) {
@@ -298,11 +366,11 @@ public class MainController {
         }
 
         try {
-            //Loading the new fxml popup
+            // Load the movie dialog layout and keep the loader so its named controls can be read.
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/view/addMovieDialog.fxml")));
             Parent addMovieBox = loader.load();
 
-            //Getting each fields input
+            // Get each input field from the dialog namespace by the fx:id in the FXML.
             TextField titleField = (TextField) loader.getNamespace().get("titleField");
             TextField yearField = (TextField) loader.getNamespace().get("yearField");
             TextField certificationField = (TextField) loader.getNamespace().get("certificationField");
@@ -312,7 +380,7 @@ public class MainController {
             TextField directorField = (TextField) loader.getNamespace().get("directorField");
             TextField grossField = (TextField) loader.getNamespace().get("grossField");
 
-            //Genre values in combobox
+            // Populate genre choices from the enum before the dialog is shown.
             ArrayList<String> addMovieGenreOptions = new ArrayList<>();
             for (Genre genre : Genre.values()) {
                 addMovieGenreOptions.add(genre.toString());
@@ -329,6 +397,7 @@ public class MainController {
 
             Button applyButton = (Button) alert.getDialogPane().lookupButton(ButtonType.APPLY);
             applyButton.addEventFilter(ActionEvent.ACTION, applyEvent -> {
+                // Validate the form before the alert closes; consuming the event keeps it open.
                 ArrayList<String> movieEntries = buildValidatedEntry(
                         titleField,
                         yearField,
@@ -356,14 +425,19 @@ public class MainController {
         }
     }
 
+    /**
+     * Opens the add series dialog, validates the input, and adds the new series.
+     *
+     * @param event JavaFX action event from the add button
+     */
     @FXML
     void handleAddSeries(ActionEvent event) {
         try {
-            //Loading the new fxml popup
+            // Load the series dialog layout and keep the loader so its named controls can be read.
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/view/addSeriesDialog.fxml")));
             Parent addSeriesBox = loader.load();
 
-            //Getting each fields input
+            // Get each input field from the dialog namespace by the fx:id in the FXML.
             TextField titleField = (TextField) loader.getNamespace().get("titleField");
             TextField yearField = (TextField) loader.getNamespace().get("yearField");
             TextField seasonsField = (TextField) loader.getNamespace().get("seasonsField");
@@ -373,7 +447,7 @@ public class MainController {
             TextField creatorField = (TextField) loader.getNamespace().get("creatorField");
             TextField episodesField = (TextField) loader.getNamespace().get("episodesField");
 
-            //Genre values in combobox
+            // Populate genre choices from the enum before the dialog is shown.
             ArrayList<String> addSeriesGenreOptions = new ArrayList<>();
             for (Genre genre : Genre.values()) {
                 addSeriesGenreOptions.add(genre.toString());
@@ -390,6 +464,7 @@ public class MainController {
 
             Button applyButton = (Button) alert.getDialogPane().lookupButton(ButtonType.APPLY);
             applyButton.addEventFilter(ActionEvent.ACTION, applyEvent -> {
+                // Validate the form before the alert closes; consuming the event keeps it open.
                 ArrayList<String> seriesEntries = buildValidatedEntry(
                         titleField,
                         yearField,
@@ -417,7 +492,20 @@ public class MainController {
         }
     }
 
-    // Checking if input is valid
+    /**
+     * Validates add/edit dialog input and converts it to the string field order expected by the controller.
+     * The third, seventh, and eighth fields have different meanings for movies and series.
+     *
+     * @param titleField title input field
+     * @param yearField year input field
+     * @param certificationOrSeasonsField certification field for movies or seasons field for series
+     * @param genreField genre combo box
+     * @param ratingField IMDB rating input field
+     * @param descriptionField description input field
+     * @param directorOrCreatorField director field for movies or creator field for series
+     * @param grossOrEpisodesField gross earnings field for movies or episodes field for series
+     * @return validated values in controller field order, or null when validation fails
+     */
     private ArrayList<String> buildValidatedEntry(
             TextField titleField,
             TextField yearField,
@@ -428,6 +516,7 @@ public class MainController {
             TextField directorOrCreatorField,
             TextField grossOrEpisodesField
     ) {
+        // Normalize user-entered values once so validation and saved values match.
         String title = titleField.getText().trim();
         String yearText = yearField.getText().trim();
         String certificationOrSeasonsText = certificationOrSeasonsField.getText().trim();
@@ -440,6 +529,7 @@ public class MainController {
         List<String> errors = new ArrayList<>();
         boolean isSeriesMode = currentMode == DisplayMode.SERIES;
 
+        // Shared fields are validated first because both movies and series require them.
         if (title.isEmpty()) {
             errors.add("Title is required.");
         }
@@ -479,6 +569,7 @@ public class MainController {
             errors.add("Description is required.");
         }
 
+        // Mode-specific fields are validated separately because their meanings differ.
         if (isSeriesMode) {
             if (certificationOrSeasonsText.isEmpty()) {
                 errors.add("Number of Seasons is required.");
@@ -532,7 +623,7 @@ public class MainController {
             }
         }
 
-        // New popup to show what needs to be fixed.
+        // Show every validation problem at once so the user can fix the full form.
         if (!errors.isEmpty()) {
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
             errorAlert.setTitle(isSeriesMode ? "Invalid Series Input" : "Invalid Movie Input");
@@ -545,6 +636,7 @@ public class MainController {
         ArrayList<String> entries = new ArrayList<>();
         entries.add(title);
         entries.add(yearText);
+        // Keep this order aligned with Controller.stringToSeries and Controller.stringToMovie.
         if (isSeriesMode) {
             entries.add(Genre.fromString(genreText).toString());
             entries.add(ratingText);
@@ -563,6 +655,12 @@ public class MainController {
         return entries;
     }
 
+    /**
+     * Opens the edit dialog for the selected entry.
+     * In movie mode this edits a movie, while series mode delegates to {@link #handleEditSeries(ActionEvent)}.
+     *
+     * @param event JavaFX action event from the edit button
+     */
     @FXML
     void handleEditMovie(ActionEvent event) {
         if (currentMode == DisplayMode.SERIES) {
@@ -576,11 +674,11 @@ public class MainController {
         }
 
         try {
-            // Loading the edit movie dialog
+            // Load the edit movie dialog and keep the loader for access to FXML controls.
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/view/editMovieDialog.fxml")));
             Parent editMovieBox = loader.load();
 
-            // Getting each field input
+            // Get each editable field by the fx:id defined in the dialog FXML.
             TextField titleField = (TextField) loader.getNamespace().get("titleField");
             TextField yearField = (TextField) loader.getNamespace().get("yearField");
             TextField certificationField = (TextField) loader.getNamespace().get("certificationField");
@@ -590,7 +688,7 @@ public class MainController {
             TextField directorField = (TextField) loader.getNamespace().get("directorField");
             TextField grossField = (TextField) loader.getNamespace().get("grossField");
 
-            // Genre values in combobox
+            // Populate genre choices before selecting the existing movie genre.
             ArrayList<String> editMovieGenreOptions = new ArrayList<>();
             for (Genre genre : Genre.values()) {
                 editMovieGenreOptions.add(genre.toString());
@@ -616,9 +714,11 @@ public class MainController {
             alert.getDialogPane().setContent(editMovieBox);
             alert.getDialogPane().getButtonTypes().addAll(ButtonType.APPLY, ButtonType.CLOSE);
 
+            // Save the original title because Controller updates look up the row by title.
             String oldMovieTitle = entry.getTitle();
             Button applyButton = (Button) alert.getDialogPane().lookupButton(ButtonType.APPLY);
             applyButton.addEventFilter(ActionEvent.ACTION, applyEvent -> {
+                // Validate before applying changes; consuming the event leaves the dialog open.
                 ArrayList<String> movieEntries = buildValidatedEntry(
                         titleField,
                         yearField,
@@ -635,6 +735,7 @@ public class MainController {
                     return;
                 }
 
+                // Update all title-dependent fields first, then update the title last.
                 controller.handleUpdateMovie(2, movieEntries.get(1), oldMovieTitle);
                 controller.handleUpdateMovie(3, movieEntries.get(3), oldMovieTitle);
                 controller.handleUpdateMovie(4, movieEntries.get(4), oldMovieTitle);
@@ -647,6 +748,7 @@ public class MainController {
                     movie.setCertification(Boolean.parseBoolean(movieEntries.get(2)));
                 }
 
+                // Reapply the active filter and reselect the edited row for the details panel.
                 refreshTable();
                 applyGenreFilter();
                 tableView.refresh();
@@ -667,6 +769,11 @@ public class MainController {
 
     }
 
+    /**
+     * Opens the edit series dialog for the selected series and applies validated changes.
+     *
+     * @param event JavaFX action event from the edit button
+     */
     @FXML
     void handleEditSeries(ActionEvent event) {
         RowEntry entry = getSelected();
@@ -675,11 +782,11 @@ public class MainController {
         }
 
         try {
-            // Loading the edit series dialog
+            // Load the edit series dialog and keep the loader for access to FXML controls.
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/view/editSeriesDialog.fxml")));
             Parent editSeriesBox = loader.load();
 
-            // Getting each field input
+            // Get each editable field by the fx:id defined in the dialog FXML.
             TextField titleField = (TextField) loader.getNamespace().get("titleField");
             TextField yearField = (TextField) loader.getNamespace().get("yearField");
             TextField seasonsField = (TextField) loader.getNamespace().get("seasonsField");
@@ -689,7 +796,7 @@ public class MainController {
             TextField creatorField = (TextField) loader.getNamespace().get("creatorField");
             TextField episodesField = (TextField) loader.getNamespace().get("episodesField");
 
-            // Genre values in combobox
+            // Populate genre choices before selecting the existing series genre.
             ArrayList<String> editSeriesGenreOptions = new ArrayList<>();
             for (Genre genre : Genre.values()) {
                 editSeriesGenreOptions.add(genre.toString());
@@ -715,9 +822,11 @@ public class MainController {
             alert.getDialogPane().setContent(editSeriesBox);
             alert.getDialogPane().getButtonTypes().addAll(ButtonType.APPLY, ButtonType.CLOSE);
 
+            // Save the original title because Controller updates look up the row by title.
             String oldSeriesTitle = entry.getTitle();
             Button applyButton = (Button) alert.getDialogPane().lookupButton(ButtonType.APPLY);
             applyButton.addEventFilter(ActionEvent.ACTION, applyEvent -> {
+                // Validate before applying changes; consuming the event leaves the dialog open.
                 ArrayList<String> seriesEntries = buildValidatedEntry(
                         titleField,
                         yearField,
@@ -734,6 +843,7 @@ public class MainController {
                     return;
                 }
 
+                // Update all title-dependent fields first, then update the title last.
                 controller.handleUpdateSeries(2, seriesEntries.get(1), oldSeriesTitle);
                 controller.handleUpdateSeries(3, seriesEntries.get(2), oldSeriesTitle);
                 controller.handleUpdateSeries(4, seriesEntries.get(3), oldSeriesTitle);
@@ -743,6 +853,7 @@ public class MainController {
                 controller.handleUpdateSeries(8, seriesEntries.get(7), oldSeriesTitle);
                 controller.handleUpdateSeries(1, seriesEntries.get(0), oldSeriesTitle);
 
+                // Reapply the active filter and reselect the edited row for the details panel.
                 refreshTable();
                 applyGenreFilter();
                 tableView.refresh();
@@ -763,6 +874,11 @@ public class MainController {
 
     }
 
+    /**
+     * Loads the CSV file for the active display mode and reapplies the current genre filter.
+     *
+     * @param event JavaFX action event from the load CSV button
+     */
     @FXML
     void handleLoadCSV(ActionEvent event) {
         if (currentMode == DisplayMode.MOVIES) {
@@ -775,8 +891,14 @@ public class MainController {
         applyGenreFilter();
     }
 
+    /**
+     * Shows the lowest-rated movie or series for the active display mode.
+     *
+     * @param event JavaFX action event from the lowest-rated button
+     */
     @FXML
     void handleLowestRated(ActionEvent event) {
+        // Each mode asks the backing controller for its own lowest-rated entry type.
         if (currentMode == DisplayMode.MOVIES) {
             Movie lowestRatedMovie = controller.handleLowestRating();
             if (lowestRatedMovie == null) {
@@ -798,10 +920,17 @@ public class MainController {
             tableView.setItems(FXCollections.observableArrayList(lowestRatedSeries));
             setSeriesHighlights(FXCollections.observableArrayList(lowestRatedSeries));
         }
+
+        // Selecting the result keeps the details panel aligned with the filtered table.
         tableView.getSelectionModel().selectFirst();
         updateInfoFromSelected();
     }
 
+    /**
+     * Removes the selected movie or series from the active data set.
+     *
+     * @param event JavaFX action event from the remove button
+     */
     @FXML
     void handleRemoveMovie(ActionEvent event) {
         RowEntry entry = getSelected();
@@ -809,6 +938,7 @@ public class MainController {
             return;
         }
 
+        // Remove based on the concrete row type because movies and series use separate storage.
         boolean removed;
         if (entry instanceof Movie movie) {
             removed = controller.handleRemoveMovie(0, movie.getTitle());
@@ -824,6 +954,7 @@ public class MainController {
 
         applyGenreFilter();
         tableView.getSelectionModel().clearSelection();
+        // Clear the details panel after the selected row is removed.
         infoTitleLabel.setText("—");
         infoYearLabel.setText("—");
         infoGenreLabel.setText("—");
@@ -835,6 +966,11 @@ public class MainController {
 
     }
 
+    /**
+     * Saves the active movie or series data set back to CSV.
+     *
+     * @param event JavaFX action event from the save CSV button
+     */
     @FXML
     void handleSaveCSV(ActionEvent event) {
         if (currentMode == DisplayMode.MOVIES) {
@@ -844,16 +980,23 @@ public class MainController {
         }
     }
 
+    /**
+     * Searches the active data set by title and displays the matching row.
+     *
+     * @param event JavaFX action event from the search button
+     */
     @FXML
     void handleSearch(ActionEvent event) {
         String rawQuery = searchField.getText();
         String query = rawQuery == null ? "" : rawQuery.trim();
 
+        // Empty searches reset the table to the active genre filter.
         if (query.isEmpty()) {
             applyGenreFilter();
             return;
         }
 
+        // Search only the data type currently visible in the table.
         if (currentMode == DisplayMode.MOVIES) {
             Movie foundMovie = controller.handleGetMovie(query);
             if (foundMovie == null) {
@@ -875,6 +1018,11 @@ public class MainController {
         updateInfoFromSelected();
     }
 
+    /**
+     * Shows the top five movies or series for the active display mode.
+     *
+     * @param event JavaFX action event from the top five button
+     */
     @FXML
     void handleTop5(ActionEvent event) {
         if (currentMode == DisplayMode.MOVIES) {
@@ -896,8 +1044,14 @@ public class MainController {
         }
     }
 
+    /**
+     * Shows the highest-rated movie or series for the active display mode.
+     *
+     * @param event JavaFX action event from the highest-rated button
+     */
     @FXML
     void handleHighestRated(ActionEvent event) {
+        // Each mode asks the backing controller for its own highest-rated entry type.
         if (currentMode == DisplayMode.MOVIES) {
             Movie highestRatedMovie = controller.handleHighestRating();
             if (highestRatedMovie == null) {
@@ -918,12 +1072,19 @@ public class MainController {
             setSeriesHighlights(FXCollections.observableArrayList(highestRatedSeries));
         }
 
+        // Selecting the result keeps the details panel aligned with the filtered table.
         tableView.getSelectionModel().selectFirst();
         updateInfoFromSelected();
     }
 
+    /**
+     * Calculates the average rating for the active display mode and shows it in highlights.
+     *
+     * @param event JavaFX action event from the average button
+     */
     @FXML
     void handleAverage(ActionEvent event) {
+        // Average is calculated across all entries, so reset any genre filter first.
         genreComboBox.getSelectionModel().select("All");
         refreshTable();
         if (currentMode == DisplayMode.MOVIES) {
@@ -938,6 +1099,11 @@ public class MainController {
 
     }
 
+    /**
+     * Switches the main screen to movie mode.
+     *
+     * @param event JavaFX action event from the movie mode button
+     */
     @FXML
     void handleShowMovies(ActionEvent event) {
         currentMode = DisplayMode.MOVIES;
@@ -945,6 +1111,11 @@ public class MainController {
         refreshTable();
     }
 
+    /**
+     * Switches the main screen to series mode.
+     *
+     * @param event JavaFX action event from the series mode button
+     */
     @FXML
     void handleShowSeries(ActionEvent event) {
         currentMode = DisplayMode.SERIES;
@@ -952,6 +1123,9 @@ public class MainController {
         refreshTable();
     }
 
+    /**
+     * Updates the details labels for movie-specific fields.
+     */
     @FXML
     private void setMovieInfoLabels() {
         infoCreatorDirector.setText("DIRECTOR");
@@ -959,6 +1133,9 @@ public class MainController {
         infoEpisodesGross.setText("GROSS EARNINGS");
     }
 
+    /**
+     * Updates the details labels for series-specific fields.
+     */
     @FXML
     private void setSeriesInfoLabels() {
         infoCreatorDirector.setText("CREATOR");
