@@ -1,0 +1,12 @@
+main/java/Main.class
+util/CsvFileHandler.class
+model/RowEntry.class
+model/Database.class
+model/Series.class
+util/HelperMethods.class
+model/SeriesDatabase.class
+model/Movie.class
+model/Genre.class
+model/MovieDatabase.class
+controller/MainController.class
+controller/Controller.class

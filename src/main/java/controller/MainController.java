@@ -8,7 +8,10 @@ import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import model.Genre;
 import model.Movie;
 import util.CsvFileHandler;
@@ -366,6 +369,50 @@ public class MainController {
         Movie movie = getSelectedMovie();
         if (movie == null) {
             return;
+        }
+
+        try {
+            // Loading the edit movie dialog
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/view/editMovieDialog.fxml")));
+            Parent editMovieBox = loader.load();
+
+            // Getting each field input
+            TextField titleField = (TextField) loader.getNamespace().get("titleField");
+            TextField yearField = (TextField) loader.getNamespace().get("yearField");
+            TextField certificationField = (TextField) loader.getNamespace().get("certificationField");
+            TextField ratingField = (TextField) loader.getNamespace().get("ratingField");
+            ComboBox<String> editMovieGenreBox = (ComboBox<String>) loader.getNamespace().get("genreField");
+            TextField descriptionField = (TextField) loader.getNamespace().get("descriptionField");
+            TextField directorField = (TextField) loader.getNamespace().get("directorField");
+            TextField grossField = (TextField) loader.getNamespace().get("grossField");
+
+            // Genre values in combobox
+            ArrayList<String> editMovieGenreOptions = new ArrayList<>();
+            for (Genre genre : Genre.values()) {
+                editMovieGenreOptions.add(genre.toString());
+            }
+
+            editMovieGenreBox.setItems(FXCollections.observableArrayList(editMovieGenreOptions));
+            editMovieGenreBox.setPromptText("Genre");
+
+            // Pre-fill selected movie values
+            titleField.setText(movie.getTitle());
+            yearField.setText(String.valueOf(movie.getYear()));
+            certificationField.setText(String.valueOf(movie.isCertification()));
+            editMovieGenreBox.getSelectionModel().select(movie.getGenre());
+            ratingField.setText(String.valueOf(movie.getImdbRating()));
+            descriptionField.setText(movie.getDescription());
+            directorField.setText(movie.getDirector());
+            grossField.setText(String.valueOf(movie.getGross()));
+
+            // Open as a simple window (no alert popup)
+            Stage editStage = new Stage();
+            editStage.setTitle("Edit Movie");
+            editStage.initModality(Modality.APPLICATION_MODAL);
+            editStage.setScene(new Scene(editMovieBox));
+            editStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
