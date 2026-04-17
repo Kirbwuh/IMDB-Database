@@ -397,7 +397,23 @@ public class MainController {
 
     @FXML
     void handleSearch(ActionEvent event) {
+        String rawQuery = searchField.getText();
+        String query = rawQuery == null ? "" : rawQuery.trim();
 
+        if (query.isEmpty()) {
+            applyGenreFilter();
+            return;
+        }
+
+        Movie foundMovie = controller.handleGetMovie(query);
+        if (foundMovie == null) {
+            moviesTableView.setItems(FXCollections.observableArrayList());
+            return;
+        }
+
+        moviesTableView.setItems(FXCollections.observableArrayList(foundMovie));
+        moviesTableView.getSelectionModel().selectFirst();
+        updateInfoFromSelectedMovie();
     }
 
     @FXML
