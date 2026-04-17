@@ -14,7 +14,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Genre;
 import model.Movie;
-import util.CsvFileHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,6 +30,7 @@ public class MainController {
     private DisplayMode currentMode = DisplayMode.MOVIES;
 
     private final Controller controller = new Controller();
+    private boolean loadCsvOnStartup = false;
 
     @FXML
     private Button addMovieCenterBtn;
@@ -151,7 +151,17 @@ public class MainController {
             updateInfoFromSelectedMovie();
         });
 
-        controller.loadMoviesFromCsv();
+        // Startup data loading is handled by initializeStartupData().
+    }
+
+    public void setLoadCsvOnStartup(boolean loadCsvOnStartup) {
+        this.loadCsvOnStartup = loadCsvOnStartup;
+    }
+
+    public void initializeStartupData() {
+        if (loadCsvOnStartup) {
+            controller.loadMoviesFromCsv();
+        }
         refreshMoviesTable();
         setHighlights(new ArrayList<>());
     }
@@ -426,8 +436,7 @@ public class MainController {
 
     @FXML
     void handleLoadCSV(ActionEvent event) {
-        CsvFileHandler movies = new CsvFileHandler("src/main/resources/util/Movies.csv");
-        movies.loadCSV();
+        controller.loadMoviesFromCsv();
         applyGenreFilter();
     }
 
