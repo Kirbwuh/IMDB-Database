@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" prefHeight="429.0" prefWidth="513.0" spacing="8.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Label text="Add Series:">
+            <font>
+                <Font size="36.0" />
+            </font></Label>
+        <VBox prefHeight="46.0" prefWidth="513.0">
+            <children>
+                <Label alignment="CENTER" prefHeight="50.0" prefWidth="513.0" text="Enter the contents of the movie you'd like to add to your list." textAlignment="CENTER">
+                    <VBox.margin>
+                        <Insets />
+                    </VBox.margin>
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Label>
+            </children>
+        </VBox>
+        <TextField fx:id="titleField" promptText="Title" />
+        <TextField fx:id="yearField" promptText="Year" />
+        <TextField fx:id="seasonsField" promptText="Number of Seasons" />
+        <ComboBox fx:id="genreField" prefHeight="25.0" prefWidth="535.0" promptText="Genre" />
+        <TextField fx:id="ratingField" layoutX="10.0" layoutY="225.0" promptText="IMDB Rating (0.0 to 10.0)" />
+        <TextField fx:id="creatorField" layoutX="10.0" layoutY="258.0" promptText="Description" />
+        <TextField fx:id="directorField" promptText="Creator" />
+        <TextField fx:id="episodesField" promptText="Number of Episodes" />
+    </children>
+</VBox>
