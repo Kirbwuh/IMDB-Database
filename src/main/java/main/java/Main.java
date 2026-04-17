@@ -17,7 +17,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		// getResource path starts from resources/ root
 		FXMLLoader loader = new FXMLLoader(
-				getClass().getResource("/view/AboutPage.fxml")
+				getClass().getResource("/view/MainMenu.fxml")
 		);
 		Scene scene = new Scene(loader.load(), 900, 600);
 		primaryStage.setTitle("CPSC 219 - Movie & Series Database");
