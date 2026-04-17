@@ -73,6 +73,15 @@ public class CsvFileHandler {
         }
     }
 
+    public void removeFromCSV(Series series) {
+        try {
+            removeRow(series.toCSVStringRow());
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("The file is not in the same directory (either doesn't exist or was moved.)");
+        }
+    }
+
     private void removeRow(String row) throws IOException {
         Path path = Path.of(filepath);
         if (!Files.exists(path)) {
