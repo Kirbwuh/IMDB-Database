@@ -14,6 +14,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import model.Genre;
 import model.Movie;
+import util.CsvFileHandler;
 
 import java.util.ArrayList;
 
@@ -192,7 +193,8 @@ public class MainController {
 
     @FXML
     void handleLoadCSV(ActionEvent event) {
-        controller.loadMoviesFromCsv();
+        CsvFileHandler movies = new CsvFileHandler("src/main/resources/util/Movies.csv");
+        movies.loadCSV();
         applyGenreFilter();
     }
 
