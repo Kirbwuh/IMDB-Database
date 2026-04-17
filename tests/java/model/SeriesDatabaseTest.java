@@ -1,5 +1,7 @@
-package model;
+package java.model;
 
+import model.Series;
+import model.SeriesDatabase;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
