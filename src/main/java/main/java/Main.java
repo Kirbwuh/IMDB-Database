@@ -17,13 +17,11 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		// getResource path starts from resources/ root
 		FXMLLoader loader = new FXMLLoader(
-				getClass().getResource("/view/MainView.fxml")
+				getClass().getResource("/view/AboutPage.fxml")
 		);
 		Scene scene = new Scene(loader.load(), 900, 600);
 		primaryStage.setTitle("CPSC 219 - Movie & Series Database");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
-
-
 }
