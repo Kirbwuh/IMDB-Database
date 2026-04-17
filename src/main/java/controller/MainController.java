@@ -23,6 +23,7 @@ import java.util.Objects;
 
 public class MainController {
 
+
     private enum DisplayMode {
         MOVIES,
         SERIES
@@ -32,6 +33,9 @@ public class MainController {
 
     private final Controller controller = new Controller();
     private boolean loadCsvOnStartup = false;
+
+    @FXML
+    public Button averageBtn;
 
     @FXML
     public Button movieMode;
@@ -89,6 +93,15 @@ public class MainController {
 
     @FXML
     private Label infoYearLabel;
+
+    @FXML
+    public Label infoCreatorDirector;
+
+    @FXML
+    public Label infoSeasonsCertifications;
+
+    @FXML
+    public Label infoEpisodesGross;
 
     @FXML
     private Button loadCSVBtn;
@@ -480,7 +493,6 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     @FXML
@@ -659,14 +671,28 @@ public class MainController {
     @FXML
     void handleShowMovies(ActionEvent event) {
         currentMode = DisplayMode.MOVIES;
-        controller.loadMoviesFromCsv();
+        setMovieInfoLabels();
         refreshTable();
     }
 
     @FXML
     void handleShowSeries(ActionEvent event) {
         currentMode = DisplayMode.SERIES;
-        controller.loadSeriesFromCsv();
+        setSeriesInfoLabels();
         refreshTable();
+    }
+
+    @FXML
+    private void setMovieInfoLabels() {
+        infoCreatorDirector.setText("DIRECTOR");
+        infoSeasonsCertifications.setText("CERTIFICATION");
+        infoEpisodesGross.setText("GROSS EARNINGS");
+    }
+
+    @FXML
+    private void setSeriesInfoLabels() {
+        infoCreatorDirector.setText("CREATOR");
+        infoSeasonsCertifications.setText("NUMBER OF SEASONS");
+        infoEpisodesGross.setText("NUMBER OF EPISODES");
     }
 }
