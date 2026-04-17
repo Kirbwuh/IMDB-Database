@@ -316,7 +316,7 @@ public class MainController {
 
             Button applyButton = (Button) alert.getDialogPane().lookupButton(ButtonType.APPLY);
             applyButton.addEventFilter(ActionEvent.ACTION, applyEvent -> {
-                ArrayList<String> movieEntries = buildValidatedMovieEntries(
+                ArrayList<String> movieEntries = buildValidatedEntry(
                         titleField,
                         yearField,
                         certificationField,
@@ -377,7 +377,7 @@ public class MainController {
 
             Button applyButton = (Button) alert.getDialogPane().lookupButton(ButtonType.APPLY);
             applyButton.addEventFilter(ActionEvent.ACTION, applyEvent -> {
-                ArrayList<String> seriesEntries = buildValidatedMovieEntries(
+                ArrayList<String> seriesEntries = buildValidatedEntry(
                         titleField,
                         yearField,
                         seasonsField,
@@ -405,7 +405,7 @@ public class MainController {
     }
 
     // Checking if input is valid
-    private ArrayList<String> buildValidatedMovieEntries(
+    private ArrayList<String> buildValidatedEntry(
             TextField titleField,
             TextField yearField,
             TextField certificationOrSeasonsField,
@@ -552,6 +552,11 @@ public class MainController {
 
     @FXML
     void handleEditMovie(ActionEvent event) {
+        if (currentMode == DisplayMode.SERIES) {
+            handleEditSeries(event);
+            return;
+        }
+
         RowEntry entry = getSelected();
         if (entry == null) {
             return;
@@ -601,7 +606,7 @@ public class MainController {
             String oldMovieTitle = entry.getTitle();
             Button applyButton = (Button) alert.getDialogPane().lookupButton(ButtonType.APPLY);
             applyButton.addEventFilter(ActionEvent.ACTION, applyEvent -> {
-                ArrayList<String> movieEntries = buildValidatedMovieEntries(
+                ArrayList<String> movieEntries = buildValidatedEntry(
                         titleField,
                         yearField,
                         certificationField,
@@ -635,6 +640,102 @@ public class MainController {
 
                 for (RowEntry item : tableView.getItems()) {
                     if (item.getTitle().equals(movieEntries.get(0))) {
+                        tableView.getSelectionModel().select(item);
+                        break;
+                    }
+                }
+                updateInfoFromSelected();
+            });
+
+            alert.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @FXML
+    void handleEditSeries(ActionEvent event) {
+        RowEntry entry = getSelected();
+        if (entry == null) {
+            return;
+        }
+
+        try {
+            // Loading the edit series dialog
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/view/editSeriesDialog.fxml")));
+            Parent editSeriesBox = loader.load();
+
+            // Getting each field input
+            TextField titleField = (TextField) loader.getNamespace().get("titleField");
+            TextField yearField = (TextField) loader.getNamespace().get("yearField");
+            TextField seasonsField = (TextField) loader.getNamespace().get("seasonsField");
+            TextField ratingField = (TextField) loader.getNamespace().get("ratingField");
+            ComboBox<String> editSeriesGenreBox = (ComboBox<String>) loader.getNamespace().get("genreField");
+            TextField descriptionField = (TextField) loader.getNamespace().get("descriptionField");
+            TextField creatorField = (TextField) loader.getNamespace().get("creatorField");
+            TextField episodesField = (TextField) loader.getNamespace().get("episodesField");
+
+            // Genre values in combobox
+            ArrayList<String> editSeriesGenreOptions = new ArrayList<>();
+            for (Genre genre : Genre.values()) {
+                editSeriesGenreOptions.add(genre.toString());
+            }
+
+            editSeriesGenreBox.setItems(FXCollections.observableArrayList(editSeriesGenreOptions));
+            editSeriesGenreBox.setPromptText("Genre");
+
+            // Pre-fill selected series values
+            titleField.setText(entry.getTitle());
+            yearField.setText(String.valueOf(entry.getYear()));
+            editSeriesGenreBox.getSelectionModel().select(entry.getGenre());
+            ratingField.setText(String.valueOf(entry.getImdbRating()));
+            descriptionField.setText(entry.getDescription());
+            if (entry instanceof Series series) {
+                seasonsField.setText(String.valueOf(series.getNumberOfSeasons()));
+                creatorField.setText(series.getCreator());
+                episodesField.setText(String.valueOf(series.getNumberOfEpisodes()));
+            }
+
+            Alert alert = new Alert(Alert.AlertType.NONE);
+            alert.setTitle("Edit Series");
+            alert.getDialogPane().setContent(editSeriesBox);
+            alert.getDialogPane().getButtonTypes().addAll(ButtonType.APPLY, ButtonType.CLOSE);
+
+            String oldSeriesTitle = entry.getTitle();
+            Button applyButton = (Button) alert.getDialogPane().lookupButton(ButtonType.APPLY);
+            applyButton.addEventFilter(ActionEvent.ACTION, applyEvent -> {
+                ArrayList<String> seriesEntries = buildValidatedEntry(
+                        titleField,
+                        yearField,
+                        seasonsField,
+                        editSeriesGenreBox,
+                        ratingField,
+                        descriptionField,
+                        creatorField,
+                        episodesField
+                );
+
+                if (seriesEntries == null) {
+                    applyEvent.consume();
+                    return;
+                }
+
+                controller.handleUpdateSeries(2, seriesEntries.get(1), oldSeriesTitle);
+                controller.handleUpdateSeries(3, seriesEntries.get(2), oldSeriesTitle);
+                controller.handleUpdateSeries(4, seriesEntries.get(3), oldSeriesTitle);
+                controller.handleUpdateSeries(5, seriesEntries.get(4), oldSeriesTitle);
+                controller.handleUpdateSeries(6, seriesEntries.get(5), oldSeriesTitle);
+                controller.handleUpdateSeries(7, seriesEntries.get(6), oldSeriesTitle);
+                controller.handleUpdateSeries(8, seriesEntries.get(7), oldSeriesTitle);
+                controller.handleUpdateSeries(1, seriesEntries.get(0), oldSeriesTitle);
+
+                refreshTable();
+                applyGenreFilter();
+                tableView.refresh();
+
+                for (RowEntry item : tableView.getItems()) {
+                    if (item.getTitle().equals(seriesEntries.get(0))) {
                         tableView.getSelectionModel().select(item);
                         break;
                     }
