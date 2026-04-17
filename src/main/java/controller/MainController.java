@@ -13,6 +13,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Genre;
 import model.Movie;
+import model.Series;
 import model.RowEntry;
 
 import java.io.IOException;
@@ -90,6 +91,15 @@ public class MainController {
     private Label infoYearLabel;
 
     @FXML
+    private Label infoNumberOfSeasons;
+
+    @FXML
+    private Label infoNumberOfEpisodes;
+
+    @FXML
+    private Label infoCreator;
+
+    @FXML
     private Button loadCSVBtn;
 
     @FXML
@@ -154,7 +164,7 @@ public class MainController {
         });
 
         tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldMovie, newMovie) -> {
-            updateInfoFromSelectedMovie();
+            updateInfoFromSelected();
         });
 
         // Startup data loading is handled by initializeStartupData().
@@ -169,11 +179,15 @@ public class MainController {
             controller.loadMoviesFromCsv();
         }
         refreshTable();
-        setHighlights(new ArrayList<>());
+        setMovieHighlights(new ArrayList<>());
     }
 
-    private void setHighlights(List<Movie> movies) {
+    private void setMovieHighlights(List<Movie> movies) {
         highlightsTableView.setItems(FXCollections.observableArrayList(movies));
+    }
+
+    private void setSeriesHighlights(List<Series> series) {
+        highlightsTableView.setItems(FXCollections.observableArrayList(series));
     }
 
     private void refreshTable() {
@@ -191,13 +205,21 @@ public class MainController {
             refreshTable();
             return;
         }
-        // filters movies from array with enum
+        // filters entries from array with enum
         // source
         // https://stackoverflow.com/questions/76174874/filter-list-by-enum
-        ArrayList<Movie> filtered = new ArrayList<>();
-        for (Movie movie : controller.getAllMovies()) {
-            if (movie.getGenre().equals(selectedGenre)) {
-                filtered.add(movie);
+        ArrayList<RowEntry> filtered = new ArrayList<>();
+        if (currentMode == DisplayMode.MOVIES) {
+            for (Movie movie : controller.getAllMovies()) {
+                if (movie.getGenre().equals(selectedGenre)) {
+                    filtered.add(movie);
+                }
+            }
+        } else {
+            for (Series series : controller.getAllSeries()) {
+                if (series.getGenre().equals(selectedGenre)) {
+                    filtered.add(series);
+                }
             }
         }
 
@@ -208,7 +230,7 @@ public class MainController {
         return tableView.getSelectionModel().getSelectedItem();
     }
 
-    private void updateInfoFromSelectedMovie() {
+    private void updateInfoFromSelected() {
         RowEntry entry = getSelected();
         if (entry == null) {
             return;
@@ -218,12 +240,17 @@ public class MainController {
         infoYearLabel.setText(String.valueOf(entry.getYear()));
         infoGenreLabel.setText(entry.getGenre());
         infoRatingLabel.setText(String.valueOf(entry.getImdbRating()));
+        infoDescLabel.setText(entry.getDescription());
         if (entry instanceof Movie movie) {
             infoDirectorLabel.setText(movie.getDirector());
             infoCertLabel.setText(String.valueOf(movie.isCertification()));
             infoGrossLabel.setText(String.valueOf(movie.getGross()));
         }
-        infoDescLabel.setText(entry.getDescription());
+        if (entry instanceof Series series) {
+            infoDirectorLabel.setText(series.getCreator());
+            infoCertLabel.setText(String.valueOf(series.getNumberOfSeasons()));
+            infoGrossLabel.setText(String.valueOf(series.getNumberOfEpisodes()));
+        }
     }
 
     @FXML
@@ -449,33 +476,57 @@ public class MainController {
 
     @FXML
     void handleLoadCSV(ActionEvent event) {
-        controller.loadMoviesFromCsv();
+        if (currentMode == DisplayMode.MOVIES) {
+            controller.loadMoviesFromCsv();
+        } else {
+            controller.loadSeriesFromCsv();
+        }
         applyGenreFilter();
     }
 
     @FXML
     void handleLowestRated(ActionEvent event) {
-        Movie lowestRatedMovie = controller.handleLowestRating();
-        if (lowestRatedMovie == null) {
-            tableView.setItems(FXCollections.observableArrayList());
-            setHighlights(new ArrayList<>());
-            return;
-        }
+        if (currentMode == DisplayMode.MOVIES) {
+            Movie lowestRatedMovie = controller.handleLowestRating();
+            if (lowestRatedMovie == null) {
+                tableView.setItems(FXCollections.observableArrayList());
+                setMovieHighlights(new ArrayList<>());
+                return;
+            }
 
-        tableView.setItems(FXCollections.observableArrayList(lowestRatedMovie));
-        setHighlights(FXCollections.observableArrayList(lowestRatedMovie));
+            tableView.setItems(FXCollections.observableArrayList(lowestRatedMovie));
+            setMovieHighlights(FXCollections.observableArrayList(lowestRatedMovie));
+        } else {
+            Series lowestRatedSeries = controller.handleLowestSeriesRating();
+            if (lowestRatedSeries == null) {
+                tableView.setItems(FXCollections.observableArrayList());
+                setSeriesHighlights(new ArrayList<>());
+                return;
+            }
+
+            tableView.setItems(FXCollections.observableArrayList(lowestRatedSeries));
+            setSeriesHighlights(FXCollections.observableArrayList(lowestRatedSeries));
+        }
         tableView.getSelectionModel().selectFirst();
-        updateInfoFromSelectedMovie();
+        updateInfoFromSelected();
     }
 
     @FXML
     void handleRemoveMovie(ActionEvent event) {
         RowEntry entry = getSelected();
-        if (!(entry instanceof Movie movie)) {
+        if (entry == null) {
             return;
         }
 
-        boolean removed = controller.handleRemoveMovie(0, movie.getTitle());
+        boolean removed;
+        if (entry instanceof Movie movie) {
+            removed = controller.handleRemoveMovie(0, movie.getTitle());
+        } else if (entry instanceof Series series) {
+            removed = controller.handleRemoveSeries(0, series.getTitle());
+        } else {
+            return;
+        }
+
         if (!removed) {
             return;
         }
@@ -495,8 +546,11 @@ public class MainController {
 
     @FXML
     void handleSaveCSV(ActionEvent event) {
-        // controller save movie
-        controller.saveAllMoviesToCsv();
+        if (currentMode == DisplayMode.MOVIES) {
+            controller.saveAllMoviesToCsv();
+        } else {
+            controller.saveAllSeriesToCsv();
+        }
     }
 
     @FXML
@@ -509,41 +563,72 @@ public class MainController {
             return;
         }
 
-        Movie foundMovie = controller.handleGetMovie(query);
-        if (foundMovie == null) {
-            tableView.setItems(FXCollections.observableArrayList());
-            return;
-        }
+        if (currentMode == DisplayMode.MOVIES) {
+            Movie foundMovie = controller.handleGetMovie(query);
+            if (foundMovie == null) {
+                tableView.setItems(FXCollections.observableArrayList());
+                return;
+            }
 
-        tableView.setItems(FXCollections.observableArrayList(foundMovie));
+            tableView.setItems(FXCollections.observableArrayList(foundMovie));
+        } else {
+            Series foundSeries = controller.handleGetSeries(query);
+            if (foundSeries == null) {
+                tableView.setItems(FXCollections.observableArrayList());
+                return;
+            }
+
+            tableView.setItems(FXCollections.observableArrayList(foundSeries));
+        }
         tableView.getSelectionModel().selectFirst();
-        updateInfoFromSelectedMovie();
+        updateInfoFromSelected();
     }
 
     @FXML
     void handleTop5(ActionEvent event) {
-        ArrayList<Movie> topMovies = controller.getTop5();
-        tableView.setItems(FXCollections.observableArrayList(topMovies));
-        setHighlights(topMovies);
-        if (!topMovies.isEmpty()) {
-            tableView.getSelectionModel().selectFirst();
-            updateInfoFromSelectedMovie();
+        if (currentMode == DisplayMode.MOVIES) {
+            ArrayList<Movie> topMovies = controller.getTop5();
+            tableView.setItems(FXCollections.observableArrayList(topMovies));
+            setMovieHighlights(topMovies);
+            if (!topMovies.isEmpty()) {
+                tableView.getSelectionModel().selectFirst();
+                updateInfoFromSelected();
+            }
+        } else {
+            ArrayList<Series> topSeries = controller.getTop5Series();
+            tableView.setItems(FXCollections.observableArrayList(topSeries));
+            setSeriesHighlights(topSeries);
+            if (!topSeries.isEmpty()) {
+                tableView.getSelectionModel().selectFirst();
+                updateInfoFromSelected();
+            }
         }
     }
 
     @FXML
     void handleHighestRated(ActionEvent event) {
-        Movie highestRatedMovie = controller.handleHighestRating();
-        if (highestRatedMovie == null) {
-            tableView.setItems(FXCollections.observableArrayList());
-            setHighlights(new ArrayList<>());
-            return;
+        if (currentMode == DisplayMode.MOVIES) {
+            Movie highestRatedMovie = controller.handleHighestRating();
+            if (highestRatedMovie == null) {
+                tableView.setItems(FXCollections.observableArrayList());
+                setMovieHighlights(new ArrayList<>());
+                return;
+            }
+            tableView.setItems(FXCollections.observableArrayList(highestRatedMovie));
+            setMovieHighlights(FXCollections.observableArrayList(highestRatedMovie));
+        } else {
+            Series highestRatedSeries = controller.handleHighestSeriesRating();
+            if (highestRatedSeries == null) {
+                tableView.setItems(FXCollections.observableArrayList());
+                setSeriesHighlights(new ArrayList<>());
+                return;
+            }
+            tableView.setItems(FXCollections.observableArrayList(highestRatedSeries));
+            setSeriesHighlights(FXCollections.observableArrayList(highestRatedSeries));
         }
 
-        tableView.setItems(FXCollections.observableArrayList(highestRatedMovie));
-        setHighlights(FXCollections.observableArrayList(highestRatedMovie));
         tableView.getSelectionModel().selectFirst();
-        updateInfoFromSelectedMovie();
+        updateInfoFromSelected();
     }
 
     @FXML
