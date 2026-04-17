@@ -4,8 +4,8 @@ main/java/Main$JavaFxApp.class
 model/RowEntry.class
 model/Database.class
 model/Series.class
-util/HelperMethods.class
 model/SeriesDatabase.class
+util/HelperMethods.class
 model/Movie.class
 model/Genre.class
 model/MovieDatabase.class

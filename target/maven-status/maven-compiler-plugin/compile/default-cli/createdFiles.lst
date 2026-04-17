@@ -1,5 +1,4 @@
 util/CsvFileHandler.class
-Main.class
 model/RowEntry.class
 model/Database.class
 model/Series.class
