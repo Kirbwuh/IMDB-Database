@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import model.Genre;
 import model.Movie;
+import util.CsvFileHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -353,7 +354,8 @@ public class MainController {
 
     @FXML
     void handleLoadCSV(ActionEvent event) {
-        controller.loadMoviesFromCsv();
+        CsvFileHandler movies = new CsvFileHandler("src/main/resources/util/Movies.csv");
+        movies.loadCSV();
         applyGenreFilter();
     }
 
