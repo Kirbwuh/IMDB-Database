@@ -73,6 +73,20 @@ public class CsvFileHandler {
         }
     }
 
+    /**
+     * Removes a series row from the CSV file.
+     * @param series the series to remove
+     * 04/17/2026 Christopher Lassota T10
+     */
+    public void removeFromCSV(Series series) {
+        try {
+            removeRow(series.toCSVStringRow());
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("The file is not in the same directory (either doesn't exist or was moved.)");
+        }
+    }
+
     private void removeRow(String row) throws IOException {
         Path path = Path.of(filepath);
         if (!Files.exists(path)) {

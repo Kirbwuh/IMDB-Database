@@ -8,9 +8,14 @@ import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import model.Genre;
 import model.Movie;
+import model.Series;
+import model.RowEntry;
 import util.CsvFileHandler;
 
 import java.io.IOException;
@@ -20,32 +25,45 @@ import java.util.Objects;
 
 public class MainController {
 
+    private enum DisplayMode {
+        MOVIES,
+        SERIES
+    }
+
+    private DisplayMode currentMode = DisplayMode.MOVIES;
+
     private final Controller controller = new Controller();
     private boolean loadCsvOnStartup = false;
+
+    @FXML
+    public Button averageBtn;
+
+    @FXML
+    public Button movieMode;
+
+    @FXML
+    public Button seriesMode;
 
     @FXML
     private Button addMovieCenterBtn;
 
     @FXML
-    private Button averageBtn;
-
-    @FXML
-    private TableColumn<Movie, String> description;
+    private TableColumn<RowEntry, String> description;
 
     @FXML
     private Button editMovieBtn;
 
     @FXML
-    private TableColumn<Movie, String> genreCol;
+    private TableColumn<RowEntry, String> genreCol;
 
     @FXML
-    private TableColumn<Movie, String> hlMovieCol;
+    private TableColumn<RowEntry, String> hlMovieCol;
 
     @FXML
-    private TableColumn<Movie, Double> hlRatingCol;
+    private TableColumn<RowEntry, Double> hlRatingCol;
 
     @FXML
-    private TableView<Movie> highlightsTableView;
+    private TableView<RowEntry> highlightsTableView;
 
     @FXML
     private ComboBox<String> genreComboBox;
@@ -78,16 +96,25 @@ public class MainController {
     private Label infoYearLabel;
 
     @FXML
+    public Label infoCreatorDirector;
+
+    @FXML
+    public Label infoSeasonsCertifications;
+
+    @FXML
+    public Label infoEpisodesGross;
+
+    @FXML
     private Button loadCSVBtn;
 
     @FXML
     private Button lowestRatedBtn;
 
     @FXML
-    private TableView<Movie> moviesTableView;
+    private TableView<RowEntry> tableView;
 
     @FXML
-    private TableColumn<Movie, Double> ratingCol;
+    private TableColumn<RowEntry, Double> ratingCol;
 
     @FXML
     private Button removeMovieBtn;
@@ -102,7 +129,7 @@ public class MainController {
     private TextField searchField;
 
     @FXML
-    private TableColumn<Movie, String> titleCol;
+    private TableColumn<RowEntry, String> titleCol;
 
     @FXML
     private Button top5Btn;
@@ -111,7 +138,7 @@ public class MainController {
     private Button helpBtn;
 
     @FXML
-    private TableColumn<Movie, Integer> yearCol;
+    private TableColumn<RowEntry, Integer> yearCol;
 
     @FXML
     public void initialize() {
@@ -144,8 +171,8 @@ public class MainController {
             applyGenreFilter();
         });
 
-        moviesTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldMovie, newMovie) -> {
-            updateInfoFromSelectedMovie();
+        tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldMovie, newMovie) -> {
+            updateInfoFromSelected();
         });
 
         // Startup data loading is handled by initializeStartupData().
@@ -159,71 +186,91 @@ public class MainController {
         if (loadCsvOnStartup) {
             controller.loadMoviesFromCsv();
         }
-        refreshMoviesTable();
-        setHighlights(new ArrayList<>());
+        refreshTable();
+        setMovieHighlights(new ArrayList<>());
     }
 
-    private void setHighlights(List<Movie> movies) {
+    private void setMovieHighlights(List<Movie> movies) {
         highlightsTableView.setItems(FXCollections.observableArrayList(movies));
     }
 
-    private Movie buildAverageHighlightRow(double average) {
-        return new Movie(
-                "All",
-                0,
-                false,
-                "Action",
-                average,
-                "Average rating",
-                "-",
-                0
-        );
+    private void setSeriesHighlights(List<Series> series) {
+        highlightsTableView.setItems(FXCollections.observableArrayList(series));
     }
 
-    private void refreshMoviesTable() {
-        ObservableList<Movie> data = FXCollections.observableArrayList(controller.getAllMovies());
-        moviesTableView.setItems(data);
+    private Movie buildAverageMovieHighlightRow(double average) {
+        double roundedAverage = Math.round(average * 100.0) / 100.0;
+        return new Movie("Average Rating", 0, false, "Action", roundedAverage, "Average movie rating", "", 0);
+    }
+
+    private Series buildAverageSeriesHighlightRow(double average) {
+        double roundedAverage = Math.round(average * 100.0) / 100.0;
+        return new Series("Average Rating", 0, "Action", roundedAverage, "Average series rating", 0, 0, "");
+    }
+
+    private void refreshTable() {
+        if (currentMode == DisplayMode.MOVIES) {
+            tableView.setItems(FXCollections.observableArrayList(controller.getAllMovies()));
+        } else {
+            tableView.setItems(FXCollections.observableArrayList(controller.getAllSeries()));
+        }
     }
 
     private void applyGenreFilter() {
         String selectedGenre = genreComboBox.getSelectionModel().getSelectedItem();
         // If dropdown options is all returns all movies
         if (selectedGenre == null || selectedGenre.equalsIgnoreCase("All")) {
-            refreshMoviesTable();
+            refreshTable();
             return;
         }
-        // filters movies from array with enum
+        // filters entries from array with enum
         // source
         // https://stackoverflow.com/questions/76174874/filter-list-by-enum
-        ArrayList<Movie> filtered = new ArrayList<>();
-        for (Movie movie : controller.getAllMovies()) {
-            if (movie.getGenre().equals(selectedGenre)) {
-                filtered.add(movie);
+        ArrayList<RowEntry> filtered = new ArrayList<>();
+        if (currentMode == DisplayMode.MOVIES) {
+            for (Movie movie : controller.getAllMovies()) {
+                if (movie.getGenre().equals(selectedGenre)) {
+                    filtered.add(movie);
+                }
+            }
+        } else {
+            for (Series series : controller.getAllSeries()) {
+                if (series.getGenre().equals(selectedGenre)) {
+                    filtered.add(series);
+                }
             }
         }
 
-        moviesTableView.setItems(FXCollections.observableArrayList(filtered));
+        tableView.setItems(FXCollections.observableArrayList(filtered));
     }
 
-    private Movie getSelectedMovie() {
-        return moviesTableView.getSelectionModel().getSelectedItem();
+    private RowEntry getSelected() {
+        return tableView.getSelectionModel().getSelectedItem();
     }
 
-    private void updateInfoFromSelectedMovie() {
-        Movie movie = getSelectedMovie();
-        if (movie == null) {
+    private void updateInfoFromSelected() {
+        RowEntry entry = getSelected();
+        if (entry == null) {
             return;
         }
 
-        infoTitleLabel.setText(movie.getTitle());
-        infoYearLabel.setText(String.valueOf(movie.getYear()));
-        infoGenreLabel.setText(movie.getGenre());
-        infoRatingLabel.setText(String.valueOf(movie.getImdbRating()));
-        infoDirectorLabel.setText(movie.getDirector());
-        infoCertLabel.setText(String.valueOf(movie.isCertification()));
-        infoGrossLabel.setText(String.valueOf(movie.getGross()));
-        infoDescLabel.setText(movie.getDescription());
+        infoTitleLabel.setText(entry.getTitle());
+        infoYearLabel.setText(String.valueOf(entry.getYear()));
+        infoGenreLabel.setText(entry.getGenre());
+        infoRatingLabel.setText(String.valueOf(entry.getImdbRating()));
+        infoDescLabel.setText(entry.getDescription());
+        if (entry instanceof Movie movie) {
+            infoDirectorLabel.setText(movie.getDirector());
+            infoCertLabel.setText(String.valueOf(movie.isCertification()));
+            infoGrossLabel.setText(String.valueOf(movie.getGross()));
+        }
+        if (entry instanceof Series series) {
+            infoDirectorLabel.setText(series.getCreator());
+            infoCertLabel.setText(String.valueOf(series.getNumberOfSeasons()));
+            infoGrossLabel.setText(String.valueOf(series.getNumberOfEpisodes()));
+        }
     }
+
     @FXML
     void handleAboutPage(ActionEvent event){
         try {
@@ -242,8 +289,14 @@ public class MainController {
             e.printStackTrace();
         }
     }
+
     @FXML
     void handleAddMovie(ActionEvent event) {
+        if (currentMode == DisplayMode.SERIES) {
+            handleAddSeries(event);
+            return;
+        }
+
         try {
             //Loading the new fxml popup
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/view/addMovieDialog.fxml")));
@@ -276,7 +329,7 @@ public class MainController {
 
             Button applyButton = (Button) alert.getDialogPane().lookupButton(ButtonType.APPLY);
             applyButton.addEventFilter(ActionEvent.ACTION, applyEvent -> {
-                ArrayList<String> movieEntries = buildValidatedMovieEntries(
+                ArrayList<String> movieEntries = buildValidatedEntry(
                         titleField,
                         yearField,
                         certificationField,
@@ -293,7 +346,68 @@ public class MainController {
                 }
 
                 controller.handleAddMovie(movieEntries);
-                refreshMoviesTable();
+                refreshTable();
+
+            });
+
+            alert.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void handleAddSeries(ActionEvent event) {
+        try {
+            //Loading the new fxml popup
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/view/addSeriesDialog.fxml")));
+            Parent addSeriesBox = loader.load();
+
+            //Getting each fields input
+            TextField titleField = (TextField) loader.getNamespace().get("titleField");
+            TextField yearField = (TextField) loader.getNamespace().get("yearField");
+            TextField seasonsField = (TextField) loader.getNamespace().get("seasonsField");
+            TextField ratingField = (TextField) loader.getNamespace().get("ratingField");
+            ComboBox<String> addSeriesGenreBox = (ComboBox<String>) loader.getNamespace().get("genreField");
+            TextField descriptionField = (TextField) loader.getNamespace().get("descriptionField");
+            TextField creatorField = (TextField) loader.getNamespace().get("creatorField");
+            TextField episodesField = (TextField) loader.getNamespace().get("episodesField");
+
+            //Genre values in combobox
+            ArrayList<String> addSeriesGenreOptions = new ArrayList<>();
+            for (Genre genre : Genre.values()) {
+                addSeriesGenreOptions.add(genre.toString());
+            }
+
+            addSeriesGenreBox.setItems(FXCollections.observableArrayList(addSeriesGenreOptions));
+            addSeriesGenreBox.setPromptText("Genre");
+
+            // Alert popup with choices
+            Alert alert = new Alert(Alert.AlertType.NONE);
+            alert.setTitle("Add Series");
+            alert.getDialogPane().setContent(addSeriesBox);
+            alert.getDialogPane().getButtonTypes().addAll(ButtonType.APPLY, ButtonType.CLOSE);
+
+            Button applyButton = (Button) alert.getDialogPane().lookupButton(ButtonType.APPLY);
+            applyButton.addEventFilter(ActionEvent.ACTION, applyEvent -> {
+                ArrayList<String> seriesEntries = buildValidatedEntry(
+                        titleField,
+                        yearField,
+                        seasonsField,
+                        addSeriesGenreBox,
+                        ratingField,
+                        descriptionField,
+                        creatorField,
+                        episodesField
+                );
+
+                if (seriesEntries == null) {
+                    applyEvent.consume();
+                    return;
+                }
+
+                controller.handleAddSeries(seriesEntries);
+                refreshTable();
 
             });
 
@@ -304,26 +418,27 @@ public class MainController {
     }
 
     // Checking if input is valid
-    private ArrayList<String> buildValidatedMovieEntries(
+    private ArrayList<String> buildValidatedEntry(
             TextField titleField,
             TextField yearField,
-            TextField certificationField,
+            TextField certificationOrSeasonsField,
             ComboBox<String> genreField,
             TextField ratingField,
             TextField descriptionField,
-            TextField directorField,
-            TextField grossField
+            TextField directorOrCreatorField,
+            TextField grossOrEpisodesField
     ) {
         String title = titleField.getText().trim();
         String yearText = yearField.getText().trim();
-        String certificationText = certificationField.getText().trim();
+        String certificationOrSeasonsText = certificationOrSeasonsField.getText().trim();
         String genreText = genreField.getSelectionModel().getSelectedItem();
         String ratingText = ratingField.getText().trim();
         String descriptionText = descriptionField.getText().trim();
-        String directorText = directorField.getText().trim();
-        String grossText = grossField.getText().trim();
+        String directorOrCreatorText = directorOrCreatorField.getText().trim();
+        String grossOrEpisodesText = grossOrEpisodesField.getText().trim();
 
         List<String> errors = new ArrayList<>();
+        boolean isSeriesMode = currentMode == DisplayMode.SERIES;
 
         if (title.isEmpty()) {
             errors.add("Title is required.");
@@ -337,10 +452,6 @@ public class MainController {
             } catch (NumberFormatException e) {
                 errors.add("Year must be a whole number.");
             }
-        }
-
-        if (!certificationText.equalsIgnoreCase("true") && !certificationText.equalsIgnoreCase("false")) {
-            errors.add("Certification must be true or false.");
         }
 
         if (genreText == null || genreText.isBlank()) {
@@ -368,50 +479,99 @@ public class MainController {
             errors.add("Description is required.");
         }
 
-        if (directorText.isEmpty()) {
-            errors.add("Director is required.");
-        }
-
-        if (grossText.isEmpty()) {
-            errors.add("Gross Earnings is required.");
-        } else {
-            try {
-                long gross = Long.parseLong(grossText);
-                if (gross < 0) {
-                    errors.add("Gross Earnings cannot be negative.");
+        if (isSeriesMode) {
+            if (certificationOrSeasonsText.isEmpty()) {
+                errors.add("Number of Seasons is required.");
+            } else {
+                try {
+                    int seasons = Integer.parseInt(certificationOrSeasonsText);
+                    if (seasons < 0) {
+                        errors.add("Number of Seasons cannot be negative.");
+                    }
+                } catch (NumberFormatException e) {
+                    errors.add("Number of Seasons must be a whole number.");
                 }
-            } catch (NumberFormatException e) {
-                errors.add("Gross Earnings must be a whole number.");
+            }
+
+            if (grossOrEpisodesText.isEmpty()) {
+                errors.add("Number of Episodes is required.");
+            } else {
+                try {
+                    int episodes = Integer.parseInt(grossOrEpisodesText);
+                    if (episodes < 0) {
+                        errors.add("Number of Episodes cannot be negative.");
+                    }
+                } catch (NumberFormatException e) {
+                    errors.add("Number of Episodes must be a whole number.");
+                }
+            }
+
+            if (directorOrCreatorText.isEmpty()) {
+                errors.add("Creator is required.");
+            }
+        } else {
+            if (!certificationOrSeasonsText.equalsIgnoreCase("true") && !certificationOrSeasonsText.equalsIgnoreCase("false")) {
+                errors.add("Certification must be true or false.");
+            }
+
+            if (directorOrCreatorText.isEmpty()) {
+                errors.add("Director is required.");
+            }
+
+            if (grossOrEpisodesText.isEmpty()) {
+                errors.add("Gross Earnings is required.");
+            } else {
+                try {
+                    long gross = Long.parseLong(grossOrEpisodesText);
+                    if (gross < 0) {
+                        errors.add("Gross Earnings cannot be negative.");
+                    }
+                } catch (NumberFormatException e) {
+                    errors.add("Gross Earnings must be a whole number.");
+                }
             }
         }
 
         // New popup to show what needs to be fixed.
         if (!errors.isEmpty()) {
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-            errorAlert.setTitle("Invalid Movie Input");
+            errorAlert.setTitle(isSeriesMode ? "Invalid Series Input" : "Invalid Movie Input");
             errorAlert.setHeaderText("Fix the following fields:");
             errorAlert.setContentText(String.join("\n", errors));
             errorAlert.showAndWait();
             return null;
         }
 
-        // Adds the inputs from the popup to our Movies file format
-        ArrayList<String> movieEntries = new ArrayList<>();
-        movieEntries.add(title);
-        movieEntries.add(yearText);
-        movieEntries.add(certificationText.toLowerCase());
-        movieEntries.add(Genre.fromString(genreText).toString());
-        movieEntries.add(ratingText);
-        movieEntries.add(descriptionText);
-        movieEntries.add(directorText);
-        movieEntries.add(grossText);
-        return movieEntries;
+        ArrayList<String> entries = new ArrayList<>();
+        entries.add(title);
+        entries.add(yearText);
+        if (isSeriesMode) {
+            entries.add(Genre.fromString(genreText).toString());
+            entries.add(ratingText);
+            entries.add(descriptionText);
+            entries.add(certificationOrSeasonsText);
+            entries.add(grossOrEpisodesText);
+            entries.add(directorOrCreatorText);
+        } else {
+            entries.add(certificationOrSeasonsText.toLowerCase());
+            entries.add(Genre.fromString(genreText).toString());
+            entries.add(ratingText);
+            entries.add(descriptionText);
+            entries.add(directorOrCreatorText);
+            entries.add(grossOrEpisodesText);
+        }
+        return entries;
     }
 
     @FXML
     void handleEditMovie(ActionEvent event) {
-        Movie movie = getSelectedMovie();
-        if (movie == null) {
+        if (currentMode == DisplayMode.SERIES) {
+            handleEditSeries(event);
+            return;
+        }
+
+        RowEntry entry = getSelected();
+        if (entry == null) {
             return;
         }
 
@@ -440,24 +600,26 @@ public class MainController {
             editMovieGenreBox.setPromptText("Genre");
 
             // Pre-fill selected movie values
-            titleField.setText(movie.getTitle());
-            yearField.setText(String.valueOf(movie.getYear()));
-            certificationField.setText(String.valueOf(movie.isCertification()));
-            editMovieGenreBox.getSelectionModel().select(movie.getGenre());
-            ratingField.setText(String.valueOf(movie.getImdbRating()));
-            descriptionField.setText(movie.getDescription());
-            directorField.setText(movie.getDirector());
-            grossField.setText(String.valueOf(movie.getGross()));
+            titleField.setText(entry.getTitle());
+            yearField.setText(String.valueOf(entry.getYear()));
+            editMovieGenreBox.getSelectionModel().select(entry.getGenre());
+            ratingField.setText(String.valueOf(entry.getImdbRating()));
+            descriptionField.setText(entry.getDescription());
+            if (entry instanceof Movie movie) {
+                certificationField.setText(String.valueOf(movie.isCertification()));
+                directorField.setText(movie.getDirector());
+                grossField.setText(String.valueOf(movie.getGross()));
+            }
 
             Alert alert = new Alert(Alert.AlertType.NONE);
             alert.setTitle("Edit Movie");
             alert.getDialogPane().setContent(editMovieBox);
             alert.getDialogPane().getButtonTypes().addAll(ButtonType.APPLY, ButtonType.CLOSE);
 
-            String oldMovieTitle = movie.getTitle();
+            String oldMovieTitle = entry.getTitle();
             Button applyButton = (Button) alert.getDialogPane().lookupButton(ButtonType.APPLY);
             applyButton.addEventFilter(ActionEvent.ACTION, applyEvent -> {
-                ArrayList<String> movieEntries = buildValidatedMovieEntries(
+                ArrayList<String> movieEntries = buildValidatedEntry(
                         titleField,
                         yearField,
                         certificationField,
@@ -481,19 +643,117 @@ public class MainController {
                 controller.handleUpdateMovie(7, movieEntries.get(7), oldMovieTitle);
                 controller.handleUpdateMovie(1, movieEntries.get(0), oldMovieTitle);
 
-                movie.setCertification(Boolean.parseBoolean(movieEntries.get(2)));
+                if(entry instanceof Movie movie) {
+                    movie.setCertification(Boolean.parseBoolean(movieEntries.get(2)));
+                }
 
-                refreshMoviesTable();
+                refreshTable();
                 applyGenreFilter();
-                moviesTableView.refresh();
+                tableView.refresh();
 
-                for (Movie item : moviesTableView.getItems()) {
+                for (RowEntry item : tableView.getItems()) {
                     if (item.getTitle().equals(movieEntries.get(0))) {
-                        moviesTableView.getSelectionModel().select(item);
+                        tableView.getSelectionModel().select(item);
                         break;
                     }
                 }
-                updateInfoFromSelectedMovie();
+                updateInfoFromSelected();
+            });
+
+            alert.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @FXML
+    void handleEditSeries(ActionEvent event) {
+        RowEntry entry = getSelected();
+        if (entry == null) {
+            return;
+        }
+
+        try {
+            // Loading the edit series dialog
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/view/editSeriesDialog.fxml")));
+            Parent editSeriesBox = loader.load();
+
+            // Getting each field input
+            TextField titleField = (TextField) loader.getNamespace().get("titleField");
+            TextField yearField = (TextField) loader.getNamespace().get("yearField");
+            TextField seasonsField = (TextField) loader.getNamespace().get("seasonsField");
+            TextField ratingField = (TextField) loader.getNamespace().get("ratingField");
+            ComboBox<String> editSeriesGenreBox = (ComboBox<String>) loader.getNamespace().get("genreField");
+            TextField descriptionField = (TextField) loader.getNamespace().get("descriptionField");
+            TextField creatorField = (TextField) loader.getNamespace().get("creatorField");
+            TextField episodesField = (TextField) loader.getNamespace().get("episodesField");
+
+            // Genre values in combobox
+            ArrayList<String> editSeriesGenreOptions = new ArrayList<>();
+            for (Genre genre : Genre.values()) {
+                editSeriesGenreOptions.add(genre.toString());
+            }
+
+            editSeriesGenreBox.setItems(FXCollections.observableArrayList(editSeriesGenreOptions));
+            editSeriesGenreBox.setPromptText("Genre");
+
+            // Pre-fill selected series values
+            titleField.setText(entry.getTitle());
+            yearField.setText(String.valueOf(entry.getYear()));
+            editSeriesGenreBox.getSelectionModel().select(entry.getGenre());
+            ratingField.setText(String.valueOf(entry.getImdbRating()));
+            descriptionField.setText(entry.getDescription());
+            if (entry instanceof Series series) {
+                seasonsField.setText(String.valueOf(series.getNumberOfSeasons()));
+                creatorField.setText(series.getCreator());
+                episodesField.setText(String.valueOf(series.getNumberOfEpisodes()));
+            }
+
+            Alert alert = new Alert(Alert.AlertType.NONE);
+            alert.setTitle("Edit Series");
+            alert.getDialogPane().setContent(editSeriesBox);
+            alert.getDialogPane().getButtonTypes().addAll(ButtonType.APPLY, ButtonType.CLOSE);
+
+            String oldSeriesTitle = entry.getTitle();
+            Button applyButton = (Button) alert.getDialogPane().lookupButton(ButtonType.APPLY);
+            applyButton.addEventFilter(ActionEvent.ACTION, applyEvent -> {
+                ArrayList<String> seriesEntries = buildValidatedEntry(
+                        titleField,
+                        yearField,
+                        seasonsField,
+                        editSeriesGenreBox,
+                        ratingField,
+                        descriptionField,
+                        creatorField,
+                        episodesField
+                );
+
+                if (seriesEntries == null) {
+                    applyEvent.consume();
+                    return;
+                }
+
+                controller.handleUpdateSeries(2, seriesEntries.get(1), oldSeriesTitle);
+                controller.handleUpdateSeries(3, seriesEntries.get(2), oldSeriesTitle);
+                controller.handleUpdateSeries(4, seriesEntries.get(3), oldSeriesTitle);
+                controller.handleUpdateSeries(5, seriesEntries.get(4), oldSeriesTitle);
+                controller.handleUpdateSeries(6, seriesEntries.get(5), oldSeriesTitle);
+                controller.handleUpdateSeries(7, seriesEntries.get(6), oldSeriesTitle);
+                controller.handleUpdateSeries(8, seriesEntries.get(7), oldSeriesTitle);
+                controller.handleUpdateSeries(1, seriesEntries.get(0), oldSeriesTitle);
+
+                refreshTable();
+                applyGenreFilter();
+                tableView.refresh();
+
+                for (RowEntry item : tableView.getItems()) {
+                    if (item.getTitle().equals(seriesEntries.get(0))) {
+                        tableView.getSelectionModel().select(item);
+                        break;
+                    }
+                }
+                updateInfoFromSelected();
             });
 
             alert.showAndWait();
@@ -505,40 +765,65 @@ public class MainController {
 
     @FXML
     void handleLoadCSV(ActionEvent event) {
-        CsvFileHandler movies = new CsvFileHandler("src/main/resources/util/Movies.csv");
-        movies.loadCSV();
+        if (currentMode == DisplayMode.MOVIES) {
+            CsvFileHandler movies = new CsvFileHandler("src/main/resources/util/Movies.csv");
+            movies.loadCSV();
+        } else {
+            CsvFileHandler series = new CsvFileHandler("src/main/resources/util/Series.csv");
+            series.loadCSV();
+        }
         applyGenreFilter();
     }
 
     @FXML
     void handleLowestRated(ActionEvent event) {
-        Movie lowestRatedMovie = controller.handleLowestRating();
-        if (lowestRatedMovie == null) {
-            moviesTableView.setItems(FXCollections.observableArrayList());
-            setHighlights(new ArrayList<>());
-            return;
-        }
+        if (currentMode == DisplayMode.MOVIES) {
+            Movie lowestRatedMovie = controller.handleLowestRating();
+            if (lowestRatedMovie == null) {
+                tableView.setItems(FXCollections.observableArrayList());
+                setMovieHighlights(new ArrayList<>());
+                return;
+            }
 
-        moviesTableView.setItems(FXCollections.observableArrayList(lowestRatedMovie));
-        setHighlights(FXCollections.observableArrayList(lowestRatedMovie));
-        moviesTableView.getSelectionModel().selectFirst();
-        updateInfoFromSelectedMovie();
+            tableView.setItems(FXCollections.observableArrayList(lowestRatedMovie));
+            setMovieHighlights(FXCollections.observableArrayList(lowestRatedMovie));
+        } else {
+            Series lowestRatedSeries = controller.handleLowestSeriesRating();
+            if (lowestRatedSeries == null) {
+                tableView.setItems(FXCollections.observableArrayList());
+                setSeriesHighlights(new ArrayList<>());
+                return;
+            }
+
+            tableView.setItems(FXCollections.observableArrayList(lowestRatedSeries));
+            setSeriesHighlights(FXCollections.observableArrayList(lowestRatedSeries));
+        }
+        tableView.getSelectionModel().selectFirst();
+        updateInfoFromSelected();
     }
 
     @FXML
     void handleRemoveMovie(ActionEvent event) {
-        Movie movie = getSelectedMovie();
-        if (movie == null) {
+        RowEntry entry = getSelected();
+        if (entry == null) {
             return;
         }
 
-        boolean removed = controller.handleRemoveMovie(0, movie.getTitle());
+        boolean removed;
+        if (entry instanceof Movie movie) {
+            removed = controller.handleRemoveMovie(0, movie.getTitle());
+        } else if (entry instanceof Series series) {
+            removed = controller.handleRemoveSeries(0, series.getTitle());
+        } else {
+            return;
+        }
+
         if (!removed) {
             return;
         }
 
         applyGenreFilter();
-        moviesTableView.getSelectionModel().clearSelection();
+        tableView.getSelectionModel().clearSelection();
         infoTitleLabel.setText("—");
         infoYearLabel.setText("—");
         infoGenreLabel.setText("—");
@@ -552,8 +837,11 @@ public class MainController {
 
     @FXML
     void handleSaveCSV(ActionEvent event) {
-        // controller save movie
-        controller.saveAllMoviesToCsv();
+        if (currentMode == DisplayMode.MOVIES) {
+            controller.saveAllMoviesToCsv();
+        } else {
+            controller.saveAllSeriesToCsv();
+        }
     }
 
     @FXML
@@ -566,51 +854,115 @@ public class MainController {
             return;
         }
 
-        Movie foundMovie = controller.handleGetMovie(query);
-        if (foundMovie == null) {
-            moviesTableView.setItems(FXCollections.observableArrayList());
-            return;
-        }
+        if (currentMode == DisplayMode.MOVIES) {
+            Movie foundMovie = controller.handleGetMovie(query);
+            if (foundMovie == null) {
+                tableView.setItems(FXCollections.observableArrayList());
+                return;
+            }
 
-        moviesTableView.setItems(FXCollections.observableArrayList(foundMovie));
-        moviesTableView.getSelectionModel().selectFirst();
-        updateInfoFromSelectedMovie();
+            tableView.setItems(FXCollections.observableArrayList(foundMovie));
+        } else {
+            Series foundSeries = controller.handleGetSeries(query);
+            if (foundSeries == null) {
+                tableView.setItems(FXCollections.observableArrayList());
+                return;
+            }
+
+            tableView.setItems(FXCollections.observableArrayList(foundSeries));
+        }
+        tableView.getSelectionModel().selectFirst();
+        updateInfoFromSelected();
     }
 
     @FXML
     void handleTop5(ActionEvent event) {
-        ArrayList<Movie> topMovies = controller.getTop5();
-        moviesTableView.setItems(FXCollections.observableArrayList(topMovies));
-        setHighlights(topMovies);
-        if (!topMovies.isEmpty()) {
-            moviesTableView.getSelectionModel().selectFirst();
-            updateInfoFromSelectedMovie();
+        if (currentMode == DisplayMode.MOVIES) {
+            ArrayList<Movie> topMovies = controller.getTop5();
+            tableView.setItems(FXCollections.observableArrayList(topMovies));
+            setMovieHighlights(topMovies);
+            if (!topMovies.isEmpty()) {
+                tableView.getSelectionModel().selectFirst();
+                updateInfoFromSelected();
+            }
+        } else {
+            ArrayList<Series> topSeries = controller.getTop5Series();
+            tableView.setItems(FXCollections.observableArrayList(topSeries));
+            setSeriesHighlights(topSeries);
+            if (!topSeries.isEmpty()) {
+                tableView.getSelectionModel().selectFirst();
+                updateInfoFromSelected();
+            }
         }
     }
 
     @FXML
     void handleHighestRated(ActionEvent event) {
-        Movie highestRatedMovie = controller.handleHighestRating();
-        if (highestRatedMovie == null) {
-            moviesTableView.setItems(FXCollections.observableArrayList());
-            setHighlights(new ArrayList<>());
-            return;
+        if (currentMode == DisplayMode.MOVIES) {
+            Movie highestRatedMovie = controller.handleHighestRating();
+            if (highestRatedMovie == null) {
+                tableView.setItems(FXCollections.observableArrayList());
+                setMovieHighlights(new ArrayList<>());
+                return;
+            }
+            tableView.setItems(FXCollections.observableArrayList(highestRatedMovie));
+            setMovieHighlights(FXCollections.observableArrayList(highestRatedMovie));
+        } else {
+            Series highestRatedSeries = controller.handleHighestSeriesRating();
+            if (highestRatedSeries == null) {
+                tableView.setItems(FXCollections.observableArrayList());
+                setSeriesHighlights(new ArrayList<>());
+                return;
+            }
+            tableView.setItems(FXCollections.observableArrayList(highestRatedSeries));
+            setSeriesHighlights(FXCollections.observableArrayList(highestRatedSeries));
         }
 
-        moviesTableView.setItems(FXCollections.observableArrayList(highestRatedMovie));
-        setHighlights(FXCollections.observableArrayList(highestRatedMovie));
-        moviesTableView.getSelectionModel().selectFirst();
-        updateInfoFromSelectedMovie();
+        tableView.getSelectionModel().selectFirst();
+        updateInfoFromSelected();
     }
 
     @FXML
     void handleAverage(ActionEvent event) {
         genreComboBox.getSelectionModel().select("All");
-        refreshMoviesTable();
+        refreshTable();
+        if (currentMode == DisplayMode.MOVIES) {
+            double average = controller.handleAverageRating();
+            Movie averageRow = buildAverageMovieHighlightRow(average);
+            setMovieHighlights(FXCollections.observableArrayList(averageRow));
+        } else {
+            double average = controller.handleAverageSeriesRating();
+            Series averageRow = buildAverageSeriesHighlightRow(average);
+            setSeriesHighlights(FXCollections.observableArrayList(averageRow));
+        }
 
-        double average = controller.handleAverageRating();
-        Movie averageRow = buildAverageHighlightRow(average);
-        setHighlights(FXCollections.observableArrayList(averageRow));
     }
 
+    @FXML
+    void handleShowMovies(ActionEvent event) {
+        currentMode = DisplayMode.MOVIES;
+        setMovieInfoLabels();
+        refreshTable();
+    }
+
+    @FXML
+    void handleShowSeries(ActionEvent event) {
+        currentMode = DisplayMode.SERIES;
+        setSeriesInfoLabels();
+        refreshTable();
+    }
+
+    @FXML
+    private void setMovieInfoLabels() {
+        infoCreatorDirector.setText("DIRECTOR");
+        infoSeasonsCertifications.setText("CERTIFICATION");
+        infoEpisodesGross.setText("GROSS EARNINGS");
+    }
+
+    @FXML
+    private void setSeriesInfoLabels() {
+        infoCreatorDirector.setText("CREATOR");
+        infoSeasonsCertifications.setText("NUMBER OF SEASONS");
+        infoEpisodesGross.setText("NUMBER OF EPISODES");
+    }
 }
