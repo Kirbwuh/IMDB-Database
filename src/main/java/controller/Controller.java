@@ -465,7 +465,6 @@ public class Controller {
             top5.add(movies.get(i));
         }
         return top5;
-
     }
 
     /**
@@ -479,7 +478,6 @@ public class Controller {
             top5.add(series.get(i));
         }
         return top5;
-
     }
 
     /**

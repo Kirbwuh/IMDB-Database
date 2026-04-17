@@ -35,6 +35,9 @@ public class MainController {
     private boolean loadCsvOnStartup = false;
 
     @FXML
+    public Button averageBtn;
+
+    @FXML
     public Button movieMode;
 
     @FXML
@@ -90,6 +93,15 @@ public class MainController {
 
     @FXML
     private Label infoYearLabel;
+
+    @FXML
+    public Label infoCreatorDirector;
+
+    @FXML
+    public Label infoSeasonsCertifications;
+
+    @FXML
+    public Label infoEpisodesGross;
 
     @FXML
     private Button loadCSVBtn;
@@ -662,12 +674,28 @@ public class MainController {
     @FXML
     void handleShowMovies(ActionEvent event) {
         currentMode = DisplayMode.MOVIES;
+        setMovieInfoLabels();
         refreshTable();
     }
 
     @FXML
     void handleShowSeries(ActionEvent event) {
         currentMode = DisplayMode.SERIES;
+        setSeriesInfoLabels();
         refreshTable();
+    }
+
+    @FXML
+    private void setMovieInfoLabels() {
+        infoCreatorDirector.setText("DIRECTOR");
+        infoSeasonsCertifications.setText("CERTIFICATION");
+        infoEpisodesGross.setText("GROSS EARNINGS");
+    }
+
+    @FXML
+    private void setSeriesInfoLabels() {
+        infoCreatorDirector.setText("CREATOR");
+        infoSeasonsCertifications.setText("NUMBER OF SEASONS");
+        infoEpisodesGross.setText("NUMBER OF EPISODES");
     }
 }
