@@ -15,6 +15,7 @@ import model.Genre;
 import model.Movie;
 import model.Series;
 import model.RowEntry;
+import util.CsvFileHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -486,9 +487,11 @@ public class MainController {
     @FXML
     void handleLoadCSV(ActionEvent event) {
         if (currentMode == DisplayMode.MOVIES) {
-            controller.loadMoviesFromCsv();
+            CsvFileHandler movies = new CsvFileHandler("src/main/resources/util/Movies.csv");
+            movies.loadCSV();
         } else {
-            controller.loadSeriesFromCsv();
+            CsvFileHandler series = new CsvFileHandler("src/main/resources/util/Series.csv");
+            series.loadCSV();
         }
         applyGenreFilter();
     }
@@ -659,14 +662,12 @@ public class MainController {
     @FXML
     void handleShowMovies(ActionEvent event) {
         currentMode = DisplayMode.MOVIES;
-        controller.loadMoviesFromCsv();
         refreshTable();
     }
 
     @FXML
     void handleShowSeries(ActionEvent event) {
         currentMode = DisplayMode.SERIES;
-        controller.loadSeriesFromCsv();
         refreshTable();
     }
 }
