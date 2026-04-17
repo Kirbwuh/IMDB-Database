@@ -262,7 +262,15 @@ public class MainController {
             infoGrossLabel.setText(String.valueOf(series.getNumberOfEpisodes()));
         }
     }
-
+    @FXML
+    void handleAboutPage(ActionEvent event){
+        try {
+            FXMLLoader loader = new FXMLLoader((Objects.requireNonNull(getClass().getResource("/view/AboutPage.fxml"))));
+            Parent aboutPageBox = loader.load();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     @FXML
     void handleAddMovie(ActionEvent event) {
         try {

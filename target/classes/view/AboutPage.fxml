@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
 
-    <Label alignment="CENTER" layoutY="18.0" style="-fx-font-weight: bold; -fx-font-size: 13px; -fx-text-fill: #222222;" text="IMDB DATABASE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="18.0">
+    <Label alignment="CENTER" style="-fx-font-weight: bold; -fx-font-size: 13px; -fx-text-fill: #222222;" text="IMDB DATABASE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0">
         <font><Font size="13.0" /></font>
     </Label>
-    <HBox layoutX="14.0" layoutY="15.0" prefHeight="26.0" prefWidth="220.0">
-        <Button fx:id="movieMode" onAction="#handleShowMovies" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Movies"/>
-        <Button fx:id="seriesMode" onAction="#handleShowSeries" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Series"/>
-    </HBox>
 
-    <HBox layoutX="5.0" layoutY="44.0" prefHeight="746.0" prefWidth="1265.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="44.0">
+    <HBox layoutX="5.0" layoutY="10.0" prefHeight="780.0" prefWidth="1265.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
 
         <VBox minWidth="180.0" prefWidth="220.0" spacing="6.0" style="-fx-border-color: #aaaaaa; -fx-border-width: 1; -fx-background-color: #ffffff; -fx-padding: 8;">
 
@@ -34,28 +37,22 @@
             <Button fx:id="top5Btn" maxWidth="Infinity" onAction="#handleTop5" text="Top 5 Movies" />
             <Button fx:id="highestRatedBtn" maxWidth="Infinity" onAction="#handleHighestRated" text="Highest Rated Movie" />
             <Button fx:id="lowestRatedBtn" maxWidth="Infinity" onAction="#handleLowestRated" text="Lowest Rated Movie" />
-            <Button fx:id="averageBtn" maxWidth="Infinity" onAction="#handleAverage" text="Average Rating" />
             <Button fx:id="saveCSVBtn" maxWidth="Infinity" onAction="#handleSaveCSV" text="Save to CSV" />
             <Button fx:id="loadCSVBtn" maxWidth="Infinity" onAction="#handleLoadCSV" text="Load from CSV" />
         </VBox>
 
         <VBox spacing="6.0" style="-fx-border-color: #aaaaaa; -fx-border-width: 1; -fx-background-color: #ffffff; -fx-padding: 8;" HBox.hgrow="ALWAYS">
 
-                  <HBox spacing="5.0">
+            <HBox spacing="5.0">
                 <TextField fx:id="searchField" prefHeight="24.0" prefWidth="545.0" promptText="Enter the movie title you are looking for" HBox.hgrow="ALWAYS" />
-                <Button fx:id="searchBtn" onAction="#handleSearch" prefHeight="25.0" prefWidth="73.0" text="Search" />
-            <ButtonBar prefHeight="0.0" prefWidth="85.0">
-              <buttons>
-                <Button minWidth="32.0" mnemonicParsing="false" prefHeight="25.0" text="Button" onAction="#handleAboutPage" />
-              </buttons>
-            </ButtonBar>
+                <Button fx:id="searchBtn" onAction="#handleSearch" text="Search" />
             </HBox>
 
             <HBox alignment="CENTER_LEFT" spacing="5.0">
                 <ComboBox fx:id="genreComboBox" maxWidth="Infinity" prefHeight="24.0" prefWidth="355.0" promptText="select a genre" HBox.hgrow="ALWAYS" />
             </HBox>
 
-            <TableView fx:id="tableView" style="-fx-border-color: #cccccc;" VBox.vgrow="ALWAYS">
+            <TableView fx:id="moviesTableView" style="-fx-border-color: #cccccc;" VBox.vgrow="ALWAYS">
                 <columns>
                     <TableColumn fx:id="titleCol" prefWidth="145.0" text="TITLE" />
                     <TableColumn fx:id="yearCol" prefWidth="77.0" text="YEAR" />
