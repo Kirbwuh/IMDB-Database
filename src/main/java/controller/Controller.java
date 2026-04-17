@@ -552,4 +552,17 @@ public class Controller {
         }
         return total / movies.size();
     }
+
+    public double handleAverageSeriesRating() {
+        Collection<Series> series = SBD.getAllSeries().values();
+        if (series.isEmpty()) {
+            return 0.0;
+        }
+
+        double total = 0.0;
+        for (Series value : series) {
+            total += value.getImdbRating();
+        }
+        return total / series.size();
+    }
 }
