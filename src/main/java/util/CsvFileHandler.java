@@ -34,7 +34,7 @@ public class CsvFileHandler {
         try {
             FileWriter fileWriter = new FileWriter(filepath);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write(movie.toCSVStringRow() + "\n");
+            bufferedWriter.write(movie.toCSVStringRow());
             bufferedWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -50,7 +50,7 @@ public class CsvFileHandler {
         try {
             FileWriter fileWriter = new FileWriter(filepath);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write(series.toCSVStringRow() + "\n");
+            bufferedWriter.write(series.toCSVStringRow());
             bufferedWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
