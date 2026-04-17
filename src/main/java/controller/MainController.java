@@ -266,6 +266,7 @@ public class MainController {
             infoGrossLabel.setText(String.valueOf(series.getNumberOfEpisodes()));
         }
     }
+
     @FXML
     void handleAboutPage(ActionEvent event){
         try {
@@ -275,8 +276,14 @@ public class MainController {
             e.printStackTrace();
         }
     }
+
     @FXML
     void handleAddMovie(ActionEvent event) {
+        if (currentMode == DisplayMode.SERIES) {
+            handleAddSeries(event);
+            return;
+        }
+
         try {
             //Loading the new fxml popup
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/view/addMovieDialog.fxml")));
@@ -336,27 +343,89 @@ public class MainController {
         }
     }
 
+    @FXML
+    void handleAddSeries(ActionEvent event) {
+        try {
+            //Loading the new fxml popup
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/view/addSeriesDialog.fxml")));
+            Parent addSeriesBox = loader.load();
+
+            //Getting each fields input
+            TextField titleField = (TextField) loader.getNamespace().get("titleField");
+            TextField yearField = (TextField) loader.getNamespace().get("yearField");
+            TextField seasonsField = (TextField) loader.getNamespace().get("seasonsField");
+            TextField ratingField = (TextField) loader.getNamespace().get("ratingField");
+            ComboBox<String> addSeriesGenreBox = (ComboBox<String>) loader.getNamespace().get("genreField");
+            TextField descriptionField = (TextField) loader.getNamespace().get("descriptionField");
+            TextField creatorField = (TextField) loader.getNamespace().get("creatorField");
+            TextField episodesField = (TextField) loader.getNamespace().get("episodesField");
+
+            //Genre values in combobox
+            ArrayList<String> addSeriesGenreOptions = new ArrayList<>();
+            for (Genre genre : Genre.values()) {
+                addSeriesGenreOptions.add(genre.toString());
+            }
+
+            addSeriesGenreBox.setItems(FXCollections.observableArrayList(addSeriesGenreOptions));
+            addSeriesGenreBox.setPromptText("Genre");
+
+            // Alert popup with choices
+            Alert alert = new Alert(Alert.AlertType.NONE);
+            alert.setTitle("Add Series");
+            alert.getDialogPane().setContent(addSeriesBox);
+            alert.getDialogPane().getButtonTypes().addAll(ButtonType.APPLY, ButtonType.CLOSE);
+
+            Button applyButton = (Button) alert.getDialogPane().lookupButton(ButtonType.APPLY);
+            applyButton.addEventFilter(ActionEvent.ACTION, applyEvent -> {
+                ArrayList<String> seriesEntries = buildValidatedMovieEntries(
+                        titleField,
+                        yearField,
+                        seasonsField,
+                        addSeriesGenreBox,
+                        ratingField,
+                        descriptionField,
+                        creatorField,
+                        episodesField
+                );
+
+                if (seriesEntries == null) {
+                    applyEvent.consume();
+                    return;
+                }
+
+                controller.handleAddSeries(seriesEntries);
+                refreshTable();
+
+            });
+
+            alert.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     // Checking if input is valid
     private ArrayList<String> buildValidatedMovieEntries(
             TextField titleField,
             TextField yearField,
-            TextField certificationField,
+            TextField certificationOrSeasonsField,
             ComboBox<String> genreField,
             TextField ratingField,
             TextField descriptionField,
-            TextField directorField,
-            TextField grossField
+            TextField directorOrCreatorField,
+            TextField grossOrEpisodesField
     ) {
         String title = titleField.getText().trim();
         String yearText = yearField.getText().trim();
-        String certificationText = certificationField.getText().trim();
+        String certificationOrSeasonsText = certificationOrSeasonsField.getText().trim();
         String genreText = genreField.getSelectionModel().getSelectedItem();
         String ratingText = ratingField.getText().trim();
         String descriptionText = descriptionField.getText().trim();
-        String directorText = directorField.getText().trim();
-        String grossText = grossField.getText().trim();
+        String directorOrCreatorText = directorOrCreatorField.getText().trim();
+        String grossOrEpisodesText = grossOrEpisodesField.getText().trim();
 
         List<String> errors = new ArrayList<>();
+        boolean isSeriesMode = currentMode == DisplayMode.SERIES;
 
         if (title.isEmpty()) {
             errors.add("Title is required.");
@@ -370,10 +439,6 @@ public class MainController {
             } catch (NumberFormatException e) {
                 errors.add("Year must be a whole number.");
             }
-        }
-
-        if (!certificationText.equalsIgnoreCase("true") && !certificationText.equalsIgnoreCase("false")) {
-            errors.add("Certification must be true or false.");
         }
 
         if (genreText == null || genreText.isBlank()) {
@@ -401,44 +466,88 @@ public class MainController {
             errors.add("Description is required.");
         }
 
-        if (directorText.isEmpty()) {
-            errors.add("Director is required.");
-        }
-
-        if (grossText.isEmpty()) {
-            errors.add("Gross Earnings is required.");
-        } else {
-            try {
-                long gross = Long.parseLong(grossText);
-                if (gross < 0) {
-                    errors.add("Gross Earnings cannot be negative.");
+        if (isSeriesMode) {
+            if (certificationOrSeasonsText.isEmpty()) {
+                errors.add("Number of Seasons is required.");
+            } else {
+                try {
+                    int seasons = Integer.parseInt(certificationOrSeasonsText);
+                    if (seasons < 0) {
+                        errors.add("Number of Seasons cannot be negative.");
+                    }
+                } catch (NumberFormatException e) {
+                    errors.add("Number of Seasons must be a whole number.");
                 }
-            } catch (NumberFormatException e) {
-                errors.add("Gross Earnings must be a whole number.");
+            }
+
+            if (grossOrEpisodesText.isEmpty()) {
+                errors.add("Number of Episodes is required.");
+            } else {
+                try {
+                    int episodes = Integer.parseInt(grossOrEpisodesText);
+                    if (episodes < 0) {
+                        errors.add("Number of Episodes cannot be negative.");
+                    }
+                } catch (NumberFormatException e) {
+                    errors.add("Number of Episodes must be a whole number.");
+                }
+            }
+
+            if (directorOrCreatorText.isEmpty()) {
+                errors.add("Creator is required.");
+            }
+        } else {
+            if (!certificationOrSeasonsText.equalsIgnoreCase("true") && !certificationOrSeasonsText.equalsIgnoreCase("false")) {
+                errors.add("Certification must be true or false.");
+            }
+
+            if (directorOrCreatorText.isEmpty()) {
+                errors.add("Director is required.");
+            }
+
+            if (grossOrEpisodesText.isEmpty()) {
+                errors.add("Gross Earnings is required.");
+            } else {
+                try {
+                    long gross = Long.parseLong(grossOrEpisodesText);
+                    if (gross < 0) {
+                        errors.add("Gross Earnings cannot be negative.");
+                    }
+                } catch (NumberFormatException e) {
+                    errors.add("Gross Earnings must be a whole number.");
+                }
             }
         }
 
         // New popup to show what needs to be fixed.
         if (!errors.isEmpty()) {
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-            errorAlert.setTitle("Invalid Movie Input");
+            errorAlert.setTitle(isSeriesMode ? "Invalid Series Input" : "Invalid Movie Input");
             errorAlert.setHeaderText("Fix the following fields:");
             errorAlert.setContentText(String.join("\n", errors));
             errorAlert.showAndWait();
             return null;
         }
 
-        // Adds the inputs from the popup to our Movies file format
-        ArrayList<String> movieEntries = new ArrayList<>();
-        movieEntries.add(title);
-        movieEntries.add(yearText);
-        movieEntries.add(certificationText.toLowerCase());
-        movieEntries.add(Genre.fromString(genreText).toString());
-        movieEntries.add(ratingText);
-        movieEntries.add(descriptionText);
-        movieEntries.add(directorText);
-        movieEntries.add(grossText);
-        return movieEntries;
+        ArrayList<String> entries = new ArrayList<>();
+        entries.add(title);
+        entries.add(yearText);
+        if (isSeriesMode) {
+            entries.add(Genre.fromString(genreText).toString());
+            entries.add(ratingText);
+            entries.add(descriptionText);
+            entries.add(certificationOrSeasonsText);
+            entries.add(grossOrEpisodesText);
+            entries.add(directorOrCreatorText);
+        } else {
+            entries.add(certificationOrSeasonsText.toLowerCase());
+            entries.add(Genre.fromString(genreText).toString());
+            entries.add(ratingText);
+            entries.add(descriptionText);
+            entries.add(directorOrCreatorText);
+            entries.add(grossOrEpisodesText);
+        }
+        return entries;
     }
 
     @FXML
