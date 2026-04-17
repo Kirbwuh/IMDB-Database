@@ -29,6 +29,9 @@ public class MainController {
     private Button addMovieCenterBtn;
 
     @FXML
+    private Button averageBtn;
+
+    @FXML
     private TableColumn<Movie, String> description;
 
     @FXML
@@ -161,6 +164,19 @@ public class MainController {
 
     private void setHighlights(List<Movie> movies) {
         highlightsTableView.setItems(FXCollections.observableArrayList(movies));
+    }
+
+    private Movie buildAverageHighlightRow(double average) {
+        return new Movie(
+                "All",
+                0,
+                false,
+                "Action",
+                average,
+                "Average rating",
+                "-",
+                0
+        );
     }
 
     private void refreshMoviesTable() {
@@ -524,6 +540,16 @@ public class MainController {
         setHighlights(FXCollections.observableArrayList(highestRatedMovie));
         moviesTableView.getSelectionModel().selectFirst();
         updateInfoFromSelectedMovie();
+    }
+
+    @FXML
+    void handleAverage(ActionEvent event) {
+        genreComboBox.getSelectionModel().select("All");
+        refreshMoviesTable();
+
+        double average = controller.handleAverageRating();
+        Movie averageRow = buildAverageHighlightRow(average);
+        setHighlights(FXCollections.observableArrayList(averageRow));
     }
 
 }

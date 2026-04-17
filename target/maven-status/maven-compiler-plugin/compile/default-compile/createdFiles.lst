@@ -1,5 +1,6 @@
 main/java/Main.class
 util/CsvFileHandler.class
+main/java/Main$JavaFxApp.class
 model/RowEntry.class
 model/Database.class
 model/Series.class

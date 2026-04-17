@@ -298,4 +298,17 @@ public class Controller {
         }
         return lowestRated;
     }
+
+    public double handleAverageRating() {
+        Collection<Movie> movies = MDB.getAllMovies().values();
+        if (movies.isEmpty()) {
+            return 0.0;
+        }
+
+        double total = 0.0;
+        for (Movie movie : movies) {
+            total += movie.getImdbRating();
+        }
+        return total / movies.size();
+    }
 }
