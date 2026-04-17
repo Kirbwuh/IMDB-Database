@@ -35,6 +35,15 @@ public class MainController {
     private TableColumn<Movie, String> genreCol;
 
     @FXML
+    private TableColumn<Movie, String> hlMovieCol;
+
+    @FXML
+    private TableColumn<Movie, Double> hlRatingCol;
+
+    @FXML
+    private TableView<Movie> highlightsTableView;
+
+    @FXML
     private ComboBox<String> genreComboBox;
 
     @FXML
@@ -112,6 +121,10 @@ public class MainController {
             new ReadOnlyObjectWrapper<>(data.getValue().getImdbRating()));
         description.setCellValueFactory(data ->
             new ReadOnlyStringWrapper(data.getValue().getDescription()));
+        hlMovieCol.setCellValueFactory(data ->
+            new ReadOnlyStringWrapper(data.getValue().getTitle()));
+        hlRatingCol.setCellValueFactory(data ->
+            new ReadOnlyObjectWrapper<>(data.getValue().getImdbRating()));
 
         ArrayList<String> genreOptions = new ArrayList<>();
         genreOptions.add("All");
@@ -130,6 +143,11 @@ public class MainController {
 
         controller.loadMoviesFromCsv();
         refreshMoviesTable();
+        setHighlights(controller.getTop5());
+    }
+
+    private void setHighlights(List<Movie> movies) {
+        highlightsTableView.setItems(FXCollections.observableArrayList(movies));
     }
 
     private void refreshMoviesTable() {
@@ -364,10 +382,12 @@ public class MainController {
         Movie lowestRatedMovie = controller.handleLowestRating();
         if (lowestRatedMovie == null) {
             moviesTableView.setItems(FXCollections.observableArrayList());
+            setHighlights(new ArrayList<>());
             return;
         }
 
         moviesTableView.setItems(FXCollections.observableArrayList(lowestRatedMovie));
+        setHighlights(FXCollections.observableArrayList(lowestRatedMovie));
         moviesTableView.getSelectionModel().selectFirst();
         updateInfoFromSelectedMovie();
     }
@@ -428,6 +448,7 @@ public class MainController {
     void handleTop5(ActionEvent event) {
         ArrayList<Movie> topMovies = controller.getTop5();
         moviesTableView.setItems(FXCollections.observableArrayList(topMovies));
+        setHighlights(topMovies);
         if (!topMovies.isEmpty()) {
             moviesTableView.getSelectionModel().selectFirst();
             updateInfoFromSelectedMovie();
@@ -439,10 +460,12 @@ public class MainController {
         Movie highestRatedMovie = controller.handleHighestRating();
         if (highestRatedMovie == null) {
             moviesTableView.setItems(FXCollections.observableArrayList());
+            setHighlights(new ArrayList<>());
             return;
         }
 
         moviesTableView.setItems(FXCollections.observableArrayList(highestRatedMovie));
+        setHighlights(FXCollections.observableArrayList(highestRatedMovie));
         moviesTableView.getSelectionModel().selectFirst();
         updateInfoFromSelectedMovie();
     }
