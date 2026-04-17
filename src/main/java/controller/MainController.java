@@ -143,7 +143,7 @@ public class MainController {
 
         controller.loadMoviesFromCsv();
         refreshMoviesTable();
-        setHighlights(controller.getTop5());
+        setHighlights(new ArrayList<>());
     }
 
     private void setHighlights(List<Movie> movies) {
