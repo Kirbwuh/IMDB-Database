@@ -1,16 +1,22 @@
 package model;
 
-import java.util.Locale;
-
 public enum Genre {
-    Action,
-    Horror,
-    Drama,
-    Comedy,
-    Romance,
-    Fantasy,
-    Mystery,
-    Animation, ;
+    Action("Action"),
+    Horror("Horror"),
+    Drama("Drama"),
+    Comedy("Comedy"),
+    Romance("Romance"),
+    Fantasy("Fantasy"),
+    Mystery("Mystery"),
+    Animation("Animation"),
+    Crime("Crime"),
+    SciFi("Sci-Fi");
+
+    private final String displayName;
+
+    Genre(String displayName) {
+        this.displayName = displayName;
+    }
 
     /**
      * Duku - 20/03/2026 - T10
@@ -23,15 +29,23 @@ public enum Genre {
             throw new IllegalArgumentException("Genre must be one of the enum options.");
         }
 
-        String normalized = movieText.trim();
+        String normalized = normalize(movieText);
         for (Genre genre : Genre.values()) {
-            if (genre.name().equalsIgnoreCase(normalized)) {
+            if (normalize(genre.name()).equals(normalized)
+                    || normalize(genre.displayName).equals(normalized)) {
                 return genre;
             }
         }
 
         throw new IllegalArgumentException("Invalid genre: " + movieText);
     }
-    @Override
-    public String toString() { return name().charAt(0) + name().substring(1).toLowerCase();}
+
+    private static String normalize(String value) {
+        return value == null ? "" : value.trim().replaceAll("[^A-Za-z0-9]", "").toLowerCase();
     }
+
+    @Override
+    public String toString() {
+        return displayName;
+    }
+}

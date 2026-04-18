@@ -229,7 +229,7 @@ class SeriesTest {
         assertAll("toString should contain all Series fields",
                 () -> assertTrue(result.contains("Breaking Bad"), "missing title"),
                 () -> assertTrue(result.contains("2008"),         "missing year"),
-                () -> assertTrue(result.contains("Drama"),        "missing genre"),
+            () -> assertTrue(result.contains("Crime"),        "missing genre"),
                 () -> assertTrue(result.contains("9.5"),          "missing IMDB rating"),
                 () -> assertTrue(result.contains("yes"),          "missing description"),
                 () -> assertTrue(result.contains("5"),            "missing number of seasons"),

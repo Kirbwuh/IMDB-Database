@@ -297,7 +297,7 @@ class MovieTest {
         assertAll("toString should contain all Movie fields",
                 () -> assertTrue(result.contains("Inception"),  "missing title"),
                 () -> assertTrue(result.contains("2010"),       "missing year"),
-                () -> assertTrue(result.contains("Action"),     "missing genre"),
+            () -> assertTrue(result.contains("Sci-Fi"),     "missing genre"),
                 () -> assertTrue(result.contains("8.8"),        "missing IMDB rating"),
                 () -> assertTrue(result.contains("yes"), "missing description"),
                 () -> assertTrue(result.contains("Nolan"),      "missing director"),
