@@ -13,64 +13,65 @@ This is a Java application for managing a movie database similar to IMDb. The pr
 
 ## What Does It Do?
 
-This application functions as a personal IMDb-style movie database manager where users can store and organize information about movies. The core functionality revolves around two main areas:
+This application functions as a personal IMDb-style movie database manager where users can store and organize information about movies and TV Shows. The core functionality revolves around two main areas:
 
 ### 1. CRUD Operations - Movie Management
 
 CRUD stands for Create, Read, Update, and Delete. These are the four basic operations for managing movie data:
 
 **Create (Add)**
-- Users can add new movies to the database in two ways:
-  - Single line entry mode - answer questions one at a time
-  - Multiline entry mode - for entering longer descriptions
+- Users can add new movies or Series to the database with the "Add Entry" button on the left hand of the GUI:
 - Each movie gets a unique ID automatically when added
-- The following information is stored for each movie:
-  - Movie title
+- The following information is stored for each movie / series:
+  - Movie / Series title
   - Release year
-  - PG-13 certification status
+  - PG-13 certification status (Movie Only)
+  - Number of Seasons (Series Only)
   - Genre
   - IMDb rating (score out of 10)
   - Description/overview
-  - Director name
+  - Director name / Creator
   - Box office gross (revenue)
+  - Number of Episodes (Series Only)
 
 **Read (Retrieve)**
-- view a specific movie by entering its ID number
-- Display all movies in the database at once
-- Access individual movie details whenever needed
+- view a specific entry by clicking on it
+- Display all movies / series in the database at once
+- Access individual details whenever needed
 
 **Update (Modify)**
-- Change any piece of information about an existing movie
+- Change any piece of information about an existing entry
 - Select which field to update (title, year, rating, etc.)
 - Correct mistakes or add new information
 
 **Delete (Remove)**
 - Remove movies from the database completely
-- Delete by specifying the movie ID
+- Delete by specifying the entry
 - Permanently removes all associated data
 
 ### 2. Summary Functions - Data Analysis
 
-- **Calculate Average Rating** - Computes the average IMDb rating across all movies in the database
 - **view Top 5 Movies** - Displays the top 5 highest-rated movies from the database, sorted by rating
-- **view Statistics** - Display information about the collection of movies
+- **View Highest Rated Movie** - Displays the highest-rated movie in the list
+- **View Lowest Rated Movie** - Displays the lowest-rated movie in the list
+- **Average Rating** - Displays the average rating of all your movies
 
 ## How to Use It
 
-The program uses a menu-driven interface where users navigate through options to perform different operations. When the program starts, users are presented with a main menu to either access the database or exit the application.
+The program uses a GUI in which users navigate through options to perform different operations. When the program starts, users are presented with a main menu to either access the database or exit the application.
 
 ### Main Menu Flow
 
-- Use the main menu to choose between `Database` (manage movies) or `Exit`.
-- Inside `Database`, select Add, View, Update, Delete, or the summary/statistics functions.
-- Follow the on-screen prompts to enter or confirm data; press Enter to continue between steps.
+- Use the search bar to find a specific movie in your list or click help beside the search button to get a infographic to learn how to use the application.
+- Use the functions on the left side to add a movie or utilize the other functions within the application.
+- Use the right side to edit or remove entries from the list.
 
 ### CRUD Operation Examples
 
-- **Adding a movie**: Select "Add Movie" from the menu, choose entry type, and answer the prompts for each field
-- **Finding a movie**: Select "view Movie" and enter the movie ID
-- **Modifying data**: Select "Update Movie", specify the ID and field to change, then enter the new value
-- **Removing a movie**: Select "Delete Movie" and provide the movie ID for removal
+- **Adding an entry**: Select "Add entry" from the GUI, enter your data in the respective fields and click "Apply" to add the movie.
+- **Finding an entry**: Select the entry in the list and click enter to find your specific movie. Click on the specific movie to find more information about it.
+- **Modifying data**: Select the entry you want to edit, click "Edit" from the right side of the GUI, specify the values you would like to change and press apply.
+- **Removing an entry**: Select the entry you want to delete and click the "Remove" button on the right side.
 
 ## How the Code Works
 The project follows a simple MVC (Model-View-Controller) pattern. Here is a plain explanation for someone new to programming:
@@ -107,7 +108,7 @@ These controller ensure that all major functions work correctly and handle edge 
 Optional: to load `src/util/Movies.csv` into the in-memory database when the program starts, run with the `--load` flag. Example:
 
 ```
-java src.Main --load
+mvn javafx:run
 ```
 
 Notes:
