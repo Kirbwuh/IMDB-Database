@@ -7,7 +7,7 @@ This is a Java application for managing a movie database similar to IMDb. The pr
 ### Project Team
 - HOQUE, Arraf
 - LASSOTA, Christopher
-- Lembaid, Haitam
+- Lembaid, Haitam (https://github.com/Delsune)
 - Rondón Rubiano, Joaquín
 - WANI, Duku
 
